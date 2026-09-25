@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.3)  25 SEP 2026 12:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.3)  25 SEP 2026 16:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1067,9 +1067,6 @@ Overfull \hbox (10.8569pt too wide) in paragraph at lines 122--123
  []
 
 
-LaTeX Warning: Citation `ref03' on page 25 undefined on input line 135.
-
-
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 14.49998pt, for example:
 (fancyhdr)                \setlength{\headheight}{14.49998pt}.
@@ -1080,9 +1077,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 Overfull \hbox (13.66656pt too wide) in paragraph at lines 166--167
 \OT1/cmr/m/n/12 Ima-ge-Net, per-mi-tien-do uti-li-zar ca-rac-ter^^S^^Psti-cas vi-sua-les pre-via-men-te apren-
  []
-
-
-LaTeX Warning: Citation `ref04' on page 26 undefined on input line 181.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1180,9 +1174,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [32]
 
-LaTeX Warning: Citation `05' on page 33 undefined on input line 484.
-
-
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 14.49998pt, for example:
 (fancyhdr)                \setlength{\headheight}{14.49998pt}.
@@ -1261,7 +1252,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 
 
-] [41]) [42] (c:\Users\marti\OneDrive\Documentos\tfg\PLANTILLAS - FORMATO IEEE-20250324\tfg\tfg_ieee (1)\tfg_ieee\build\tfg.aux
+] [41] [42]) [43] (c:\Users\marti\OneDrive\Documentos\tfg\PLANTILLAS - FORMATO IEEE-20250324\tfg\tfg_ieee (1)\tfg_ieee\build\tfg.aux
 LaTeX Info: Redefining \. on input line 21.
 LaTeX Info: Redefining \% on input line 21.
  (portada_y_ficha_catalografica/portada_y_ficha_catalografica.aux) (hoja_aprobacion/hoja_aprobacion.aux) (dedicatoria/dedicatoria.aux) (agradecimientos/agradecimientos.aux) (epigrafe/epigrafe.aux) (resumen/resumen.aux) (abstract/abstract.aux) (capitulo_01/introduccion.aux) (capitulo_02/marco_teorico.aux) (capitulo_03/tecnologias_utilizadas.aux) (capitulo_04/marco_metodologico.aux) (capitulo_05/resultados.aux) (capitulo_06/discusion.aux) (anexos/anexo.aux))
@@ -1273,24 +1264,21 @@ L3 programming layer <2025-12-24>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `tfg.out' has not changed.
 (rerunfilecheck)             Checksum: B699BA5ECCF6D4D65450C22F77B3A6C5;19846.
  ) 
 Here is how much of TeX's memory you used:
- 21070 strings out of 467871
- 409371 string characters out of 5418377
- 862739 words of memory out of 5000000
- 49330 multiletter control sequences out of 15000+600000
+ 21075 strings out of 467871
+ 409498 string characters out of 5418377
+ 859859 words of memory out of 5000000
+ 49331 multiletter control sequences out of 15000+600000
  637258 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,13n,93p,2593b,901s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\marti\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl12.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on "c:\Users\marti\OneDrive\Documentos\tfg\PLANTILLAS - FORMATO IEEE-20250324\tfg\tfg_ieee (1)\tfg_ieee\build\tfg.pdf" (57 pages, 437237 bytes).
+Output written on "c:\Users\marti\OneDrive\Documentos\tfg\PLANTILLAS - FORMATO IEEE-20250324\tfg\tfg_ieee (1)\tfg_ieee\build\tfg.pdf" (58 pages, 439490 bytes).
 PDF statistics:
- 955 PDF objects out of 1000 (max. 8388607)
- 203 named destinations out of 1000 (max. 500000)
+ 966 PDF objects out of 1000 (max. 8388607)
+ 207 named destinations out of 1000 (max. 500000)
  811 words of extra memory for PDF output out of 10000 (max. 10000000)
 

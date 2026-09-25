@@ -137,6 +137,32 @@ L.~Bass, P.~Clements, y R.~Kazman, \emph{Software Architecture in Practice},
 C.~Ware, \emph{Information Visualization: Perception for Design}, 3rd~ed.\hskip
   1em plus 0.5em minus 0.4em\relax Morgan Kaufmann, 2013.
 
+\bibitem{nvidia_rtx4070_2023}
+{NVIDIA Corporation}, ``{GeForce RTX 4070 Family},'' 2023, [En l{\'i}nea].
+  Disponible:
+  \url{https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070/}.
+  [Accedido: 24-sep-2026].
+
+\bibitem{amd_ryzen7_7800x3d_2023}
+{Advanced Micro Devices, Inc.}, ``{AMD Ryzen 7 7800X3D},'' 2023, [En
+  l{\'i}nea]. Disponible:
+  \url{https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7800x3d.html}.
+  [Accedido: 24-sep-2026].
+
+\bibitem{he_resnet_2016}
+K.~He, X.~Zhang, S.~Ren, y J.~Sun, ``Deep residual learning for image
+  recognition,'' in \emph{Proc. IEEE Conf. Comput. Vis. Pattern Recognit.
+  (CVPR)}, Las Vegas, NV, EE.UU., 2016, pp. 770--778.
+
+\bibitem{dosovitskiy_vit_2020}
+A.~Dosovitskiy \emph{et~al.}, ``An image is worth 16x16 words: Transformers for
+  image recognition at scale,'' arXiv:2010.11929, 2020.
+
+\bibitem{bisong_colab_2019}
+E.~Bisong, ``{Google Colaboratory},'' in \emph{Building Machine Learning and
+  Deep Learning Models on Google Cloud Platform}.\hskip 1em plus 0.5em minus
+  0.4em\relax Berkeley, CA, EE.UU.: Apress, 2019, pp. 59--64.
+
 \bibitem{ips2024}
 {Instituto de Previsi{\'o}n Social}, ``Datos sobre el trastorno del espectro
   autista en paraguay,'' 2024, [En l{\'i}nea]. Disponible:
@@ -173,17 +199,5 @@ G.~I.~M. Pintle, ``An\'{a}lisis de patrones gestuales para la
   mediante visi\'{o}n artificial,'' Master's thesis, {CICESE}, M\'{e}xico,
   2018, [En l\'{i}nea]. Disponible:
   \url{https://cicese.repositorioinstitucional.mx/jspui/bitstream/1007/2441/1/tesis_Monarca%20Pintle_Gloria%20Ivonne_05_sep_2018B.pdf}.
-
-\bibitem{nvidia_rtx4070_2023}
-{NVIDIA Corporation}, ``{GeForce RTX 4070 Family},'' 2023, [En l{\'i}nea].
-  Disponible:
-  \url{https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070/}.
-  [Accedido: 24-sep-2026].
-
-\bibitem{amd_ryzen7_7800x3d_2023}
-{Advanced Micro Devices, Inc.}, ``{AMD Ryzen 7 7800X3D},'' 2023, [En
-  l{\'i}nea]. Disponible:
-  \url{https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7800x3d.html}.
-  [Accedido: 24-sep-2026].
 
 \end{thebibliography}
