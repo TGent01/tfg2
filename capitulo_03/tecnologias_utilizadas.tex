@@ -553,3 +553,39 @@ A continuación se detallan las bibliotecas de Python que cumplen funciones espec
 \subsection{YOLOv8n (Ultralytics)}
 
 YOLOv8n es la versión ``nano'' ---la más liviana--- de la familia de modelos YOLOv8 (You Only Look Once) para detección de objetos en tiempo real, distribuida a través de la biblioteca Ultralytics [06]. Se incorpora al pipeline de preprocesamiento para detectar y recortar al sujeto dentro de cada fotograma, antes de que este sea procesado por las arquitecturas de extracción de características.
+
+Su incorporación responde directamente a dos de los desafíos documentados en el trabajo que introduce el conjunto de datos utilizado en este proyecto (completar número de cita una vez agregado a la bibliografía): la variabilidad espacial del sujeto dentro del cuadro (el niño cambia de posición y de encuadre a lo largo del video) y la influencia de objetos y otras personas presentes en la escena. Al recortar el cuadro delimitador (bounding box) correspondiente a la clase "persona", se reduce la proporción de fondo, objetos y otras personas que llega a la red, concentrando el análisis en el sujeto de interés. Se seleccionó específicamente la variante "nano" por ser preentrenada, gratuita, y lo suficientemente liviana como para ejecutarse en CPU sin una GPU dedicada, en línea con el entorno de desarrollo del proyecto.
+% ============================================================
+% CLAHE
+% ============================================================
+
+\subsection{CLAHE (OpenCV)}
+
+CLAHE (\textit{Contrast Limited Adaptive Histogram Equalization}) es una técnica de ecualización de histograma disponible en OpenCV, que mejora el contraste de una imagen de forma local, dividiendo en regiones y ecualizando cada una por separado, en lugar de aplicar una única corrección global a toda la imagen.
+
+Se incorpora al pipeline de preprocesamiento para atenuar otro de los desafíos documentados en el mismo trabajo: la iluminación no controlada entre los distintos videos del conjunto de datos, que provienen de fuentes heterogéneas (YouTube, grabaciones propias) con condiciones de luz muy variables entre sí.
+
+
+% ============================================================
+% NUMPY
+% ============================================================
+
+\subsection{NumPy}
+
+NumPy es la biblioteca fundamental de Python para el cómputo numérico, y provee la estructura de arreglo multidimensional (\textit{ndarray}) sobre la cual se construyen tanto TensorFlow/Keras como el resto de las bibliotecas científicas del proyecto. Se utiliza a lo largo de todo el pipeline para representar las secuencias de video como tensores (video $\times$ fotograma $\times$ alto $\times$ ancho $\times$ canal), así como para las operaciones de aumento de datos aplicadas durante el entrenamiento.
+
+
+% ============================================================
+% SCIKIT-LEARN
+% ============================================================
+
+\subsection{scikit-learn}
+
+scikit-learn es una biblioteca de aprendizaje automático de propósito general, utilizada en este proyecto no para el modelo de clasificación en sí, sino para dos tareas auxiliares específicas: la partición estratificada del conjunto de datos en entrenamiento, validación y prueba, y el cálculo de las métricas de evaluación del modelo (precisión, \textit{recall}, F1-score y matriz de confusión).
+
+
+% ============================================================
+% FIN DEL CAPÍTULO
+% ============================================================
+
+\newpage
