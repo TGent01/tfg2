@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.3)  25 SEP 2026 11:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.3)  25 SEP 2026 12:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1042,9 +1042,6 @@ Package pdftex.def Info: ./capitulo_03/rtx4070.png  used on input line 42.
 
 ]
 
-LaTeX Warning: Citation `ref01' on page 23 undefined on input line 48.
-
-
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 14.49998pt, for example:
 (fancyhdr)                \setlength{\headheight}{14.49998pt}.
@@ -1280,20 +1277,20 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `tfg.out' has not changed.
-(rerunfilecheck)             Checksum: F677AFC43250A1C38A41B4A230F1A08E;19884.
+(rerunfilecheck)             Checksum: B699BA5ECCF6D4D65450C22F77B3A6C5;19846.
  ) 
 Here is how much of TeX's memory you used:
- 21067 strings out of 467871
- 409280 string characters out of 5418377
- 857651 words of memory out of 5000000
- 49329 multiletter control sequences out of 15000+600000
+ 21070 strings out of 467871
+ 409371 string characters out of 5418377
+ 862739 words of memory out of 5000000
+ 49330 multiletter control sequences out of 15000+600000
  637258 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,13n,93p,2593b,901s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\marti\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl12.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on "c:\Users\marti\OneDrive\Documentos\tfg\PLANTILLAS - FORMATO IEEE-20250324\tfg\tfg_ieee (1)\tfg_ieee\build\tfg.pdf" (57 pages, 435108 bytes).
+Output written on "c:\Users\marti\OneDrive\Documentos\tfg\PLANTILLAS - FORMATO IEEE-20250324\tfg\tfg_ieee (1)\tfg_ieee\build\tfg.pdf" (57 pages, 437237 bytes).
 PDF statistics:
- 947 PDF objects out of 1000 (max. 8388607)
- 201 named destinations out of 1000 (max. 500000)
+ 955 PDF objects out of 1000 (max. 8388607)
+ 203 named destinations out of 1000 (max. 500000)
  811 words of extra memory for PDF output out of 10000 (max. 10000000)
 

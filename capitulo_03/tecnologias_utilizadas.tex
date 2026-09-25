@@ -45,7 +45,7 @@ La NVIDIA GeForce RTX 4070 es una unidad de procesamiento gráfico (GPU) de gama 
     \label{fig:rtx4070.png}
 \end{figure}
 
-Esta tarjeta gráfica forma parte del equipo de desarrollo utilizado por el equipo de trabajo, y representa una capacidad de cómputo considerable para tareas de inteligencia artificial a nivel local. Su memoria VRAM y sus núcleos Tensor la hacen, en principio, adecuada para acelerar tanto el entrenamiento de la arquitectura CNN-LSTM propia como la extracción de características mediante las arquitecturas preentrenadas consideradas en este trabajo (ResNet50, MobileNetV2 y ViT) \cite{ref01}.
+Esta tarjeta gráfica forma parte del equipo de desarrollo utilizado por el equipo de trabajo, y representa una capacidad de cómputo considerable para tareas de inteligencia artificial a nivel local. Su memoria VRAM y sus núcleos Tensor la hacen, en principio, adecuada para acelerar tanto el entrenamiento de la arquitectura CNN-LSTM propia como la extracción de características mediante las arquitecturas preentrenadas consideradas en este trabajo (ResNet50, MobileNetV2 y ViT) \cite{nvidia_rtx4070_2023}.
 
 Los beneficios que ofrece esta tarjeta gráfica para el proyecto incluyen:
 
@@ -68,7 +68,7 @@ Los beneficios que ofrece esta tarjeta gráfica para el proyecto incluyen:
 
 \subsection{Procesador: AMD Ryzen 7 7800X3D}
 
-El procesador AMD Ryzen 7 7800X3D, basado en la arquitectura Zen 4, complementa el equipo de desarrollo local. Se utiliza para la ejecución de las tareas que no dependen de aceleración por GPU: la extracción y el preprocesamiento de fotogramas de video (incluyendo la detección y el recorte del sujeto mediante YOLOv8n y la normalización de iluminación mediante CLAHE, detalladas en la sección 3.4), la programación y depuración del código del proyecto, y el entrenamiento de los componentes más livianos del sistema.
+El procesador AMD Ryzen 7 7800X3D, basado en la arquitectura Zen 4, complementa el equipo de desarrollo local. Se utiliza para la ejecución de las tareas que no dependen de aceleración por GPU: la extracción y el preprocesamiento de fotogramas de video (incluyendo la detección y el recorte del sujeto mediante YOLOv8n y la normalización de iluminación mediante CLAHE, detalladas en la sección 3.4), la programación y depuración del código del proyecto, y el entrenamiento de los componentes más livianos del sistema \cite{amd_ryzen7_7800x3d_2023}.
 
 Los beneficios que ofrece este procesador para el proyecto incluyen:
 
@@ -107,7 +107,7 @@ Para la etapa de extracción de características espaciales de cada fotograma, se 
 % CNN-LSTM
 % ============================================================
 
-\subsubsection{CNN-LSTM propia}
+\subsubsection{CNN-LSTM}
 
 Arquitectura desarrollada específicamente para este proyecto, compuesta por cuatro bloques convolucionales, encargados de la extracción de características espaciales, seguidos de una capa LSTM para el análisis temporal. La arquitectura es entrenada completamente desde cero sobre el conjunto de datos de videos de conductas motoras.
 

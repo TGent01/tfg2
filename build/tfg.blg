@@ -39,7 +39,6 @@ Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: test.bib
 Warning--I didn't find a database entry for "IEEEexample:BSTcontrol"
-Warning--I didn't find a database entry for "ref01"
 Warning--I didn't find a database entry for "ref03"
 Warning--I didn't find a database entry for "ref04"
 Warning--I didn't find a database entry for "05"
@@ -48,45 +47,45 @@ Warning--I didn't find a database entry for "05"
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
 
 Done.
-You've used 32 entries,
+You've used 34 entries,
             4087 wiz_defined-function locations,
-            994 strings with 12658 characters,
-and the built_in function-call counts, 13966 in all, are:
-= -- 1097
-> -- 233
+            1001 strings with 13074 characters,
+and the built_in function-call counts, 14708 in all, are:
+= -- 1157
+> -- 241
 < -- 37
-+ -- 107
-- -- 49
-* -- 517
-:= -- 2344
-add.period$ -- 64
-call.type$ -- 32
-change.case$ -- 33
++ -- 111
+- -- 51
+* -- 539
+:= -- 2476
+add.period$ -- 68
+call.type$ -- 34
+change.case$ -- 37
 chr.to.int$ -- 81
-cite$ -- 32
-duplicate$ -- 1168
-empty$ -- 1409
-format.name$ -- 60
-if$ -- 3237
+cite$ -- 34
+duplicate$ -- 1234
+empty$ -- 1483
+format.name$ -- 62
+if$ -- 3403
 int.to.chr$ -- 0
-int.to.str$ -- 32
-missing$ -- 224
-newline$ -- 119
-num.names$ -- 31
-pop$ -- 620
+int.to.str$ -- 34
+missing$ -- 240
+newline$ -- 125
+num.names$ -- 33
+pop$ -- 664
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 1128
+skip$ -- 1188
 stack$ -- 0
-substring$ -- 202
-swap$ -- 700
+substring$ -- 208
+swap$ -- 736
 text.length$ -- 10
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 32
+type$ -- 34
 warning$ -- 0
-while$ -- 46
-width$ -- 34
-write$ -- 280
-(There were 5 warnings)
+while$ -- 48
+width$ -- 36
+write$ -- 296
+(There were 4 warnings)
