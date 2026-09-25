@@ -1,0 +1,248 @@
+\fancyhead{}
+\fancyfoot{}
+\newtheorem{teorema}{Teorema}
+\cfoot{\thepage}
+
+\lhead{Conceptos fundamentales, teorías y antecedentes}
+%\rhead{\today}
+%\rfoot{\thepage}
+
+\chapter{Conceptos fundamentales, teorías y antecedentes}
+En este capítulo se desarrolla el marco teórico, conceptual y referencial de la investigación. Se presentan los conceptos relacionados con el TEA, la inteligencia artificial, el aprendizaje profundo, la visión artificial y la arquitectura CNN-LSTM. Finalmente, se incluyen antecedentes de investigaciones relacionadas con algunos de los enfoques y tecnologías utilizados en el desarrollo del proyecto.
+
+
+\section{Trastorno del espectro autista }
+El Trastorno del Espectro Autista  es comprendido actualmente como una condición del neurodesarrollo de base neurobiológica y genética que se manifiesta en los primeros años de vida. De acuerdo con el Ministerio de Salud Pública y Bienestar Social, esta condición se define por una organización atípica de las funciones cerebrales que impacta severamente en la capacidad de comunicación social y en la flexibilidad del pensamiento y la conducta  \cite{mspbs2023}. 
+El marco técnico nacional destaca que la transición hacia el concepto de ``espectro'' permite integrar bajo un mismo paraguas clínico una amplia diversidad de manifestaciones. No obstante, todas comparten dos dimensiones nucleares: las deficiencias persistentes en la comunicación y la interacción social en diversos contextos, y la presencia de patrones de motricidad, intereses o actividades restrictivas y repetitivas \cite{mspbs2023}. En Paraguay, se enfatiza que el TEA no es una enfermedad que requiera una ``cura'', sino una condición de vida que demanda apoyos específicos y ajustes del entorno para garantizar el ejercicio pleno de derechos de la persona \cite{ley6103_pnaitea_2018}.
+
+\vspace{0.6cm} % Agrega espacio antes del subtítulo
+\noindent\textbf{\large Síntomas del Trastorno del Espectro Autista}
+\vspace{0.2cm} % Agrega un pequeño espacio después del subtítulo
+
+Uno de los principales grupos de síntomas del TEA corresponde a las dificultades en la interacción social. Estas pueden manifestarse como una limitada capacidad para establecer relaciones con otras personas, escaso contacto visual, dificultad para comprender normas sociales y poca respuesta emocional hacia los demás. En Paraguay, especialistas señalan que estas dificultades pueden observarse desde la infancia, incluyendo la falta de apego o la escasa búsqueda de atención por parte de los cuidadores \cite{diariohoy_autismo_2025}.
+
+Otro conjunto importante de síntomas se relaciona con la comunicación. Las personas con TEA pueden presentar retrasos en el desarrollo del lenguaje, dificultades para iniciar o mantener conversaciones, o utilizar formas atípicas de comunicación como la ecolalia (repetición de palabras o frases). En algunos casos, incluso pueden no responder a estímulos verbales, lo que genera la percepción errónea de problemas auditivos .
+
+Asimismo, el TEA se caracteriza por la presencia de comportamientos repetitivos e intereses restringidos. Estos pueden incluir movimientos estereotipados, como girar sobre sí mismos o manipular objetos de forma repetitiva, así como una fuerte resistencia a los cambios en la rutina. Esta rigidez conductual puede generar ansiedad intensa ante situaciones nuevas o imprevistas.
+
+Otro aspecto relevante dentro de los síntomas es la alteración en el procesamiento sensorial. Las personas con TEA pueden mostrar hipersensibilidad o hiposensibilidad a estímulos como sonidos, luces, texturas o dolor. Esto puede influir en su comportamiento diario, generando respuestas inusuales o evitación de ciertos entornos 
+
+Es importante destacar que los síntomas del TEA aparecen en las primeras etapas del desarrollo, generalmente antes de los 2 o 3 años de edad, aunque en algunos casos pueden hacerse más evidentes cuando las demandas sociales aumentan. En Paraguay, se ha observado que la detección suele ser tardía en comparación con otros países, lo que puede retrasar la intervención temprana y afectar el desarrollo del niño .
+
+Finalmente, cabe resaltar que el TEA es un espectro, lo que significa que los síntomas varían ampliamente en tipo e intensidad entre individuos. Algunas personas pueden presentar síntomas leves y llevar una vida relativamente independiente, mientras que otras requieren apoyo significativo. Esta variabilidad hace necesario un enfoque diagnóstico individualizado y multidisciplinario \cite{mspbs2023}.
+
+Se describen signos de alarma para sospechar alteraciones del desarrollo infantil, los cuales pueden ser identificados en diferentes etapas tempranas de la vida (ver Tabla 1).
+
+
+\begin{longtable}{|p{3.0cm}|p{10.0cm}|}
+\caption{Signos de alarma de alteración del desarrollo \cite{mspbs2023}} \\
+\hline
+\textbf{EDAD} & \textbf{ALARMA} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{EDAD} & \textbf{ALARMA} \\
+\hline
+\endhead
+
+\hline \multicolumn{2}{r}{\textit{Continúa en la siguiente página...}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+\textbf{6 MESES} &
+No trata de agarrar cosas que están a su alcance, no mira a la madre durante la lactancia. \newline
+No demuestra afecto por quienes le cuidan. \newline
+No reacciona ante los sonidos a su alrededor. \newline
+Tiene dificultad para llevarse cosas a la boca. \newline
+No emite sonidos (vocales: ``a'', ``e'', ``o''). \newline
+No gira en ninguna dirección (rueda). \newline
+No se ríe ni hace sonidos de placer al ser estimulado por sus cuidadores frecuentes. \newline
+Se ve rígido y con los músculos tensos. \newline
+Se ve sin fuerza como un muñeco de trapo. \\
+\hline
+
+\textbf{12 MESES} &
+No gatea. \newline
+No puede permanecer de pie con ayuda. \newline
+No busca un objeto que se le esconde. \newline
+No dice palabras sencillas como ``mamá'' o ``papá''. \newline
+No aprende a usar gestos como saludar con la mano o mover la cabeza. \newline
+No señala cosas. \\
+\hline
+
+\textbf{18 MESES} &
+Pierde habilidades que había adquirido. \newline
+No señala cosas para mostrarlas a otras personas. \newline
+No puede caminar solo. \newline
+No sabe para qué sirven las cosas familiares. \newline
+No imita lo que hacen las demás personas. \newline
+No aprende nuevas palabras. \newline
+No sabe por lo menos 6 palabras. \newline
+No se da cuenta ni parece importarle si la persona que le cuida se va o regresa. \\
+\hline
+
+\textbf{2 AÑOS} &
+Pierde habilidades que había adquirido. \newline
+No usa frases de dos palabras. \newline
+No conoce el uso de objetos cotidianos. \newline
+No imita acciones o palabras. \newline
+No sigue instrucciones simples. \\
+\hline
+
+\textbf{3 AÑOS} &
+Se cae mucho o tiene problemas para subir y bajar escaleras. \newline
+No se le entiende cuando habla. \newline
+No sabe utilizar juguetes sencillos. \newline
+No usa oraciones para hablar. \newline
+No entiende instrucciones sencillas. \newline
+No imita ni usa la imaginación en sus juegos. \\
+\hline
+
+\textbf{4 AÑOS} &
+No salta en un solo pie. \newline
+No muestra interés en juegos interactivos o de imaginación. \newline
+Ignora a otros niños o no responde a personas fuera de la familia. \newline
+No puede relatar su cuento favorito. \newline
+No sigue instrucciones de 3 acciones. \newline
+No entiende lo que quieren decir ``igual'' y ``diferente''. \newline
+No usa correctamente las palabras ``yo'' y ``tú''. \newline
+No habla claro. \newline
+Pierde habilidades que había adquirido. \\
+\hline
+
+\end{longtable}
+
+\section{El Contexto de la Salud Pediátrica en Paraguay}~\\
+
+La detección del Trastorno del Espectro Autista (TEA) en Paraguay se fundamenta actualmente en un modelo de vigilancia del desarrollo que busca romper con la tradición del "diagnóstico por sospecha tardía". Bajo el marco de la Ley N° 6103/2018, el sistema de salud nacional ha pasado a reconocer que las desviaciones en el neurodesarrollo deben identificarse en la etapa de máxima plasticidad cerebral. Esto sitúa la relevancia de cualquier sistema de detección dentro de las Unidades de Salud de la Familia (USF) y los centros de atención primaria, donde el objetivo es captar señales de alerta antes de que las barreras sociales y comunicativas se consoliden.
+
+En la realidad paraguaya, la detección se enfrenta al desafío de la centralización de especialistas. Por ello, el marco teórico de un sistema tecnológico debe sustentarse en la capacidad de objetivar síntomas que, a menudo, son pasados por alto en consultas pediátricas breves. La normativa vigente (Decreto N° 3624/20) respalda la implementación de protocolos que permitan una derivación oportuna a centros de mayor complejidad como el Hospital Pediátrico Niños de Acosta Ñu, asegurando que el proceso de identificación sea el primer eslabón de una cadena de intervención integral \cite{decreto3624_reglamento_2020}.
+
+\section{Inteligencia Artificial}
+\subsection{Definición y fundamentos}
+La Inteligencia Artificial se define como el campo de la ciencia computacional dedicado al desarrollo de sistemas capaces de realizar tareas que tradicionalmente requieren de la inteligencia humana, tales como el razonamiento, el aprendizaje y la percepción visual \cite{russell_norvig_ai_2020}. En el ámbito de la ingeniería, la IA presenta una evolución significativa, pasando de sistemas basados en reglas lógicas hacia modelos capaces de extraer conocimiento directamente a partir de los datos \cite{mitchell_ml_1997}. Esta transformación permite que la disciplina deje de depender de heurísticas rígidas y se consolide como un marco robusto de aprendizaje estadístico y computacional.
+\subsection{ Ramas de la IA aplicadas a la ingeniería}
+Actualmente, la Inteligencia Artificial se dividide en diversas áreas de especialización, destacándose el Aprendizaje Automático (Machine Learning) y el Aprendizaje Profundo (Deep Learning) como las ramas de mayor impacto en la ingeniería moderna. Estos enfoques permiten a los sistemas no solo procesar información, sino también aprender de grandes volúmenes de datos y generalizar soluciones a partir de patrones complejos \cite{goodfellow_dl_2016}. En el área de la salud, estas capacidades facilitarán la identificación de biomarcadores y patrones de motricidad que resultarán imperceptibles mediante métodos tradicionales, posicionando a la IA como una herramienta clave de apoyo en el diagnóstico clínico \cite{sherkatghanad_autism_2020}.
+
+
+\section{Aprendizaje automático}
+\subsection{ Definición y fundamentos}
+El Aprendizaje Automático constituye una subdisciplina fundamental dentro del campo de la Inteligencia Artificial, cuyo propósito es desarrollar modelos capaces de aprender patrones a partir de datos sin ser programados de forma explícita para cada tarea. En este sentido, los algoritmos permititen identificar relaciones complejas dentro de grandes volúmenes de información, facilitando la automatización de procesos de análisis y toma de decisiones \cite{bishop_prml_2006}.
+Los fundamentos del aprendizaje automático se basan en el uso de datos de entrada, modelos matemáticos y procesos de entrenamiento mediante los cuales el sistema ajustará sus parámetros internos con el objetivo de minimizar el error. Este proceso implicará el uso de funciones de pérdida y algoritmos de optimización, así como técnicas de validación para garantizar la capacidad de generalización del modelo frente a datos no vistos previamente \cite{goodfellow_dl_2016_v2}.
+Asimismo, se considerarán aspectos clave como la calidad de los datos, el preprocesamiento, la selección de características y la evaluación del rendimiento mediante métricas específicas, factores que influirán directamente en la eficacia del modelo desarrollado.
+
+\subsection{ Aprendizaje supervisado}
+El aprendizaje supervisado representa uno de los enfoques más utilizados dentro del aprendizaje automático, caracterizándose por el uso de datos previamente etiquetados. En este tipo de aprendizaje, el modelo será entrenado a partir de pares de entrada y salida esperada, permitiendo que el sistema aprenda a predecir resultados en función de nuevos datos \cite{bishop_prml_2006}.
+Dentro de este enfoque, se emplearán técnicas de clasificación y regresión. En el contexto del presente estudio, se priorizarán los modelos de clasificación, ya que permitirán determinar la presencia o ausencia de características asociadas al TEA.
+El proceso de entrenamiento incluirá la división del conjunto de datos en subconjuntos de entrenamiento y prueba, así como la validación del modelo mediante métricas como precisión, sensibilidad (recall), especificidad y F1-score. Estas métricas permitirán evaluar la capacidad del sistema para identificar correctamente patrones conductuales relevantes \cite{goodfellow_dl_2016_v2}.
+
+\subsection{ Aplicación en diagnóstico clínico}
+El aprendizaje automático será aplicado en el ámbito del diagnóstico clínico como una herramienta de apoyo para la detección temprana de diversas condiciones, incluyendo el Trastorno del Espectro Autista. En este contexto, los modelos permitirán analizar datos complejos, como videos de comportamiento, con el objetivo de identificar patrones que podrían no ser fácilmente perceptibles mediante la observación humana \cite{murphy_ml_2012}.
+En el presente trabajo, se propondrá la utilización de modelos basados en redes neuronales profundas, incluyendo arquitecturas híbridas que integren redes convolucionales y recurrentes, lo que permitirá procesar información espacial y temporal de manera conjunta. Esto facilitará el análisis de gestos, movimientos repetitivos y patrones de interacción social presentes en los videos \cite{who_ai_healthcare_2021}.
+La implementación de estas técnicas contribuirá a mejorar la precisión y objetividad en el proceso de evaluación clínica, sirviendo como complemento a los métodos tradicionales de diagnóstico. Sin embargo, se considerará que estos sistemas no reemplazarán la intervención de profesionales de la salud, sino que actuarán como herramientas de apoyo en la toma de decisiones clínicas \cite{estudios_ml_tea}.
+
+
+\section{Visión artificial}
+
+\subsection{Definición y evolución}
+ La Visión Artificial (Computer Vision) se define como un campo interdisciplinario de la Inteligencia Artificial que busca otorgar a los sistemas computacionales la capacidad de adquirir, procesar, analizar y comprender el contenido visual del mundo real a partir de imágenes digitales y secuencias de video \cite{szeliski_cv_2022_v2}. En el ámbito de la ingeniería, esta disciplina presenta una evolución significativa, pasando de enfoques tradicionales basados en el diseño manual de algoritmos matemáticos complejos para la extracción de características visuales como la detección de bordes o formas geométricas hacia la implementación de arquitecturas de aprendizaje profundo, las cuales permiten la extracción automatizada de representaciones visuales de alto nivel \cite{forsyth_ponce_cv_2011_v2}.
+\subsection{Aplicación en análisis de comportamiento}
+ En el contexto clínico y del análisis de comportamiento, la Visión Artificial se consolidará como una herramienta tecnológica fundamental para el soporte diagnóstico. En tareas de reconocimiento de acciones motoras, los sistemas analizarán flujos de video en tiempo real con el objetivo de estimar la postura corporal del individuo y rastrear la evolución dinámica de sus movimientos \cite{voulodimos_cv_review_2018}. Mediante el uso de redes neuronales especializadas, será posible procesar estos datos para identificar, cuantificar y analizar biomarcadores y patrones de motricidad que podrían no ser perceptibles mediante la observación humana convencional, transformando la evaluación en un proceso objetivo, estandarizado y escalable \cite{ibm_cv_2023}.
+
+
+\section{Arquitectura Híbrida CNN-LSTM para Reconocimiento de Patrones}
+
+\subsection{Fundamentos de la Combinación Espacio-Temporal}
+
+A diferencia de las imágenes estáticas, el video será considerado como una secuencia de fotogramas ordenados cronológicamente. Para detectar patrones como giros o balanceos, no será suficiente analizar una imagen aislada; será necesario observar la evolución de la postura en el tiempo. Modelos como las Redes Convolucionales Recurrentes a Largo Plazo (LRCN) demostrarán ser altamente efectivos para esta tarea, ya que permitirán procesar características visuales y secuenciales de forma simultánea \cite{orozco_cnnlstm_2021_v2}. 
+
+\subsection{Extracción de Características con CNN (Capa Espacial)}
+
+En la primera etapa, cada fotograma del video será procesado individualmente por una Red Neuronal Convolucional (CNN). En arquitecturas de clasificación de video a gran escala, la CNN actuará como un extractor automático de características. Mediante operaciones matemáticas de convolución y agrupación (pooling), la red identificará puntos clave como:
+\begin{itemize}
+    \item \textbf{Bordes y silueta:} aislará el cuerpo del infante del fondo.
+    \item \textbf{Postura:} determinará la posición de las extremidades y la orientación de la cabeza.
+\end{itemize}
+En esta fase, el modelo generará un vector de características unidimensionales por cada instante de tiempo, eliminando información irrelevante del entorno \cite{martinsanz_dl_2018_v2}.
+
+\subsection{Procesamiento de Secuencias con LSTM (Capa Temporal)}
+
+Los vectores espaciales generados por la CNN serán entregados en orden cronológico a la red LSTM. Esta red recurrente será diseñada para modelar dependencias a largo plazo y mitigar el problema del desvanecimiento del gradiente.
+
+En el contexto del TEA, la LSTM analizará la periodicidad de los movimientos. Si los vectores indican posiciones repetitivas de manera rítmica a lo largo de varios cuadros, la red identificará estos patrones como comportamientos estereotipados, como el aleteo de manos. Su arquitectura de ``puertas de olvido'' permitirá descartar movimientos esporádicos y centrarse en patrones relevantes \cite{patterson_gibson_dl_2024_v2}. 
+
+\subsection{Flujo de Datos y Clasificación de Patrones de motricidad}
+
+El flujo de la arquitectura culminará en una capa densamente conectada con una función de activación, como Softmax. Esta capa recibirá el resumen temporal generado por la LSTM y calculará una probabilidad estadística. Como resultado, el sistema emitirá un porcentaje de confianza que indicará si la secuencia de video corresponderá a un patrón conductual típico o a un marcador motor asociado al autismo, sirviendo como herramienta de apoyo para el especialista clínico \cite{bishop_reconocimiento_2006_v2}. 
+
+\section{Diseño web}
+\subsection{Interfaz de Usuario y Arquitectura de Integración Web}
+
+La efectividad de un sistema de detección temprana del Trastorno del Espectro Autista (TEA) no dependerá únicamente de la precisión del modelo de inteligencia artificial, sino también de la calidad de la interacción entre el usuario y la plataforma. En este contexto, la interfaz web será concebida como un componente esencial que permitirá la integración eficiente entre el especialista clínico y el motor de inferencia basado en redes CNN-LSTM.
+
+El sistema web será diseñado para gestionar de manera estructurada el flujo de datos, desde la carga de secuencias de video hasta la visualización de resultados interpretables. Esta integración permitirá que el usuario pueda utilizar la herramienta sin requerir conocimientos técnicos avanzados en inteligencia artificial, facilitando su adopción en entornos clínicos y educativos.
+
+Además, la arquitectura de la plataforma priorizará la usabilidad, accesibilidad y eficiencia, aspectos fundamentales en sistemas de apoyo a la toma de decisiones médicas, donde la claridad en la presentación de la información influye directamente en la interpretación de los resultados \cite{iso_iec_25010_2011_v2}.
+
+\subsection{Arquitectura del Lado del Cliente (Frontend)}
+
+El frontend será desarrollado bajo un enfoque basado en componentes reutilizables, empleando tecnologías modernas como Next.js, que permiten optimizar el rendimiento mediante renderizado híbrido (SSR y CSR). Este enfoque será clave para mejorar los tiempos de carga y garantizar una experiencia de usuario fluida, especialmente al trabajar con archivos multimedia de gran tamaño como videos.
+
+La interfaz estará diseñada específicamente para soportar el flujo de trabajo del sistema de detección de TEA, permitiendo al usuario:
+
+\begin{itemize}
+    \item Cargar videos de comportamiento infantil de manera sencilla e intuitiva.
+    \item Visualizar el estado del procesamiento en tiempo real.
+    \item Recibir retroalimentación clara durante el análisis.
+    \item Acceder a los resultados generados por el modelo.
+\end{itemize}
+
+Asimismo, el sistema gestionará procesos asíncronos relacionados con la carga y análisis de videos, utilizando técnicas de manejo de estado que permitan informar al usuario sobre el progreso del procesamiento. Esto resulta fundamental considerando que los modelos de aprendizaje profundo, como CNN-LSTM, requieren tiempos de inferencia variables dependiendo de la longitud del video \cite{goodfellow_dl_2016_v2}.
+
+El diseño de la interfaz priorizará la simplicidad y claridad visual, reduciendo la carga cognitiva del usuario y facilitando la interpretación de los resultados obtenidos.
+
+\subsection{Comunicación y Servicios de Red (Backend)}
+
+La comunicación entre el frontend y el sistema de inteligencia artificial se implementará mediante una arquitectura cliente-servidor basada en el estilo REST (Representational State Transfer), ampliamente utilizado en aplicaciones web modernas por su escalabilidad y simplicidad.
+
+El backend será desarrollado utilizando FastAPI, un framework de alto rendimiento para la construcción de APIs, que permitirá gestionar de manera eficiente las solicitudes de procesamiento de video. Este componente actuará como un intermediario entre la interfaz de usuario y el modelo CNN-LSTM, organizando el flujo de datos en diferentes etapas:
+
+\begin{enumerate}
+    \item Recepción del video cargado por el usuario.
+    \item Preprocesamiento de los datos (extracción de fotogramas, normalización, etc.).
+    \item Envío de los datos al modelo CNN para la extracción de características espaciales.
+    \item Procesamiento secuencial mediante la red LSTM.
+\end{enumerate}
+
+Este enfoque desacoplado permitirá que el modelo de inteligencia artificial evolucione independientemente del sistema web, facilitando futuras mejoras en términos de precisión, escalabilidad y mantenimiento del sistema \cite{bass_architecture_2012_v2}.
+
+\subsection{Gestión de Seguridad y Privacidad de Datos}
+
+Dado que el sistema trabajará con datos sensibles relacionados con menores de edad, la seguridad y privacidad serán aspectos críticos en su diseño. En este sentido, se implementarán mecanismos de autenticación y autorización que restringirán el acceso únicamente a usuarios autorizados, como profesionales de la salud o investigadores.
+
+Asimismo, se establecerán políticas de protección de datos que garanticen la confidencialidad de la información, incluyendo el almacenamiento seguro de los videos y resultados generados. Este enfoque será coherente con principios internacionales de protección de datos y ética en sistemas de salud digital  \cite{who_ai_health_2021_v2}.
+
+Además, se considerará la trazabilidad de las operaciones realizadas en el sistema, permitiendo registrar el acceso y uso de la información, lo cual es fundamental en contextos clínicos donde la transparencia y la responsabilidad son requisitos esenciales.
+
+\subsection{Visualización de Resultados y Diseño de Interacción}
+
+La visualización de resultados constituirá una de las etapas más importantes del sistema, ya que permitirá traducir la salida del modelo CNN-LSTM en información comprensible para el especialista. En este sentido, el diseño de la interacción estará orientado a facilitar la interpretación de patrones de motricidad detectados en los videos.
+
+El sistema presentará los resultados mediante diferentes elementos visuales, tales como:
+
+\begin{itemize}
+    \item Cargar videos de comportamiento infantil de manera sencilla e intuitiva.
+    \item Visualizar el estado del procesamiento en tiempo real.
+    \item Recibir retroalimentación clara durante el análisis.
+    \item Acceder a los resultados generados por el modelo.
+\end{itemize}
+
+Este enfoque permitirá al usuario correlacionar los resultados del modelo con evidencia visual directa, fortaleciendo la confianza en el sistema y mejorando la toma de decisiones clínicas.
+
+Además, el uso de técnicas de visualización interactiva contribuirá a reducir la ambigüedad en la interpretación de los resultados, transformando datos complejos en información clara y accesible \cite{ware_infovis_2013_v2}.
+
+De esta manera, el sistema no solo funcionará como una herramienta automatizada, sino como un soporte inteligente que complementará el criterio del especialista en la detección temprana del TEA.
+

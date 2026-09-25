@@ -1,0 +1,142 @@
+
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[latin1]{inputenc}
+% Workaround para bug de datatool con latin1
+\ExplSyntaxOn
+\cs_new_protected:Npn \datatool_set_currencysign_from_charcode:ne #1 #2 {}
+\ExplSyntaxOff
+\usepackage{amsmath}
+\usepackage{xurl}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[spanish]{babel}
+\usepackage[graphicx]{realboxes}
+\usepackage{wrapfig}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+% \usepackage{datatool}
+\usepackage[acronym]{glossaries}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{colortbl}
+\usepackage{cite}
+\usepackage{IEEEtrantools}
+\usepackage{float}
+\makeindex
+\pagestyle{fancy}
+
+\makeglossaries % este comando debe estar en el preámbulo
+
+%agregado para que las subsubsecciones aparezcan en el índice
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+
+
+\begin{document}
+\renewcommand{\glossaryname}{Glosario}
+
+\renewcommand\listtablename{\'Indice de Tablas}
+%\listtablename
+
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\acronymname}{Acr\'onimos y s\'imbolos}
+\renewcommand{\bibname}{Referencias bibliogr\'aficas}
+%\glsaddall
+\frontmatter
+\vspace*{-3cm}
+\begin{figure}[h]
+\leavevmode
+\begin{minipage}{\textwidth}
+\begin{center}
+%\includegraphics[scale=0.5]{./logofpune}
+\end{center}
+\end{minipage}
+\end{figure}
+
+\thispagestyle{empty}
+
+{\bf
+\begin{center}
+\large
+\vspace*{-1 cm}\Large \textsc{Universidad Nacional del Este.} \\
+\Large \textsc{Facultad Politécnica.} \\
+\vspace*{0.5 cm}\hrule
+\end{center}
+}
+
+\vspace*{-0.5 cm}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[scale = .6]{./portada_y_ficha_catalografica/logo.png}
+
+\end{center}
+\end{figure}
+
+
+\vspace{2 cm}
+{
+\noindent
+\begin{center}
+\huge \bf Sistema web para identificar patrones de motricidad relacionados con TEA, mediante arquitectura CNN-LSTM
+\end{center}
+}
+
+
+\vspace{4 cm}
+
+\begin{center}
+{\textbf{\Large Bella Luz Benítez González.}\\
+\textbf{\Large  Martin Escobar Azcona.}\\[5mm]
+\vspace{1 cm}
+\textbf{Año \the\year.}}
+\end{center}
+
+\bstctlcite{IEEEexample:BSTcontrol} % cambia "and" por "y" en bibliografía
+
+\include{./portada_y_ficha_catalografica/portada_y_ficha_catalografica}
+\include{./hoja_aprobacion/hoja_aprobacion}
+\include{./dedicatoria/dedicatoria}
+\include{./agradecimientos/agradecimientos}
+\include{./epigrafe/epigrafe}
+\include{./resumen/resumen}
+\addcontentsline{toc}{chapter}{Resumen}
+\include{./abstract/abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\tableofcontents
+\listoffigures
+\addcontentsline{toc}{chapter}{\'Indice de figuras}
+\listoftables
+\addcontentsline{toc}{chapter}{\'Indice de tablas}
+\printglossary[type=\acronymtype] % imprime solo la lista de acrÃ³nimos
+%\cleardoublepage
+\addcontentsline{toc}{chapter}{Acr\'onimos y s\'imbolos}
+\mainmatter
+\include{./capitulo_01/introduccion}
+\include{./capitulo_02/marco_teorico}
+\include{./capitulo_03/tecnologias_utilizadas}
+\include{./capitulo_04/marco_metodologico}
+\include{./capitulo_05/resultados}
+\include{./capitulo_06/discusion}
+
+\backmatter
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Glosario}
+\printglossary
+
+\addcontentsline{toc}{chapter}{Anexos}
+
+\cleardoublepage
+\include{./anexos/anexo}
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Referencias bibliogr\'aficas}
+
+\nocite{*}
+
+\bibliographystyle{IEEEtran-castellano}
+\bibliography{test}
+\end{document}
+

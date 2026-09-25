@@ -1,0 +1,512 @@
+% ============================================================
+% CONFIGURACIÓN DEL ENCABEZADO Y PIE DE PÁGINA
+% ============================================================
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+
+\cfoot{\thepage}
+
+\lhead{Tecnologías utilizadas}
+
+
+% ============================================================
+% CAPÍTULO
+% ============================================================
+
+\chapter{Tecnologías utilizadas}
+
+El presente capítulo detalla las tecnologías de hardware y software seleccionadas para el desarrollo del proyecto. Se describe en primer lugar el hardware local disponible para el desarrollo del proyecto: la tarjeta gráfica NVIDIA GeForce RTX 4070 y el procesador AMD Ryzen 7 7800X3D. Posteriormente, se justifica la selección de cuatro arquitecturas de redes neuronales evaluadas para la extracción de características espaciales: una arquitectura CNN propia entrenada desde cero, y tres arquitecturas preentrenadas incorporadas mediante transferencia de aprendizaje (ResNet50, MobileNetV2 y Vision Transformer). Finalmente, se describen las herramientas complementarias del flujo de trabajo: YouTube como fuente de los videos que conforman el conjunto de datos y Google Drive para el almacenamiento centralizado del conjunto de datos.
+
+
+% ============================================================
+% COMPONENTES DE HARDWARE
+% ============================================================
+
+\section{Componentes de Hardware}
+
+Los componentes de hardware abarcan los dispositivos físicos disponibles en el equipo de desarrollo, utilizados tanto para las etapas de programación y preprocesamiento de video como, potencialmente, para el entrenamiento de los modelos de inteligencia artificial.
+
+
+% ============================================================
+% TARJETA GRÁFICA
+% ============================================================
+
+\subsection{Tarjeta gráfica: NVIDIA GeForce RTX 4070}
+
+La NVIDIA GeForce RTX 4070 es una unidad de procesamiento gráfico (GPU) de gama alta para consumidores, basada en la arquitectura Ada Lovelace de NVIDIA. Cuenta con 12 GB de memoria VRAM tipo GDDR6X y núcleos Tensor de cuarta generación, orientados a acelerar operaciones de multiplicación de matrices propias del entrenamiento de redes neuronales profundas mediante precisión mixta (FP16/BF16).
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{./rtx4070.png}
+    \caption{Tarjeta gráfica NVIDIA GeForce RTX 4070.}
+   
+    \label{fig:rtx4070.png}
+\end{figure}
+
+Esta tarjeta gráfica forma parte del equipo de desarrollo utilizado por el equipo de trabajo, y representa una capacidad de cómputo considerable para tareas de inteligencia artificial a nivel local. Su memoria VRAM y sus núcleos Tensor la hacen, en principio, adecuada para acelerar tanto el entrenamiento de la arquitectura CNN-LSTM propia como la extracción de características mediante las arquitecturas preentrenadas consideradas en este trabajo (ResNet50, MobileNetV2 y ViT) \cite{ref01}.
+
+Los beneficios que ofrece esta tarjeta gráfica para el proyecto incluyen:
+
+\begin{itemize}
+
+    \item \textbf{Aceleración por núcleos Tensor:} permite acelerar significativamente las operaciones matriciales del entrenamiento mediante precisión mixta (FP16/BF16), reduciendo los tiempos de cómputo respecto a un procesador convencional.
+
+    \item \textbf{Amplia memoria VRAM (12 GB):} posibilita procesar lotes de video de mayor tamaño y modelos más grandes (como ResNet50 o ViT) sin quedar limitado por la memoria disponible.
+
+    \item \textbf{Disponibilidad inmediata sin costo adicional:} al formar parte del equipo ya adquirido por el grupo de trabajo, no representa un gasto adicional para el proyecto.
+
+    \item \textbf{Independencia de servicios externos a futuro:} configurando el entorno adecuado (WSL2), permitiría eliminar la dependencia de plataformas en la nube y sus limitaciones de cuota y disponibilidad.
+
+\end{itemize}
+
+
+% ============================================================
+% PROCESADOR
+% ============================================================
+
+\subsection{Procesador: AMD Ryzen 7 7800X3D}
+
+El procesador AMD Ryzen 7 7800X3D, basado en la arquitectura Zen 4, complementa el equipo de desarrollo local. Se utiliza para la ejecución de las tareas que no dependen de aceleración por GPU: la extracción y el preprocesamiento de fotogramas de video (incluyendo la detección y el recorte del sujeto mediante YOLOv8n y la normalización de iluminación mediante CLAHE, detalladas en la sección 3.4), la programación y depuración del código del proyecto, y el entrenamiento de los componentes más livianos del sistema.
+
+Los beneficios que ofrece este procesador para el proyecto incluyen:
+
+\begin{itemize}
+
+    \item \textbf{Múltiples núcleos e hilos de procesamiento:} permite ejecutar en paralelo tareas de preprocesamiento de video (extracción de fotogramas, detección con YOLOv8n, normalización con CLAHE) sin generar cuellos de botella durante el desarrollo.
+
+    \item \textbf{Suficiente para el entrenamiento de componentes livianos:} la capa LSTM, al entrenarse sobre vectores de características ya extraídos (y no sobre los fotogramas crudos), no requiere GPU y se ejecuta en tiempos razonables directamente en este procesador.
+
+    \item \textbf{Estabilidad para tareas de desarrollo continuo:} adecuado para la programación, depuración y pruebas automatizadas del código del proyecto (los casos de prueba de la CNN y la LSTM, por ejemplo) sin necesidad de recursos especializados.
+
+    \item \textbf{Ya disponible en el equipo de desarrollo:} al igual que la GPU, no representa un costo adicional para el proyecto.
+
+\end{itemize}
+
+
+% ============================================================
+% COMPONENTES DE SOFTWARE
+% ============================================================
+
+\section{Componentes de Software}
+
+Los componentes de software proporcionan las herramientas, plataformas y algoritmos necesarios para diseñar, entrenar y evaluar los modelos de inteligencia artificial del proyecto.
+
+
+% ============================================================
+% ARQUITECTURAS
+% ============================================================
+
+\subsection{Arquitecturas para la extracción de características}
+
+Para la etapa de extracción de características espaciales de cada fotograma, se evaluaron cuatro arquitecturas de redes neuronales, seleccionadas por representar enfoques complementarios: una arquitectura convolucional propia entrenada desde cero, y tres arquitecturas preentrenadas incorporadas mediante transferencia de aprendizaje.
+
+
+% ============================================================
+% CNN-LSTM
+% ============================================================
+
+\subsubsection{CNN-LSTM propia}
+
+Arquitectura desarrollada específicamente para este proyecto, compuesta por cuatro bloques convolucionales, encargados de la extracción de características espaciales, seguidos de una capa LSTM para el análisis temporal. La arquitectura es entrenada completamente desde cero sobre el conjunto de datos de videos de conductas motoras.
+
+Sus características principales son:
+
+\begin{itemize}
+
+    \item \textbf{Diseño a medida:} arquitectura ajustada específicamente a la resolución y las características del conjunto de datos, utilizando fotogramas de $64 \times 64$ píxeles y secuencias de 40 fotogramas.
+
+    \item \textbf{Sin dependencia de pesos preentrenados:} aprende representaciones específicas del dominio de estudio en lugar de heredar representaciones obtenidas a partir de un conjunto de datos genérico como ImageNet.
+
+    \item \textbf{Bajo costo computacional:} presenta una cantidad reducida de parámetros en comparación con las arquitecturas preentrenadas, lo que permite un entrenamiento con menor requerimiento computacional.
+
+    \item \textbf{Control total sobre el diseño:} permite ajustar cada hiperparámetro, incluyendo el número de filtros, dropout y regularización, en función de los resultados obtenidos durante el proceso experimental.
+
+\end{itemize}
+
+
+% ============================================================
+% RESNET50
+% ============================================================
+
+\subsubsection{ResNet50}
+
+ResNet50 (Residual Network de 50 capas) es una arquitectura de red neuronal convolucional profunda que introduce conexiones residuales para abordar el problema de degradación en redes de gran profundidad, permitiendo que la información fluya directamente a través de la red mediante conexiones de atajo \cite{ref03}.
+
+Sus características principales son:
+
+\begin{itemize}
+
+    \item \textbf{Conexiones residuales:} facilitan la convergencia del modelo y permiten entrenar redes más profundas reduciendo los problemas asociados a la degradación del gradiente.
+
+    \item \textbf{Transferencia de aprendizaje:} dispone de pesos preentrenados en ImageNet, que pueden aprovecharse para extraer características visuales generales sin necesidad de entrenar la arquitectura completamente desde cero.
+
+    \item \textbf{Rendimiento comprobado:} es una arquitectura ampliamente utilizada y validada en tareas de clasificación y extracción de características de imágenes.
+
+    \item \textbf{Mayor costo computacional:} produce 2048 características por fotograma y cuenta con aproximadamente 23 millones de parámetros, representando una de las alternativas de mayor costo computacional evaluadas.
+
+\end{itemize}
+
+
+% ============================================================
+% MOBILENETV2
+% ============================================================
+
+\subsubsection{MobileNetV2}
+
+MobileNetV2 es una arquitectura de red neuronal convolucional diseñada para ofrecer un buen equilibrio entre rendimiento y eficiencia computacional. Utiliza convoluciones separables en profundidad y bloques residuales invertidos para reducir la cantidad de operaciones y parámetros necesarios durante el procesamiento.
+
+Sus características principales son:
+
+\begin{itemize}
+
+    \item \textbf{Eficiencia computacional:} requiere una menor cantidad de operaciones y parámetros en comparación con arquitecturas convolucionales más profundas.
+
+    \item \textbf{Transferencia de aprendizaje:} dispone de pesos preentrenados en ImageNet, permitiendo utilizar características visuales previamente aprendidas.
+
+    \item \textbf{Menor requerimiento de memoria:} su diseño permite realizar la extracción de características con un consumo reducido de recursos computacionales.
+
+    \item \textbf{Adecuada para recursos limitados:} representa una alternativa eficiente para el procesamiento de videos y la extracción de características en equipos con recursos computacionales moderados.
+
+\end{itemize}
+
+
+% ============================================================
+% VISION TRANSFORMER
+% ============================================================
+
+\subsubsection{Vision Transformer (ViT)}
+
+Vision Transformer (ViT) aplica la arquitectura Transformer, originalmente desarrollada para tareas de procesamiento de lenguaje natural, al dominio de la visión por computadora. Para ello, divide cada imagen en pequeños parches que son tratados como tokens dentro de una secuencia \cite{ref04}.
+
+Sus características principales son:
+
+\begin{itemize}
+
+    \item \textbf{Mecanismo de atención:} permite capturar relaciones globales entre distintas regiones del fotograma de forma directa, a diferencia de las operaciones convolucionales tradicionales.
+
+    \item \textbf{Paradigma alternativo:} representa una familia de arquitecturas diferente a las redes convolucionales, permitiendo evaluar si el mecanismo de atención global resulta adecuado para la identificación de patrones de motricidad.
+
+    \item \textbf{Mayor necesidad de datos:} su entrenamiento completo requiere grandes volúmenes de datos, por lo que en este trabajo se emplea mediante transferencia de aprendizaje utilizando pesos preentrenados.
+
+    \item \textbf{Costo computacional considerable:} presenta un requerimiento computacional significativo durante la extracción de características, comparable al de arquitecturas convolucionales profundas como ResNet50.
+
+\end{itemize}
+
+
+% ============================================================
+% CRITERIOS DE EVALUACIÓN
+% ============================================================
+
+\subsubsection{Criterios de evaluación}
+
+Con el fin de comparar las cuatro arquitecturas de forma sistemática, se establecieron los siguientes criterios:
+
+\begin{itemize}
+
+    \item \textbf{Precisión:} capacidad para distinguir correctamente las clases de conducta motora consideradas en el conjunto de datos.
+
+    \item \textbf{Eficiencia computacional:} relación entre el rendimiento obtenido y los recursos de cómputo requeridos, particularmente relevante debido al tamaño reducido del conjunto de datos, compuesto por 57 videos.
+
+    \item \textbf{Velocidad de extracción de características:} tiempo necesario para procesar cada video durante la etapa de extracción de características.
+
+    \item \textbf{Capacidad de generalización:} desempeño del modelo sobre datos no utilizados durante el entrenamiento, considerando el tamaño limitado del conjunto de datos.
+
+    \item \textbf{Transferencia de aprendizaje:} disponibilidad y aprovechamiento de pesos preentrenados para la extracción de características visuales.
+
+\end{itemize}
+
+
+% ============================================================
+% TABLA COMPARATIVA
+% ============================================================
+
+
+
+\begin{table}[H]
+    \centering
+    \caption{Comparativa de stacks de frontend y backend}
+    \label{tab:comparativa-stacks}
+    \renewcommand{\arraystretch}{1.4}
+
+    
+    \begin{tabular}{|p{3.5cm}|p{2.0cm}|p{2.0cm}|p{2.0cm}|p{2.0cm}|}
+        \hline
+
+        \textbf{Criterio} &
+        \textbf{Next.js + FastAPI} &
+        \textbf{Next.js + Django (DRF)} &
+        \textbf{React + NextJS} &
+        \textbf{Django (full-stack)} \\
+
+        \hline
+
+        Integración con el modelo de IA
+        & 3
+        & 3
+        & 1
+        & 3 \\
+
+        \hline
+
+        Rendimiento con contenido multimedia
+        & 3
+        & 2
+        & 3
+        & 2 \\
+
+        \hline
+
+        Tipado y mantenibilidad
+        & 3
+        & 2
+        & 3
+        & 1 \\
+
+        \hline
+
+        Curva de aprendizaje
+        & 2
+        & 1
+        & 1
+        & 2 \\
+
+        \hline
+
+        Documentación y ecosistema
+        & 3
+        & 3
+        & 2
+        & 3 \\
+
+        \hline
+
+        \textbf{Total}
+        & \textbf{14}
+        & \textbf{11}
+        & \textbf{10}
+        & \textbf{11} \\
+
+        \hline
+
+    \end{tabular}
+\end{table}
+
+De acuerdo con los resultados obtenidos, la combinación de Next.js con FastAPI resultó la de mejor puntaje total. El criterio determinante fue la integración con el modelo de inteligencia artificial: al estar desarrollado íntegramente en Python, FastAPI permite importarlo y ejecutarlo de forma directa dentro de la misma API, sin necesidad de desplegarlo como un servicio separado ni de recurrir a bindings de aprendizaje automático para otros lenguajes, como ocurriría con React + NestJS (Node.js/TypeScript). Adicionalmente, Next.js aporta tipado estático (TypeScript) que mejora la mantenibilidad del código, junto con un esquema de renderizado híbrido (SSR y CSR) que favorece específicamente los tiempos de carga de archivos multimedia de gran tamaño, como los videos de comportamiento infantil que maneja el sistema. Django, ya sea combinado con Next.js o utilizado como framework full-stack, comparte la ventaja de ser Python, pero agrega una complejidad estructural (ORM, panel de administración, serializadores) que no resulta estrictamente necesaria para un sistema cuya función principal es recibir un video y devolver una clasificación, sin requerir una capa de persistencia de datos compleja.
+
+\section{Tecnologías del Frontend}
+
+A partir del stack seleccionado en la sección anterior, se detallan a continuación
+las tecnologías específicas que componen la capa de frontend de la plataforma web.
+
+\subsection{Next.js}
+
+Next.js es un framework de desarrollo web basado en React, que incorpora
+capacidades de renderizado del lado del servidor (SSR) y del lado del cliente
+(CSR) de forma híbrida. Se seleccionó como base del frontend porque su esquema
+de renderizado híbrido reduce los tiempos de carga percibidos al trabajar con
+archivos multimedia de gran tamaño --como los videos de comportamiento infantil
+que constituyen la entrada principal del sistema--, y porque incluye de forma
+nativa el ruteo de páginas y la optimización de recursos estáticos, sin requerir
+configuración adicional.
+
+\subsection{React}
+
+React es una biblioteca de JavaScript para la construcción de interfaces de
+usuario basada en componentes reutilizables, y constituye la base sobre la cual
+se construye Next.js. Su modelo de componentes resulta adecuado para estructurar
+las distintas vistas de la plataforma (carga de video, seguimiento del
+procesamiento, visualización de resultados) como unidades independientes y
+reutilizables, facilitando el mantenimiento del código a medida que el sistema
+incorpore nuevas funcionalidades.
+
+\subsection{TypeScript}
+
+TypeScript es un superconjunto de JavaScript que incorpora tipado estático
+opcional. Se utiliza en el desarrollo del frontend para detectar errores en
+tiempo de desarrollo --antes de que el código llegue a producción--, lo cual
+resulta particularmente relevante en un sistema que maneja datos sensibles de
+menores, donde un error de manejo de datos no detectado podría tener
+consecuencias mayores que en una aplicación convencional.
+
+\subsection{Tailwind CSS}
+
+Tailwind CSS es un framework de estilos basado en clases de utilidad, que
+permite construir interfaces personalizadas sin necesidad de escribir hojas de
+estilo (CSS) desde cero. Se seleccionó por su integración directa con Next.js y
+por permitir un desarrollo más ágil de una interfaz simple y clara, alineada
+con el objetivo de reducir la carga cognitiva del usuario planteado en el diseño
+de interacción del sistema (sección 7.7.5 del Marco Teórico).
+
+\subsection{Recharts}
+
+Recharts es una biblioteca de visualización de datos para React, construida
+sobre gráficos vectoriales (SVG). Se incorpora al frontend para representar de
+forma visual el nivel de confianza que el modelo asigna a cada una de las clases
+de conducta motora evaluadas (aleteo de manos, balanceo corporal, giros),
+facilitando su interpretación por parte del profesional de la salud que utiliza
+el sistema como apoyo a la evaluación clínica.
+
+\subsection{Axios}
+
+Axios es un cliente HTTP basado en promesas, utilizado para gestionar la
+comunicación entre el frontend y el backend expuesto mediante FastAPI. Se
+seleccionó frente a la API nativa \texttt{fetch} de JavaScript por su manejo
+simplificado de solicitudes con archivos de gran tamaño (como los videos a
+subir) y por su soporte incorporado para el seguimiento del progreso de carga,
+relevante para informar al usuario sobre el estado del procesamiento de su video,
+tal como se plantea en el diseño de la interfaz (sección 7.7.2 del Marco
+Teórico).
+
+
+\section{Tecnologías del Backend}
+
+A partir del stack seleccionado en la sección 3.3, se detallan a continuación
+las tecnologías específicas que componen la capa de backend de la plataforma
+web, encargada de recibir los videos, ejecutar el preprocesamiento y el modelo
+de inteligencia artificial, y devolver los resultados al frontend.
+
+\subsection{FastAPI}
+
+FastAPI es un framework web moderno para Python, orientado a la construcción de
+APIs de alto rendimiento a partir de las anotaciones de tipo (\textit{type
+hints}) nativas del lenguaje. Tal como se justificó en la sección 3.3, se
+seleccionó frente a alternativas como Django o NestJS principalmente por
+permitir importar y ejecutar el modelo CNN-LSTM directamente dentro de la misma
+API, sin \textit{bridges} entre lenguajes, además de generar automáticamente
+documentación interactiva de los \textit{endpoints} (Swagger/OpenAPI), útil para
+la validación y prueba del servicio durante el desarrollo.
+
+\subsection{Uvicorn}
+
+Uvicorn es un servidor ASGI (\textit{Asynchronous Server Gateway Interface})
+liviano y de alto rendimiento, requerido para ejecutar aplicaciones FastAPI.
+Se seleccionó por ser el servidor recomendado oficialmente para este framework,
+y por su soporte nativo de manejo asíncrono de solicitudes, lo cual permite que
+el servidor continúe atendiendo otras solicitudes mientras se ejecuta la
+inferencia del modelo sobre un video, evitando que el sistema quede bloqueado
+durante ese proceso.
+
+\subsection{Pydantic}
+
+Pydantic es una biblioteca de validación de datos basada en las anotaciones de
+tipo de Python, integrada de forma nativa en FastAPI. Se utiliza para validar
+la estructura de las solicitudes entrantes y para definir de forma explícita el
+esquema de la respuesta del servicio (por ejemplo, la conducta identificada
+junto con el nivel de confianza asociado a cada clase), reduciendo el riesgo de
+errores de formato al comunicar el backend con el frontend.
+
+\subsection{python-multipart}
+
+\texttt{python-multipart} es la biblioteca requerida por FastAPI para procesar
+datos de tipo \texttt{multipart/form-data}, formato necesario para la recepción
+de archivos a través de una API REST. Se incorpora específicamente para
+habilitar la funcionalidad de carga de videos desde el frontend hacia el
+backend.
+
+\subsection{TensorFlow / Keras (motor de inferencia)}
+
+Tal como se detalla en la sección 3.2, TensorFlow y Keras constituyen el
+framework principal utilizado para el desarrollo de los modelos de este trabajo.
+En el contexto del backend, específicamente, el modelo CNN-LSTM ya entrenado se
+carga una única vez al iniciar el servicio (mediante la función
+\texttt{load\_model} de Keras) y se mantiene en memoria para ejecutar la
+inferencia sobre cada video recibido, evitando el costo de recargar el modelo
+en cada solicitud.
+
+\subsection{OpenCV (preprocesamiento en el backend)}
+
+OpenCV, ya utilizado en la etapa de entrenamiento para la extracción de
+fotogramas (sección 3.2), se reutiliza dentro del backend para aplicar
+exactamente el mismo preprocesamiento sobre los videos que suben los usuarios
+del sistema (extracción de fotogramas, recorte con YOLOv8n y normalización con
+CLAHE, detalladas en la sección 3.6). Mantener el mismo pipeline de
+preprocesamiento entre el entrenamiento y la inferencia resulta indispensable
+para que el modelo reciba datos con las mismas características con las que fue
+entrenado.
+
+\subsection{python-jose}
+
+\texttt{python-jose} es una biblioteca para la generación y validación de
+JSON Web Tokens (JWT). Se incorpora al backend para implementar los mecanismos
+de autenticación y autorización que restringen el acceso al sistema únicamente
+a usuarios autorizados --profesionales de la salud e investigadores--, tal como
+se establece en la sección 7.7.4 del Marco Teórico sobre gestión de seguridad y
+privacidad de datos, dado que el sistema procesa videos de menores de edad.
+
+
+\section{Servicios en la Nube}
+
+\subsection{Google Drive}
+
+Google Drive es un servicio de almacenamiento en la nube que permite guardar y
+compartir archivos de forma centralizada. Se incorpora al flujo de trabajo del
+proyecto para almacenar el conjunto de datos (videos originales, fotogramas
+extraídos y modelos entrenados), por dos razones concretas: centralización
+entre los integrantes del equipo e integración directa con Google Colab.
+
+\subsection{Firebase Firestore}
+
+Firebase Firestore es una base de datos NoSQL orientada a documentos, alojada
+en la nube y ofrecida por Google como parte de la plataforma Firebase. Se
+incorpora al sistema para almacenar la información generada en cada análisis:
+el identificador del video procesado, la conducta identificada, el nivel de
+confianza asignado a cada una de las tres clases evaluadas y la fecha del
+análisis.
+
+Esta información resulta necesaria para sostener la etapa de
+\textbf{Validación Externa} planteada en el diseño del sistema, en la cual un
+profesional de la salud revisa los resultados generados por el modelo de forma
+posterior al procesamiento del video, y no únicamente en el momento en que este
+se lleva a cabo. Se seleccionó Firestore, en lugar de una base de datos
+relacional tradicional, por dos motivos: la información a almacenar tiene una
+estructura simple y no requiere relaciones complejas entre tablas, y su
+integración nativa con el ecosistema de Google simplifica la configuración del
+backend mediante el SDK oficial de Firebase para Python.
+
+
+\section{Herramientas de Desarrollo}
+
+Las herramientas de desarrollo comprenden tanto el entorno de cómputo en la
+nube utilizado para el entrenamiento (Google Colaboratory), como las
+herramientas empleadas para la escritura, depuración y control de versiones
+del código del proyecto.
+
+\subsection{Entorno de cómputo: Google Colaboratory}
+
+Google Colaboratory (Colab) es un servicio de Google que permite ejecutar código
+Python en un entorno de tipo Jupyter Notebook alojado en la nube, con acceso
+gratuito a unidades de procesamiento gráfico (GPU) para tareas de cómputo
+intensivo. En su nivel gratuito, Colab asigna típicamente una GPU NVIDIA Tesla
+T4, dotada de 16 GB de memoria VRAM GDDR6 y núcleos Tensor de primera
+generación, orientados a acelerar operaciones de aprendizaje profundo mediante
+precisión mixta (FP16) \cite{05}.
+
+La selección de Colab como entorno de entrenamiento, frente al uso de la GPU
+local (RTX 4070, no aprovechable de forma nativa en Windows) o del procesador
+local (Ryzen 7 7800, sin aceleración por GPU), se fundamentó en un análisis
+comparativo considerando los siguientes criterios:
+
+\begin{itemize}
+    \item \textbf{Rendimiento computacional}: capacidad para acelerar el
+    entrenamiento y la extracción de características mediante las arquitecturas
+    preentrenadas.
+
+    \item \textbf{Memoria disponible}: cantidad de VRAM necesaria para procesar
+    secuencias de video de forma eficiente.
+
+    \item \textbf{Soporte para frameworks}: compatibilidad nativa con
+    TensorFlow y Keras sin requerir configuración adicional.
+
+    \item \textbf{Disponibilidad}: continuidad de acceso al recurso de cómputo
+    a lo largo de las distintas etapas del proyecto.
+
+    \item \textbf{Costo}: gastos asociados al uso del recurso de cómputo.
+
+    \item \textbf{Facilidad de configuración}: tiempo y complejidad necesarios
+    para dejar el entorno operativo.
+\end{itemize}
+
+Para reflejar el desempeño relativo de cada opción, se empleó una escala del
+1 al 3, donde 3 indica el mejor desempeño y 1 el más limitado:
