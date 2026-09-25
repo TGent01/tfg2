@@ -538,4 +538,18 @@ Para reflejar el desempeño relativo de cada opción, se empleó una escala del
 
 De acuerdo con los resultados obtenidos, Google Colab resultó la opción con mejor puntaje total, al combinar un rendimiento computacional equivalente al de una GPU local con una configuración inmediata, sin costo y sin requerir instalación alguna en el equipo de trabajo. La GPU local mediante WSL2 queda contemplada como una posible mejora a futuro si las limitaciones de sesión y cuota dinámica de Colab llegaran a interferir con el desarrollo del proyecto.
 
+\subsection{Entorno de desarrollo integrado: Visual Studio Code}
 
+Visual Studio Code (VS Code) es un editor de código fuente liviano y extensible, desarrollado por Microsoft. Se utiliza para el desarrollo local de los distintos scripts de Python que conforman el proyecto: extracción de fotogramas, construcción del conjunto de datos, definición de las arquitecturas de los modelos y scripts de entrenamiento, aprovechando extensiones específicas para Python (resaltado de sintaxis, autocompletado, depuración integrada) que facilitan la iteración rápida sobre el código antes de ejecutar las etapas de mayor costo computacional en Google Colab.
+
+\subsection{Git y GitHub}
+
+Git es un sistema de control de versiones distribuido, y GitHub es la plataforma utilizada para alojar el repositorio del proyecto de forma remota. Se incorporan al flujo de trabajo para que los integrantes del equipo puedan colaborar sobre el mismo código de forma organizada, llevar un registro de los cambios realizados a lo largo del proceso iterativo de ajuste de las arquitecturas (por ejemplo, las sucesivas modificaciones a la arquitectura CNN-LSTM documentadas en este trabajo), y recuperar versiones anteriores del código en caso de que un cambio introduzca un error.
+
+\section{Librerías Especializadas}
+
+A continuación se detallan las bibliotecas de Python que cumplen funciones específicas dentro del pipeline de procesamiento de video y evaluación de los modelos, complementando a TensorFlow/Keras (sección 3.2) como herramientas de propósito más acotado.
+
+\subsection{YOLOv8n (Ultralytics)}
+
+YOLOv8n es la versión ``nano'' ---la más liviana--- de la familia de modelos YOLOv8 (You Only Look Once) para detección de objetos en tiempo real, distribuida a través de la biblioteca Ultralytics [06]. Se incorpora al pipeline de preprocesamiento para detectar y recortar al sujeto dentro de cada fotograma, antes de que este sea procesado por las arquitecturas de extracción de características.
