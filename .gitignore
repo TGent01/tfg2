@@ -1,0 +1,27 @@
+# Archivos generados por LaTeX (se recrean al compilar)
+*.aux
+*.log
+*.toc
+*.lof
+*.lot
+*.out
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.acn
+*.acr
+*.alg
+*.glo
+*.gls
+*.glg
+*.glsdefs
+*.idx
+*.ind
+*.ilg
+*.ist
+
+# Carpeta de compilación: solo se conserva el PDF final
+build/*
+!build/tfg.pdf

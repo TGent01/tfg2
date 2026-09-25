@@ -153,28 +153,6 @@ Sus características principales son:
 % MOBILENETV2
 % ============================================================
 
-\subsubsection{MobileNetV2}
-
-MobileNetV2 es una arquitectura de red neuronal convolucional diseñada para ofrecer un buen equilibrio entre rendimiento y eficiencia computacional. Utiliza convoluciones separables en profundidad y bloques residuales invertidos para reducir la cantidad de operaciones y parámetros necesarios durante el procesamiento.
-
-Sus características principales son:
-
-\begin{itemize}
-
-    \item \textbf{Eficiencia computacional:} requiere una menor cantidad de operaciones y parámetros en comparación con arquitecturas convolucionales más profundas.
-
-    \item \textbf{Transferencia de aprendizaje:} dispone de pesos preentrenados en ImageNet, permitiendo utilizar características visuales previamente aprendidas.
-
-    \item \textbf{Menor requerimiento de memoria:} su diseño permite realizar la extracción de características con un consumo reducido de recursos computacionales.
-
-    \item \textbf{Adecuada para recursos limitados:} representa una alternativa eficiente para el procesamiento de videos y la extracción de características en equipos con recursos computacionales moderados.
-
-\end{itemize}
-
-
-% ============================================================
-% VISION TRANSFORMER
-% ============================================================
 
 \subsubsection{Vision Transformer (ViT)}
 
@@ -294,6 +272,37 @@ Con el fin de comparar las cuatro arquitecturas de forma sistemática, se estable
 \end{table}
 
 De acuerdo con los resultados obtenidos, la combinación de Next.js con FastAPI resultó la de mejor puntaje total. El criterio determinante fue la integración con el modelo de inteligencia artificial: al estar desarrollado íntegramente en Python, FastAPI permite importarlo y ejecutarlo de forma directa dentro de la misma API, sin necesidad de desplegarlo como un servicio separado ni de recurrir a bindings de aprendizaje automático para otros lenguajes, como ocurriría con React + NestJS (Node.js/TypeScript). Adicionalmente, Next.js aporta tipado estático (TypeScript) que mejora la mantenibilidad del código, junto con un esquema de renderizado híbrido (SSR y CSR) que favorece específicamente los tiempos de carga de archivos multimedia de gran tamaño, como los videos de comportamiento infantil que maneja el sistema. Django, ya sea combinado con Next.js o utilizado como framework full-stack, comparte la ventaja de ser Python, pero agrega una complejidad estructural (ORM, panel de administración, serializadores) que no resulta estrictamente necesaria para un sistema cuya función principal es recibir un video y devolver una clasificación, sin requerir una capa de persistencia de datos compleja.
+
+
+\section{Comparativa de herramientas seleccionadas}
+Para la construcción de la plataforma web planteada en el diseño del sistema (encargada de la carga de videos, la comunicación con el motor de inferencia y la visualización de resultados), se compararon distintas combinaciones de tecnologías de frontend y backend, consideradas como stacks completos.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Comparativa de stacks de frontend y backend}
+    \label{tab:comparativa-stacks}
+    \begin{tabular}{|p{4cm}|p{2.3cm}|p{2.3cm}|p{2.3cm}|p{2.3cm}|}
+        \hline
+        \textbf{Criterio} & \textbf{Next.js + FastAPI} & \textbf{Next.js + Django (DRF)} & \textbf{React + NestJS} & \textbf{Django (full-stack)} \\
+        \hline
+        Integración con el modelo de IA & 3 & 3 & 1 & 3 \\
+        \hline
+        Rendimiento con contenido multimedia & 3 & 2 & 3 & 2 \\
+        \hline
+        Tipado y mantenibilidad & 3 & 2 & 3 & 1 \\
+        \hline
+        Curva de aprendizaje & 2 & 1 & 1 & 2 \\
+        \hline
+        Documentación y ecosistema & 3 & 3 & 2 & 3 \\
+        \hline
+        \textbf{Total} & \textbf{14} & \textbf{11} & \textbf{10} & \textbf{11} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+De acuerdo con los resultados obtenidos, la combinación de Next.js con FastAPI resultó la de mejor puntaje total. El criterio determinante fue la integración con el modelo de inteligencia artificial: al estar desarrollado íntegramente en Python, FastAPI permite importarlo y ejecutarlo de forma directa dentro de la misma API, sin necesidad de desplegarlo como un servicio separado ni de recurrir a bindings de aprendizaje automático para otros lenguajes, como ocurriría con React + NestJS (Node.js/TypeScript). Adicionalmente, Next.js aporta tipado estático (TypeScript) que mejora la mantenibilidad del código, junto con un esquema de renderizado híbrido (SSR y CSR) que favorece específicamente los tiempos de carga de archivos multimedia de gran tamaño, como los videos de comportamiento infantil que maneja el sistema. 
+
+Django, ya sea combinado con Next.js o utilizado como framework full-stack, comparte la ventaja de ser Python, pero agrega una complejidad estructural (ORM, panel de administración, serializadores) que no resulta estrictamente necesaria para un sistema cuya función principal es recibir un video y devolver una clasificación, sin requerir una capa de persistencia de datos compleja.
 
 \section{Tecnologías del Frontend}
 
