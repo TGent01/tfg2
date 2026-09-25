@@ -1,19 +1,28 @@
+
 \fancyhead{}
+
 \fancyfoot{}
-\lhead{Introducción}
+
 \cfoot{\thepage}
 
+\lhead{Introducción}
+
+
 \chapter{Introducción}
-El trastorno del espectro autista (TEA) es una condición del neurodesarrollo que puede manifestarse desde las primeras etapas de la vida y presentar características que varían entre cada individuo. Entre sus posibles manifestaciones se encuentran determinados patrones de motricidad y movimientos repetitivos, los cuales pueden ser observados durante diferentes actividades y situaciones.
+
+
+El trastorno del espectro autista (TEA) es una condición del neurodesarrollo que puede manifestarse desde las primeras etapas de la vida y presentar características que varían entre cada individuo. Entre sus posibles manifestaciones se encuentran determinados patrones de motricidad y movimientos repetitivos, los cuales pueden ser observados durante diferentes actividades y situaciones \cite{mspbs2023}.
 
 La identificación de estas manifestaciones forma parte de los procesos de evaluación del TEA y requiere la participación de profesionales especializados. La detección oportuna puede facilitar el acceso temprano a evaluaciones, orientaciones y apoyos adecuados, aspectos que pueden favorecer el desarrollo y bienestar del niño. En este sentido, el uso de herramientas que contribuyan al reconocimiento de patrones observables puede representar un apoyo dentro de estos procesos.
 
 En este contexto, el presente Trabajo Final de Grado propone el desarrollo de un sistema web orientado a la identificación de patrones de motricidad relacionados con el TEA mediante el análisis de secuencias de video. El sistema considera tres patrones de interés: el aleteo de manos, el balanceo corporal y los movimientos repetitivos de cabeza. Para ello, se plantea el empleo de una arquitectura CNN-LSTM, capaz de extraer características de los fotogramas y considerar su evolución a lo largo de una secuencia.
 
-La propuesta se plantea como una herramienta de apoyo a los procesos de evaluación, sin sustituir la valoración de profesionales especializados ni emitir un diagnóstico clínico definitivo. A través de este desarrollo se busca explorar el potencial de las técnicas de aprendizaje profundo para contribuir a la identificación de manifestaciones observables asociadas al TEA y favorecer el acceso oportuno a procesos de evaluación y apoyo.  
+La propuesta se plantea como una herramienta de apoyo a los procesos de evaluación, sin sustituir la valoración de profesionales especializados ni emitir un diagnóstico clínico definitivo. A través de este desarrollo se busca explorar el potencial de las técnicas de aprendizaje profundo para contribuir a la identificación de manifestaciones observables asociadas al TEA y favorecer el acceso oportuno a procesos de evaluación y apoyo.
 
 
 \section{Motivación}
+
+
 La motivación que condujo a seleccionar el tema y emprender la investigación surge de la importancia de la detección temprana del Trastorno del Espectro Autista (TEA) y de la necesidad de contar con herramientas que puedan apoyar este proceso. El TEA puede manifestarse desde edades tempranas mediante diferentes características conductuales y patrones de motricidad, entre los que se encuentran movimientos repetitivos como el aleteo de manos, el balanceo corporal y los movimientos repetitivos de cabeza.
 
 La identificación de estas manifestaciones puede aportar información relevante durante los procesos de evaluación del desarrollo infantil. Sin embargo, su reconocimiento requiere observación y valoración por parte de profesionales especializados. En este sentido, surge el interés por desarrollar una herramienta que permita identificar determinados patrones de motricidad a partir de secuencias de video, como apoyo a la evaluación.
@@ -24,31 +33,39 @@ Desde una perspectiva social, la propuesta se encuentra motivada por la posibili
 
 Finalmente, el desarrollo de un sistema web para identificar patrones de motricidad relacionados con el TEA mediante una arquitectura CNN-LSTM representa una oportunidad para aplicar la tecnología en beneficio de los procesos de evaluación, proporcionando una herramienta de apoyo que no pretende sustituir la valoración profesional ni emitir un diagnóstico clínico definitivo.
 
+
 \section{Definición del problema}
-El Trastorno del Espectro Autista (TEA) es una condición del neurodesarrollo caracterizada por dificultades en la comunicación social, la interacción social y la presencia de patrones de comportamiento restringidos o repetitivos. Estas manifestaciones pueden observarse desde los primeros años de vida y suelen evidenciarse a través de señales conductuales como escaso contacto visual, dificultades en la comunicación, ausencia de respuesta al nombre, movimientos repetitivos, intereses restringidos o conductas estereotipadas. La identificación temprana de estas características es fundamental, ya que permite iniciar intervenciones oportunas que favorecen el desarrollo cognitivo, social y comunicativo de los niños [1].
 
-En Paraguay, el Trastorno del Espectro Autista representa un desafío creciente para el sistema de salud y para las familias. De acuerdo con información difundida por el Instituto de Previsión Social, se estima que entre 45.000 y 133.000 personas podrían encontrarse dentro del espectro autista en el país,lo que evidencia la necesidad de fortalecer las estrategias de detección y atención temprana [2].
 
-Muchos padres o cuidadores acuden a consulta cuando observan señales conductuales en sus hijos, tales como juego solitario, dificultades en la interacción social, rigidez en el comportamiento, caminar en puntillas,aleteo de manos o movimientos repetitivos. Estas señales pueden manifestarse
-desde edades tempranas y constituyen indicadores relevantes para la evaluación del desarrollo infantil.
+El Trastorno del Espectro Autista (TEA) es una condición del neurodesarrollo caracterizada por dificultades en la comunicación social, la interacción social y la presencia de patrones de comportamiento restringidos o repetitivos. Estas manifestaciones pueden observarse desde los primeros años de vida y suelen evidenciarse a través de señales conductuales como escaso contacto visual, dificultades en la comunicación, ausencia de respuesta al nombre, movimientos repetitivos, intereses restringidos o conductas estereotipadas. La identificación temprana de estas características es fundamental, ya que permite iniciar intervenciones oportunas que favorecen el desarrollo cognitivo, social y comunicativo de los niños \cite{oms2024}.
 
-A pesar de los avances en protocolos de atención y en la concienciación sobre el autismo, diversos estudios señalan que el TEA ha sido históricamente subdiagnosticado, y que en muchos casos el diagnóstico formal se realiza varios años después de la aparición de los primeros signos. En América Latina,los síntomas suelen identificarse alrededor de los 18 meses de edad; sin embargo, el diagnóstico definitivo puede confirmarse aproximadamente a los cuatro años, lo que retrasa el inicio de intervenciones especializadas [3].
+En Paraguay, el Trastorno del Espectro Autista representa un desafío creciente para el sistema de salud y para las familias. De acuerdo con información difundida por el Instituto de Previsión Social, se estima que entre 45.000 y 133.000 personas podrían encontrarse dentro del espectro autista en el país, lo que evidencia la necesidad de fortalecer las estrategias de detección y atención temprana \cite{ips2024}.
 
-En Paraguay, el protocolo nacional para la atención del Trastorno del Espectro Autista recomienda la vigilancia del desarrollo infantil mediante evaluaciones periódicas y la identificación de signos de alerta en edades tempranas, con el
-fin de facilitar la derivación oportuna a servicios especializados [1]. No obstante, en la práctica pueden existir dificultades para sistematizar la observación de conductas, registrar adecuadamente los patrones de motricidad y apoyar el proceso de evaluación clínica con herramientas tecnológicas que permitan analizar de manera más objetiva las manifestaciones conductuales.
+Muchos padres o cuidadores acuden a consulta cuando observan señales conductuales en sus hijos, tales como juego solitario, dificultades en la interacción social, rigidez en el comportamiento, caminar en puntillas, aleteo de manos o movimientos repetitivos. Estas señales pueden manifestarse desde edades tempranas y constituyen indicadores relevantes para la evaluación del desarrollo infantil \cite{mspbs2023}.
+
+A pesar de los avances en protocolos de atención y en la concienciación sobre el autismo, diversos estudios señalan que el TEA ha sido históricamente subdiagnosticado, y que en muchos casos el diagnóstico formal se realiza varios años después de la aparición de los primeros signos. En América Latina, los síntomas suelen identificarse alrededor de los 18 meses de edad; sin embargo, el diagnóstico definitivo puede confirmarse aproximadamente a los cuatro años, lo que retrasa el inicio de intervenciones especializadas.
+
+En Paraguay, el protocolo nacional para la atención del Trastorno del Espectro Autista recomienda la vigilancia del desarrollo infantil mediante evaluaciones periódicas y la identificación de signos de alerta en edades tempranas, con el fin de facilitar la derivación oportuna a servicios especializado. No obstante, en la práctica pueden existir dificultades para sistematizar la observación de conductas, registrar adecuadamente los patrones de motricidad y apoyar el proceso de evaluación clínica con herramientas tecnológicas que permitan analizar de manera más objetiva las manifestaciones conductuales.
 
 En este contexto, surge la necesidad de explorar herramientas basadas en aprendizaje automático que permitan reconocer patrones de motricidad asociados al Trastorno del Espectro Autista, con el propósito de brindar apoyo al proceso de evaluación temprana realizado por profesionales de la salud. Estas herramientas no pretenden reemplazar el diagnóstico clínico, sino contribuir a la identificación temprana de señales conductuales relevantes que puedan facilitar la toma de decisiones en el ámbito clínico y educativo.
 
-Por tanto, se define como problema de investigación del TFG propuesto la necesidad de desarrollar un sistema web para identificar patrones de motricidad relacionados con TEA, mediante el empleo de una arquitecturaCNN-LSTM.
+Por tanto, se define como problema de investigación del TFG propuesto la necesidad de desarrollar un sistema web para identificar patrones de motricidad relacionados con TEA, mediante el empleo de una arquitectura CNN-LSTM.
+
 
 \section{Objetivos}
+
+
 \subsection{Objetivo General}
+
 
 Desarrollar un sistema web de apoyo al diagnóstico del TEA mediante el empleo de una arquitectura CNN-LSTM capaz de identificar patrones de motricidad a partir del análisis de secuencias de video.
 
+
 \subsection{Objetivos Específicos}
 
+
 \begin{enumerate}
+
 \item Adquirir conocimiento sobre la tecnología CNN-LSTM aplicada a la identificación de patrones de motricidad asociados al TEA, mediante el estudio de redes neuronales convolucionales y redes de memoria a largo y corto plazo.
 
 \item Recolectar datos de motricidad asociados al TEA mediante la selección y organización de secuencias de video que presenten patrones de aleteo de manos, balanceo corporal y movimientos repetitivos de cabeza.
@@ -67,10 +84,15 @@ Desarrollar un sistema web de apoyo al diagnóstico del TEA mediante el empleo de
 
 \end{enumerate}
 
+
 \section{Hipótesis}
-El algoritmo propuesto, que implementa arquitectura CNN-LSTM, para
-detectar tempranamente trastorno del espectro autista, basado en patrones de motricidad identificados en secuencias de video, tendría eficiencia en la detección, al menos igual a 85\%, según referente humano experto.
+
+
+El algoritmo propuesto, que implementa arquitectura CNN-LSTM, para detectar tempranamente trastorno del espectro autista, basado en patrones de motricidad identificados en secuencias de video, tendría eficiencia en la detección, al menos igual a 85\%, según referente humano experto.
+
+
 \section{Justificación}
+
 
 En el contexto actual de la atención relacionada con el Trastorno del Espectro Autista (TEA), donde la identificación oportuna de sus manifestaciones puede favorecer el acceso temprano a evaluación y apoyo especializado, el desarrollo de herramientas tecnológicas representa una oportunidad para contribuir a los procesos de detección. El TEA puede presentar diversas manifestaciones conductuales y patrones de motricidad que pueden ser observados desde edades tempranas, entre ellos el aleteo de manos, el balanceo corporal y los movimientos repetitivos de cabeza.
 
@@ -79,9 +101,9 @@ Este trabajo se justifica por la necesidad de explorar alternativas que permitan
 La propuesta busca contribuir en los siguientes aspectos:
 
 \begin{itemize}
+
 \item Facilitar la identificación de determinados patrones de motricidad relacionados con el TEA a partir de secuencias de video.
 
-```
 \item Proporcionar una herramienta de apoyo que contribuya al proceso de evaluación de manifestaciones observables asociadas al TEA.
 
 \item Favorecer una identificación más oportuna de señales que puedan motivar una evaluación especializada.
@@ -89,9 +111,9 @@ La propuesta busca contribuir en los siguientes aspectos:
 \item Contribuir al desarrollo de herramientas tecnológicas aplicadas al análisis de manifestaciones relacionadas con el desarrollo infantil.
 
 \item Generar una base para futuras investigaciones sobre el reconocimiento automatizado de patrones de motricidad asociados al TEA mediante inteligencia artificial.
-```
 
 \end{itemize}
+
 
 Desde una perspectiva académica y tecnológica, el desarrollo del sistema permite aplicar técnicas de aprendizaje profundo para el análisis de secuencias de video, integrando una arquitectura CNN-LSTM en una plataforma web. Esto posibilita abordar una problemática relacionada con el área de la salud mediante conocimientos propios de la Ingeniería de Sistemas y explorar la aplicación de inteligencia artificial en el reconocimiento de patrones de motricidad.
 
@@ -101,6 +123,7 @@ En síntesis, este trabajo busca integrar conocimientos académicos y tecnológicos
 
 
 \section{Delimitación del alcance del trabajo}
+
 
 La investigación se centra en el desarrollo de un prototipo de sistema web orientado a la identificación de patrones de motricidad relacionados con el Trastorno del Espectro Autista (TEA), mediante el análisis de secuencias de video y el empleo de una arquitectura CNN-LSTM. El trabajo contempla la identificación de tres patrones de motricidad visualmente observables: aleteo de manos, balanceo corporal y movimientos repetitivos de cabeza.
 
@@ -123,16 +146,20 @@ La validación se limitará a la evaluación del desempeño técnico del modelo media
 En síntesis, la investigación establece como límite el desarrollo y evaluación de un prototipo web capaz de identificar determinados patrones de motricidad asociados al TEA a partir de secuencias de video, constituyendo una herramienta de apoyo que podrá servir como base para futuras investigaciones y desarrollos orientados a la detección temprana de manifestaciones relacionadas con el trastorno.
 
 
-\section{Descripción de los contenidos por capítulo} 
-
+\section{Descripción de los contenidos por capítulo}
 
 
 \textbf{El Capítulo 2:} Conceptos fundamentales, teorías y antecedentes desarrolla el marco teórico y conceptual de la investigación, presentando los principales conceptos relacionados con el Trastorno del Espectro Autista (TEA), sus características y los patrones de motricidad asociados. Asimismo, se abordan los fundamentos de la Inteligencia Artificial, el aprendizaje automático y el aprendizaje profundo, junto con los conceptos de visión artificial y procesamiento de imágenes y secuencias de video. También se presentan las redes neuronales convolucionales (CNN), las redes neuronales recurrentes (RNN), las redes LSTM y la arquitectura híbrida CNN-LSTM utilizada para el reconocimiento de patrones de motricidad. Finalmente, se incluyen antecedentes de investigaciones relacionadas con el uso de inteligencia artificial y análisis de video en el estudio del TEA.
 
+
 \textbf{El Capítulo 3:} Tecnologías utilizadas presenta las herramientas y componentes empleados para el desarrollo del sistema. Se describen los recursos de hardware utilizados durante el desarrollo y entrenamiento del modelo, así como las tecnologías de software empleadas. También se detallan las herramientas utilizadas para el procesamiento de videos e imágenes, el desarrollo del modelo CNN-LSTM y la implementación de la plataforma web. Se incluyen las tecnologías utilizadas para el frontend, backend, servicios REST y las bibliotecas necesarias para la integración del modelo de inteligencia artificial.
+
 
 \textbf{El Capítulo 4:} Método describe el proceso metodológico empleado para el desarrollo de la investigación. Se presenta el enfoque y alcance del estudio, así como el diseño utilizado para el desarrollo de la solución propuesta. Se detalla el proceso de selección, organización y etiquetado de los videos, el preprocesamiento mediante extracción de fotogramas y normalización de imágenes, el diseño y desarrollo de la arquitectura CNN-LSTM, el entrenamiento y evaluación del modelo, y finalmente su integración en la plataforma web.
 
+
 \textbf{El Capítulo 5:} Resultados presenta los resultados obtenidos durante el desarrollo y evaluación del sistema. Se incluyen los resultados del procesamiento y entrenamiento del modelo CNN-LSTM, así como las métricas utilizadas para evaluar su desempeño. También se presentan los resultados de las pruebas de funcionamiento del sistema, incluyendo la clasificación de los patrones de motricidad definidos: aleteo de manos, balanceo corporal y movimientos repetitivos de cabeza. Además, se muestran los resultados de la integración del modelo en la plataforma web y las pruebas relacionadas con su funcionamiento y rendimiento.
 
+
 \textbf{El Capítulo 6:} Discusión analiza e interpreta los resultados obtenidos durante la investigación, relacionándolos con los objetivos planteados y los antecedentes estudiados. Se analizan los resultados obtenidos por el modelo CNN-LSTM y su capacidad para reconocer los patrones de motricidad considerados. También se abordan las limitaciones encontradas durante el desarrollo, los principales aportes de la investigación y las posibles mejoras y líneas de trabajo futuro relacionadas con el uso de inteligencia artificial y análisis de video como herramienta de apoyo para la evaluación de patrones de motricidad asociados al TEA.
+
