@@ -6,16 +6,30 @@
 \lhead{Método}
 
 \chapter{Método}
-El trabajo propuesto se enmarca como en la investigación aplicada a desarrollo tecnológico, con enfoque cuantitativo. Posee alcance de prototipación funcional y diseño experimental. Se plantea construir y evaluar un prototipo web para apoyar en el diagnóstico del TEA
 
-El análisis se centraría en tres patrones de motricidad visualmente observables: aleteo de manos, balanceo corporal y movimientos repetitivos de cabeza.
 
-Estos patrones serían consideradas como clases de análisis dentro del modelo, sin que ello implique la emisión de un diagnóstico clínico definitivo.
 \section{Tipo de investigación}
+El trabajo propuesto se enmarca como en la investigación aplicada a desarrollo tecnológico, con enfoque cuantitativo. Posee alcance de prototipación funcional y diseño experimental. Se plantea construir y evaluar un prototipo web para apoyar en el diagnóstico del TEA.
 
 \section{Alcance de la investigación}
+El análisis se centraría en tres patrones de motricidad visualmente observables: aleteo de manos, balanceo corporal y movimientos repetitivos de cabeza.
+Estos patrones serían consideradas como clases de análisis dentro del modelo, sin que ello implique la emisión de un diagnóstico clínico definitivo.
 
 \section{Especificaciones de diseño y arquitectura del sistema}
+El análisis se realizará a partir de videos previamente seleccionados y etiquetados, los cuales servirán como fuente de datos para el entrenamiento y evaluación del modelo. Por tanto, con la propuesta no se buscará establecer un diagnóstico clínico definitivo, sino apoyar la identificación preliminar de patrones de motricidad que puedan orientar una posterior evaluación profesional.
+
+Desde el punto de vista técnico, el diseño contemplará cinco etapas principales: organización del conjunto de videos, preprocesamiento de fotogramas, construcción del modelo CNN-LSTM, evaluación del desempeño e integración del modelo en una plataforma web. En la primera etapa, los videos serán clasificados según la conducta predominante observada. Posteriormente, se extraerán fotogramas, se normalizarán las imágenes y se prepararán las secuencias para su procesamiento computacional.
+
+Se selecciona la arquitectura CNN-LSTM para ser utilizada porque posibilita combinar el análisis espacial y temporal de los videos. Con la red CNN se extraerán características visuales de cada fotograma, como postura, posición de manos, cabeza y cuerpo. Luego, con la red LSTM se procesará la secuencia temporal de esas características para identificar patrones repetitivos a lo largo del video.
+
+El desempeño del modelo será evaluado mediante métricas cuantitativas de clasificación, tales como precisión, recall y F1-score.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{capitulo_04/arquitectura.png}
+    \caption{Arquitectura funcional para el prototipo web de apoyo a la identificación de patrones de motricidad.}
+    \label{fig:arquitectura_funcional}
+\end{figure}
 
 \section{Obtención de datos}
 
