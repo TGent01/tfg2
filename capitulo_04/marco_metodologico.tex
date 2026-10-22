@@ -18,9 +18,9 @@ Estos patrones serían consideradas como clases de análisis dentro del modelo, si
 \section{Especificaciones de diseño y arquitectura del sistema}
 El análisis se realizará a partir de videos previamente seleccionados y etiquetados, los cuales servirán como fuente de datos para el entrenamiento y evaluación del modelo. Por tanto, con la propuesta no se buscará establecer un diagnóstico clínico definitivo, sino apoyar la identificación preliminar de patrones de motricidad que puedan orientar una posterior evaluación profesional.
 
-Desde el punto de vista técnico, el diseño contemplará cinco etapas principales: organización del conjunto de videos, preprocesamiento de fotogramas, construcción del modelo CNN-LSTM, evaluación del desempeño e integración del modelo en una plataforma web. En la primera etapa, los videos serán clasificados según la conducta predominante observada. Posteriormente, se extraerán fotogramas, se normalizarán las imágenes y se prepararán las secuencias para su procesamiento computacional.
+Desde el punto de vista técnico, el diseño contemplará cinco etapas principales: organización del conjunto de videos, preprocesamiento de fotogramas, construcción del modelo híbrido ResNet50-LSTM, evaluación del desempeño e integración del modelo en una plataforma web. En la primera etapa, los videos serán clasificados según la conducta predominante observada. Posteriormente, se extraerán fotogramas, se normalizarán las imágenes y se prepararán las secuencias para su procesamiento computacional.
 
-Se selecciona la arquitectura CNN-LSTM para ser utilizada porque posibilita combinar el análisis espacial y temporal de los videos \cite{donahue2015lrcn}. Con una red convolucional (ResNet50 preentrenada) se extraerán características visuales de cada fotograma, como postura, posición de manos, cabeza y cuerpo. Luego, con la red LSTM se procesará la secuencia temporal de esas características para identificar patrones repetitivos a lo largo del video.
+Se selecciona una arquitectura híbrida convolucional-recurrente porque posibilita combinar el análisis espacial y temporal de los videos \cite{donahue2015lrcn}. Con una red convolucional (ResNet50 preentrenada) se extraerán características visuales de cada fotograma, como postura, posición de manos, cabeza y cuerpo. Luego, con la red LSTM se procesará la secuencia temporal de esas características para identificar patrones repetitivos a lo largo del video. Como referencia de comparación se evalúa, además, una red convolucional propia entrenada desde cero (Sección~\ref{sec:modelos}).
 
 El desempeño del modelo será evaluado mediante métricas cuantitativas de clasificación, tales como precisión, recall y F1-score \cite{sokolova2009measures}.
 
@@ -31,11 +31,11 @@ El desempeño del modelo será evaluado mediante métricas cuantitativas de clasifi
     \label{fig:arquitectura_funcional}
 \end{figure}
 
-La Figura 1 ilustra la arquitectura funcional propuesta para el sistema web de apoyo a la identificación de patrones de motricidad asociados al Trastorno del Espectro Autista. 
+La Figura~\ref{fig:arquitectura_funcional} ilustra la arquitectura funcional propuesta para el sistema web de apoyo a la identificación de patrones de motricidad asociados al Trastorno del Espectro Autista.
 
-El flujo inicia en el cliente o frontend, donde el usuario podrá cargar secuencias de video y visualizar el estado del procesamiento y los resultados generados por el sistema. Posteriormente, las solicitudes serán enviadas al backend mediante servicios REST. Este componente se encargará de recibir los videos, ejecutar el preprocesamiento necesario y enviar los datos preparados al motor de inferencia. 
+El flujo inicia en el cliente o frontend, donde el usuario podrá cargar secuencias de video y visualizar el estado del procesamiento y los resultados generados por el sistema. Posteriormente, las solicitudes serán enviadas al backend mediante servicios REST. Este componente se encargará de recibir los videos, ejecutar el preprocesamiento necesario y enviar los datos preparados al motor de inferencia.
 
-El modelo de inteligencia artificial estará basado en una arquitectura híbrida CNN-LSTM, en la cual una ResNet50 extraerá características espaciales de los fotogramas y la LSTM analizará la secuencia temporal para identificar patrones de motricidad repetitivos. Los resultados técnicos generados por el modelo serán devueltos al sistema web para su visualización. La plataforma podrá presentar la conducta identificada, el nivel de confianza, y en caso de implementarse, los segmentos temporales donde se detecte el patrón conductual. Asimismo, se considerará el almacenamiento seguro de videos y resultados, atendiendo a criterios de confidencialidad y protección de datos. La validación del funcionamiento del sistema será realizada por un profesional vinculado al área del TEA, como un especialista en salud mental, pediatría, neurología infantil, psicología clínica o desarrollo infantil. Esta validación tendrá carácter preliminar y no reemplazará el diagnóstico clínico profesional.
+El modelo de inteligencia artificial estará basado en una arquitectura híbrida, en la cual una ResNet50 extraerá características espaciales de los fotogramas y la LSTM analizará la secuencia temporal para identificar patrones de motricidad repetitivos. Los resultados técnicos generados por el modelo serán devueltos al sistema web para su visualización. La plataforma podrá presentar la conducta identificada, el nivel de confianza, y en caso de implementarse, los segmentos temporales donde se detecte el patrón conductual. Asimismo, se considerará el almacenamiento seguro de videos y resultados, atendiendo a criterios de confidencialidad y protección de datos. La validación del funcionamiento del sistema será realizada por un profesional vinculado al área del TEA, como un especialista en salud mental, pediatría, neurología infantil, psicología clínica o desarrollo infantil. Esta validación tendrá carácter preliminar y no reemplazará el diagnóstico clínico profesional.
 
 \section{Obtención de datos}
 
@@ -46,9 +46,9 @@ El estudio se delimita a la clasificación de segmentos de video en tres conducta
 Quedan fuera del alcance los videos sin conducta anotada, la clasificación de la ausencia de conductas, la detección de otras manifestaciones del TEA (por ejemplo, contacto visual o lenguaje) y la determinación de la edad, el sexo o el diagnóstico de la persona filmada. El modelo no recibe información clínica alguna: únicamente los fotogramas.
 
 \subsection{Selección de videos y fuentes}
-Como fuente de datos se utilizó el conjunto público \textit{Self-Stimulatory Behaviour Dataset} (SSBD) \cite{rajagopalan2013ssbd}, que reúne videos de conductas autoestimulatorias de niños obtenidos de plataformas abiertas, con anotaciones de los intervalos de tiempo en que ocurre cada conducta. Se trabajó con las 75 anotaciones disponibles, distribuidas de forma equilibrada (25 por clase), todas provenientes de YouTube. Al tratarse de material de acceso público y con fines de investigación, no se realizaron grabaciones propias de menores de edad.
+Como fuente de datos se utilizó el conjunto público \textit{Self-Stimulatory Behaviour Dataset} (SSBD) \cite{rajagopalan2013ssbd}, que reúne videos de conductas autoestimulatorias de niños obtenidos de plataformas abiertas, con anotaciones de los intervalos de tiempo en que ocurre cada conducta. Se contó con 75 anotaciones, distribuidas de forma equilibrada (25 por clase), todas provenientes de YouTube. Al tratarse de material de acceso público y con fines de investigación, no se realizaron grabaciones propias de menores de edad.
 
-Las anotaciones se organizaron en un archivo de etiquetas (\texttt{labels\_TEA.csv}) con el identificador del video, la clase y los instantes de inicio y fin de cada ventana. Tras descartar los videos no disponibles, con enlace roto o con la conducta fuera de cuadro, quedaron 57 videos utilizables. De cada uno se extrajeron 40 fotogramas (Sección~\ref{subsec:extraccion}), por lo que el conjunto final contiene $57\times40=2\,280$ fotogramas. La Tabla~\ref{tab:distribucion_videos} detalla la distribución por categoría.
+Las anotaciones se organizaron en un archivo de etiquetas (\texttt{labels\_TEA.csv}) con el identificador del video, la clase y los instantes de inicio y fin de cada ventana. Tras descartar los videos no disponibles, con enlace roto o con la conducta fuera de cuadro, se trabajó inicialmente con \textbf{57 videos}. De cada uno se extrajeron 40 fotogramas (Sección~\ref{subsec:extraccion}), por lo que el conjunto inicial contiene $57\times40=2\,280$ fotogramas. La Tabla~\ref{tab:distribucion_videos} detalla la distribución por categoría. El tamaño reducido de este conjunto inicial es una limitación reconocida del estudio y podrá ampliarse en etapas posteriores.
 
 \begin{table}[htbp]
 \centering
@@ -56,7 +56,7 @@ Las anotaciones se organizaron en un archivo de etiquetas (\texttt{labels\_TEA.c
 \label{tab:distribucion_videos}
 \begin{tabular}{lcccc}
 \toprule
-\textbf{Clase} & \textbf{Anotaciones} & \textbf{Videos utilizables} & \textbf{Fotogramas} & \textbf{Porcentaje} \\
+\textbf{Clase} & \textbf{Anotaciones} & \textbf{Videos utilizados} & \textbf{Fotogramas} & \textbf{Porcentaje} \\
 \midrule
 Aleteo de manos (\textit{ArmFlapping}) & 25 & 20 & 800 & 35,1\,\% \\
 Movimientos de cabeza (\textit{HeadBanging}) & 25 & 18 & 720 & 31,6\,\% \\
@@ -89,9 +89,9 @@ Giros & 11 & 3 & 5 & 19 \\
 \end{table}
 
 Al conjunto de entrenamiento se le añade la versión especular de cada video (Sección~\ref{subsec:secuencias}), con lo que se entrena con 66 secuencias (2\,640 fotogramas, la mitad de ellos reflejados). La validación y la prueba no se aumentan. Dado que 15 videos de prueba producen estimaciones inestables, se complementa este esquema con validación cruzada de 5 pliegues sobre los 57 videos (Sección~\ref{sec:evaluacion}).
-% VERIFICAR: la distribución 20/18/19 y 15/13/14 sale de labels_TEA.csv y dataset_listo; confirmar que coincide con tu última construcción del dataset.
+% VERIFICAR: la distribución 20/18/19 y 12-3-5 / 10-3-5 / 11-3-5 sale de labels_TEA.csv y de un split estratificado con semilla 42; confirmar contra tu última construcción de dataset_listo.
 
-La duración de las ventanas anotadas es heterogénea: la mediana global es de 9 segundos (6 s para aleteo, 9 s para movimientos de cabeza y 13 s para giros), con un mínimo de 3 s y un máximo de 69 s. El tamaño reducido del conjunto es una limitación reconocida del estudio y condiciona el diseño de la evaluación (Sección~\ref{sec:evaluacion}).
+La duración de las ventanas anotadas es heterogénea: la mediana global es de 9 segundos (6 s para aleteo, 9 s para movimientos de cabeza y 13 s para giros), con un mínimo de 3 s y un máximo de 69 s.
 
 \subsection{Extracción de fotogramas por ventana de conducta}
 \label{subsec:extraccion}
@@ -118,7 +118,7 @@ Antes del redimensionado se aplican dos mejoras opcionales, activables desde el 
     \item \textbf{Mejora de contraste (CLAHE).} Se aplica ecualización adaptativa del histograma con límite de contraste \cite{zuiderveld1994clahe} sobre el canal de luminosidad (L) del espacio LAB, con límite de recorte de 2,0 y cuadrícula de $8\times8$. Al trabajar solo sobre la luminosidad se conserva el color original. Su propósito es compensar la iluminación irregular de los videos domésticos.
     \item \textbf{Recorte centrado en el sujeto (YOLOv8n).} Se detecta a la persona con YOLOv8n \cite{redmon2016yolo,jocher_yolov8_2023} (confianza mínima 0,25) y se recorta la región que la contiene, con un margen del 30\,\%, para que ocupe una mayor proporción del cuadro. En el modo fijo se usa la unión de las cajas detectadas a lo largo de la secuencia, de modo que el encuadre no oscile entre fotogramas y no introduzca movimiento artificial; en el modo de seguimiento la caja se suaviza de un fotograma al siguiente.
 \end{itemize}
-% VERIFICAR: confirmar si la versión final del experimento usa YOLO activado o desactivado (usar_yolo en config.py) y ajustar este párrafo. En las pruebas con UCF101 se desactivó el recorte por sospecha de que degradaba los datos.
+La conveniencia de aplicar o no este recorte se determina experimentalmente y se fundamenta en el capítulo de Resultados.
 
 Para ingresar a la ResNet50, cada fotograma de $64\times64$ se amplía a $224\times224$ (el tamaño con que fue preentrenada la red), se devuelve a la escala 0--255 y se le aplica la normalización propia de ImageNet (conversión a BGR y resta de la media por canal) \cite{he_resnet_2016}. Esta etapa forma parte del extractor y no tiene parámetros entrenables.
 
@@ -128,13 +128,36 @@ Las etiquetas se codifican en formato \textit{one-hot} de tres posiciones. El re
 \label{subsec:secuencias}
 Cada video se representa como una secuencia ordenada de 40 imágenes, que es la unidad que consumen las capas recurrentes. El orden temporal se conserva estrictamente, ya que el patrón repetitivo se manifiesta en la evolución del movimiento y no en un fotograma aislado.
 
-La partición en entrenamiento y prueba se realizó a nivel de video, con proporción 75/25 estratificada por clase y semilla fija (scikit-learn \cite{pedregosa2011sklearn}), de modo que ninguna secuencia del conjunto de prueba procede de un video usado para entrenar. Con esta división resultan 42 videos de entrenamiento y 15 de prueba (5 por clase).
+La partición en entrenamiento, validación y prueba se realizó a nivel de video, como se describió en la Sección~\ref{subsec:extraccion} y en la Tabla~\ref{tab:division}, con la estratificación por clase y la semilla fija de scikit-learn \cite{pedregosa2011sklearn}, de modo que ninguna secuencia del conjunto de prueba procede de un video usado para entrenar.
 
-Para ampliar el conjunto de entrenamiento se aplicó aumento de datos por reflexión horizontal (\textit{flip}) \cite{shorten2019augmentation}: cada secuencia se duplica con su versión especular. El aumento se realiza únicamente después de la partición y solo sobre el entrenamiento, para evitar que una versión espejada de un video de prueba contamine el aprendizaje. La reflexión es adecuada porque las tres conductas no dependen de la lateralidad del cuerpo. Del entrenamiento se reserva además un 20\,\% como conjunto de validación (9 videos, 3 por clase), usado exclusivamente para detener el entrenamiento; así quedan 33 videos para ajustar los pesos (Tabla~\ref{tab:division}). Como el extractor está congelado, las características de la versión original y de la especular de cada video se calculan una sola vez y se reutilizan en todas las épocas.
+Para ampliar el conjunto de entrenamiento se aplicó aumento de datos por reflexión horizontal (\textit{flip}) \cite{shorten2019augmentation}: cada secuencia se duplica con su versión especular. El aumento se realiza únicamente después de la partición y solo sobre el entrenamiento, para evitar que una versión espejada de un video de prueba contamine el aprendizaje. La reflexión es adecuada porque las tres conductas no dependen de la lateralidad del cuerpo. Como el extractor ResNet50 está congelado, las características de la versión original y de la especular de cada video se calculan una sola vez y se reutilizan en todas las épocas.
 
 \section{Diseño y entrenamiento del modelo}
+\label{sec:modelos}
 
-El modelo sigue el enfoque de redes convolucionales recurrentes de largo plazo \cite{donahue2015lrcn}: una red convolucional procesa cada fotograma por separado y una LSTM \cite{hochreiter1997lstm} integra la secuencia de características resultante. La Figura~\ref{fig:flujo_trabajo} resume el flujo completo de trabajo y la Figura~\ref{fig:arquitectura_resnet_lstm} la arquitectura implementada.
+El modelo sigue el enfoque de redes convolucionales recurrentes de largo plazo \cite{donahue2015lrcn}: una red convolucional procesa cada fotograma por separado y una LSTM \cite{hochreiter1997lstm} integra la secuencia de características resultante. Se evaluaron dos arquitecturas que comparten exactamente el mismo clasificador temporal y se diferencian únicamente en el extractor espacial (Tabla~\ref{tab:modelos}): una red convolucional \textbf{propia}, entrenada \textbf{desde cero}, y una \textbf{ResNet50 preentrenada} en ImageNet \cite{deng2009imagenet}. Ambas se comparan en el capítulo de Resultados; el prototipo web integra la variante con ResNet50 + LSTM.
+
+\begin{table}[htbp]
+\centering
+\caption{Arquitecturas evaluadas.}
+\label{tab:modelos}
+\begin{tabular}{p{3.6cm}p{4.9cm}p{4.9cm}}
+\toprule
+\textbf{Característica} & \textbf{CNN-LSTM propia} & \textbf{ResNet50 + LSTM} \\
+\midrule
+Origen de los pesos del extractor & Inicializados al azar; se aprenden con los videos del proyecto (\textbf{desde cero}) & \textbf{Preentrenados} en ImageNet y \textbf{congelados} (no se reajustan) \\
+Extractor espacial & 4 bloques convolucionales (16--64 filtros) & ResNet50 de 50 capas con conexiones residuales \\
+Entrada al extractor & $64\times64\times3$ & $224\times224\times3$ (ampliada) \\
+Características por fotograma & 64 & 2\,048, proyectadas a 64 \\
+Parámetros entrenables & 73\,027 & 143\,651 \\
+Parámetros congelados & 0 & 23,5 millones \\
+Estrategia & Entrenamiento completo & Extracción de características (aprendizaje por transferencia) \\
+Rol en el trabajo & Referencia de comparación & Modelo integrado en el prototipo \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Flujo de trabajo.} La Figura~\ref{fig:flujo_trabajo} resume el procedimiento completo. Primero se carga la configuración, que concentra los hiperparámetros de entrenamiento, el preprocesamiento y los parámetros de la división. En el Paso~1 se extraen los fotogramas de cada ventana de conducta y se arma el tensor del conjunto. En el Paso~2 se dividen los videos en entrenamiento, validación y prueba y se aplica el aumento por reflexión al entrenamiento. A continuación, cada modelo se entrena y se evalúa por turnos, con parada temprana, y en el Paso~3 se comparan ambos mediante validación cruzada de 5 pliegues.
 
 \begin{figure}[htbp]
     \centering
@@ -143,20 +166,47 @@ El modelo sigue el enfoque de redes convolucionales recurrentes de largo plazo \
     \label{fig:flujo_trabajo}
 \end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{capitulo_04/arquitectura_resnet_lstm.png}
-    \caption{Arquitectura ResNet50 + LSTM: extractor espacial congelado y clasificador temporal entrenable.}
-    \label{fig:arquitectura_resnet_lstm}
-\end{figure}
-
 \subsection{Extractor espacial: ResNet50 (capa espacial)}
-Como extractor de características visuales se utiliza ResNet50 \cite{he_resnet_2016}, una red convolucional residual de 50 capas. Se emplea \textbf{preentrenada} con los pesos de ImageNet y \textbf{congelada}: no se entrena desde cero ni se reajusta (\textit{fine-tuning}) durante el proyecto. Se elimina su clasificador final (\texttt{include\_top=False}) y se aplica un promedio global (\textit{global average pooling}), de modo que cada fotograma queda representado por un vector de 2\,048 características. La red se aplica a los 40 fotogramas de la secuencia mediante \texttt{TimeDistributed}, con los mismos pesos para todos.
+Como extractor de características visuales del modelo del prototipo se utiliza ResNet50 \cite{he_resnet_2016}, una red convolucional residual de 50 capas cuyo bloque fundamental es
+\begin{equation}
+y = F(x,\{W_i\}) + x,
+\end{equation}
+donde $x$ es la entrada del bloque, $F(x,\{W_i\})$ la transformación convolucional con pesos $\{W_i\}$ e $y$ su salida. La conexión de atajo ($+\,x$) permite que la información y el gradiente fluyan directamente y evita la degradación en redes profundas.
+
+La red se emplea \textbf{preentrenada}, con los pesos de ImageNet, y \textbf{congelada}: no se entrena desde cero ni se reajusta (\textit{fine-tuning}) durante el proyecto, sino que se aplica la estrategia de extracción de características del aprendizaje por transferencia \cite{yosinski2014transferable}. Se elimina su clasificador final (\texttt{include\_top=False}) y se aplica un promedio global (\textit{global average pooling}), de modo que cada fotograma queda representado por un vector de 2\,048 características. La red se aplica a los 40 fotogramas de la secuencia mediante \texttt{TimeDistributed}, con los mismos pesos para todos.
 
 Se eligió el aprendizaje por transferencia porque con 33 videos de entrenamiento una red de 23,5 millones de parámetros entrenada desde cero se sobreajustaría de inmediato, mientras que las características aprendidas en ImageNet (bordes, texturas, partes del cuerpo) son reutilizables. Como los pesos no cambian, las características de cada video (y de su versión especular) se calculan una sola vez y se almacenan, lo que reduce el tiempo de entrenamiento de forma considerable.
 
+\subsection{Extractor alternativo: CNN propia (desde cero)}
+Como referencia de comparación se diseñó una red convolucional ligera, aplicada a cada fotograma mediante \texttt{TimeDistributed} y entrenada completamente desde cero. Consta de cuatro bloques que combinan una convolución de $3\times3$ con activación ReLU y \textit{max pooling}, con \textit{dropout} de 0,3 en los tres primeros, y termina en un vector de 64 características por fotograma (Tabla~\ref{tab:cnn}). La Figura~\ref{fig:arquitectura_cnn_lstm} muestra su arquitectura. Se optó por pocos filtros y reducciones espaciales agresivas porque el conjunto de entrenamiento es de decenas de videos; el modelo completo suma 73\,027 parámetros.
+
+\begin{table}[htbp]
+\centering
+\caption{Capas del extractor CNN propio (por fotograma).}
+\label{tab:cnn}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Bloque} & \textbf{Filtros} & \textbf{Pooling} & \textbf{Dropout} & \textbf{Salida} \\
+\midrule
+Entrada & -- & -- & -- & $64\times64\times3$ \\
+1 & 16 & $4\times4$ & 0,3 & $16\times16\times16$ \\
+2 & 32 & $4\times4$ & 0,3 & $4\times4\times32$ \\
+3 & 64 & $2\times2$ & 0,3 & $2\times2\times64$ \\
+4 & 64 & $2\times2$ & -- & $1\times1\times64$ \\
+Aplanado & -- & -- & -- & 64 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{capitulo_04/arquitectura_cnn_lstm.png}
+    \caption{Arquitectura CNN-LSTM propia, entrenada desde cero (modelo de referencia).}
+    \label{fig:arquitectura_cnn_lstm}
+\end{figure}
+
 \subsection{Arquitectura LSTM (capa temporal)}
-La secuencia de 40 vectores de 2\,048 componentes se proyecta, fotograma a fotograma, a 64 dimensiones mediante una capa densa con activación ReLU (\texttt{TimeDistributed}); esta proyección sí es entrenable y adapta las características generales de ImageNet a la tarea. A continuación, una capa LSTM de 32 unidades resume la secuencia en un único vector (se conserva el último estado), seguida de \textit{dropout} de 0,3 y una capa densa de tres neuronas con activación \textit{softmax} que entrega la probabilidad de cada clase. La memoria de la LSTM permite detectar la repetición periódica del movimiento, rasgo distintivo de las conductas estereotipadas. La parte entrenable suma 143\,651 parámetros, frente a los 23,5 millones congelados de la ResNet50 (Tabla~\ref{tab:capas}).
+El clasificador temporal es común a ambos modelos. En la variante con ResNet50, la secuencia de 40 vectores de 2\,048 componentes se proyecta, fotograma a fotograma, a 64 dimensiones mediante una capa densa con activación ReLU (\texttt{TimeDistributed}); esta proyección sí es entrenable y adapta las características generales de ImageNet a la tarea. En la CNN propia los vectores ya tienen 64 componentes. A continuación, una capa LSTM de 32 unidades resume la secuencia en un único vector (se conserva el último estado), seguida de \textit{dropout} de 0,3 y una capa densa de tres neuronas con activación \textit{softmax} que entrega la probabilidad de cada clase. La memoria de la LSTM permite detectar la repetición periódica del movimiento, rasgo distintivo de las conductas estereotipadas. En el modelo con ResNet50, la parte entrenable suma 143\,651 parámetros, frente a los 23,5 millones congelados de la red (Tabla~\ref{tab:capas}).
 
 \begin{table}[htbp]
 \centering
@@ -176,33 +226,45 @@ Salida & Dense(3), softmax & $(3)$ & Sí \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{capitulo_04/arquitectura_resnet_lstm.png}
+    \caption{Arquitectura ResNet50 + LSTM: extractor espacial preentrenado y congelado, y clasificador temporal entrenable.}
+    \label{fig:arquitectura_resnet_lstm}
+\end{figure}
+
 \subsection{Integración del modelo y selección de la arquitectura}
 \label{subsec:integracion}
-El modelo se implementó con la API funcional de Keras sobre TensorFlow \cite{chollet2015keras}. Dado que el extractor está congelado, el entrenamiento se divide en dos pasos: (1) el cálculo único de las características de ResNet50 para cada video original y su versión especular, y (2) el entrenamiento de la proyección y la LSTM sobre esas características.
+Los modelos se implementaron con la API funcional de Keras sobre TensorFlow \cite{chollet2015keras}. En la variante con ResNet50, dado que el extractor está congelado, el entrenamiento se divide en dos pasos: (1) el cálculo único de las características de ResNet50 para cada video original y su versión especular, y (2) el entrenamiento de la proyección y la LSTM sobre esas características. En la CNN propia, el extractor y la LSTM se entrenan conjuntamente.
 
-Como arquitectura de referencia se evaluó también una CNN propia de cuatro bloques convolucionales entrenada desde cero, con el mismo clasificador LSTM, de modo que la única diferencia entre ambas variantes sea el extractor espacial. En las pruebas con el conjunto de datos principal, la CNN propia alcanzó una exactitud del 60\,\% y ResNet50 + LSTM del 67\,\%, por lo que esta última se adoptó para el prototipo. Estas cifras provienen de una partición de 15 videos y deben interpretarse con cautela (Sección~\ref{sec:evaluacion}).
+La comparación de ambas arquitecturas se realiza con el procedimiento descrito en la Sección~\ref{sec:evaluacion}, y sus resultados se presentan en el capítulo correspondiente. El prototipo web integra la variante ResNet50 + LSTM.
 
 \subsection{Hiperparámetros de entrenamiento y épocas}
-El entrenamiento minimiza la entropía cruzada categórica con el optimizador Adam \cite{kingma2015adam}. Se fijó un máximo de 100 épocas, pero el número real de épocas lo determina la \textbf{parada temprana} (\textit{early stopping}): el entrenamiento se interrumpe cuando la pérdida de validación no mejora durante 15 épocas consecutivas y se restauran los pesos de la mejor época. De esta forma la cantidad de épocas no se fija a mano, sino que se ajusta a cada corrida y reduce el sobreajuste. Una época equivale a una pasada completa por las 66 secuencias de entrenamiento (original y espejo), en lotes de 8, es decir, 9 actualizaciones de pesos por época. Los valores finales se muestran en la Tabla~\ref{tab:hiperparametros}.
+El entrenamiento minimiza la entropía cruzada categórica con el optimizador Adam \cite{kingma2015adam}. Los hiperparámetros son los mismos para ambos modelos, de modo que la comparación sea justa (Tabla~\ref{tab:hiperparametros}).
+
+\paragraph{Épocas.} Una época equivale a una pasada completa por las 66 secuencias de entrenamiento (originales y espejadas), en lotes de 8, es decir, 9 actualizaciones de pesos por época. Se fijó un máximo de 100 épocas, pero el número real lo determina la \textbf{parada temprana} (\textit{early stopping}) \cite{goodfellow_dl_2016}: el entrenamiento se interrumpe cuando la pérdida sobre los 9 videos de validación no mejora durante 15 épocas consecutivas y se restauran los pesos de la mejor época. De esta forma la cantidad de épocas no se fija a mano, sino que se ajusta a cada corrida y reduce el sobreajuste. El número de épocas efectivamente ejecutadas en cada corrida se registra y se informa en el capítulo de Resultados.
 
 \begin{table}[htbp]
 \centering
-\caption{Hiperparámetros de entrenamiento.}
+\caption{Hiperparámetros de entrenamiento (comunes a ambos modelos).}
 \label{tab:hiperparametros}
 \begin{tabular}{ll}
 \toprule
 \textbf{Parámetro} & \textbf{Valor} \\
 \midrule
-Extractor espacial & ResNet50 preentrenada en ImageNet, congelada \\
+Extractor espacial (modelo del prototipo) & ResNet50 preentrenada en ImageNet, congelada \\
+Extractor espacial (referencia) & CNN propia, entrenada desde cero \\
 Optimizador & Adam \\
+Función de pérdida & Entropía cruzada categórica \\
 Tasa de aprendizaje & $5\times10^{-4}$ \\
 Recorte de gradiente (\textit{clipnorm}) & 1,0 \\
 Tamaño de lote & 8 \\
 Épocas máximas & 100 \\
 Parada temprana (paciencia) & 15 épocas sobre la pérdida de validación \\
-Épocas efectivas por corrida & Definidas por la parada temprana (ver Resultados) \\
+Épocas efectivas por corrida & Definidas por la parada temprana \\
 Proporción de validación & 20\,\% del entrenamiento (9 videos) \\
 \textit{Dropout} en la LSTM & 0,3 \\
+\textit{Dropout} en la CNN propia & 0,3 \\
 Regularización L2 & 0 (desactivada) \\
 Aumento de datos & Reflexión horizontal (duplica el entrenamiento) \\
 Semilla base & 42 \\
@@ -210,8 +272,19 @@ Semilla base & 42 \\
 \end{tabular}
 \end{table}
 
-El ajuste fue iterativo y se simplificó la configuración inicial (que incluía regularización L2 y mayor \textit{dropout}) al observar que dificultaba el aprendizaje con tan pocos datos. Debido a que el conjunto de prueba es de solo 15 videos, el resultado de un único entrenamiento es muy sensible a la inicialización de los pesos de la proyección y la LSTM. Por ello se estudió la variabilidad entre semillas aleatorias (Sección~\ref{sec:evaluacion}). Seleccionar la mejor semilla observando el conjunto de prueba introduce un sesgo optimista; por esa razón los resultados principales se reportan mediante validación cruzada.
-% VERIFICAR: agregar en Resultados el número de épocas en que se detuvo la corrida final (modelo.fit devuelve historial.history["loss"]; también queda en resultados_cv_resnet.json, campo "epocas").
+La Figura~\ref{fig:config} muestra la definición de los hiperparámetros y de los demás parámetros del algoritmo en el archivo de configuración (\texttt{config.py}), del cual leen todos los \textit{scripts} de preprocesamiento, entrenamiento y evaluación, de modo que cada experimento queda documentado por un único conjunto de valores.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.6\textheight]{capitulo_04/config_py.png}
+    \caption{Definición de hiperparámetros y parámetros en el archivo de configuración (\texttt{config.py}).}
+    \label{fig:config}
+\end{figure}
+
+\paragraph{Entorno experimental.} El cálculo de características y el entrenamiento se ejecutaron en Google Colaboratory \cite{bisong_colab_2019}, con los datos almacenados en Google Drive, mientras que el preprocesamiento de video y la depuración del código se realizaron en el equipo local (Capítulo~3). Se empleó Python con TensorFlow/Keras, OpenCV y scikit-learn.
+% VERIFICAR: confirmar qué parte se ejecutó en Colab (GPU T4) y cuál en el equipo local (RTX 4070).
+
+Como control del sobreajuste se emplea \textit{dropout} \cite{srivastava2014dropout} con valor 0,3, además de la parada temprana y el aumento por reflexión. Debido a que el conjunto de prueba es de solo 15 videos, el resultado de un único entrenamiento es muy sensible a la inicialización de los pesos de la proyección y la LSTM. Por ello se estudió la variabilidad entre semillas aleatorias (Sección~\ref{sec:evaluacion}). Seleccionar la mejor semilla observando el conjunto de prueba introduce un sesgo optimista; por esa razón los resultados principales se reportan mediante validación cruzada.
 
 \section{Evaluación del modelo}
 \label{sec:evaluacion}
@@ -219,9 +292,9 @@ La evaluación sigue tres niveles, de menor a mayor robustez estadística.
 
 \textbf{Partición fija.} Se entrena con los 33 videos de entrenamiento (más su versión especular), se vigila la pérdida sobre los 9 de validación y se mide el desempeño sobre los 15 videos de prueba. Se repite el procedimiento con un rango de semillas (por ejemplo, de 0 a 10), dado que la inicialización aleatoria puede alterar de forma apreciable el resultado \cite{picard2021seed}, y se informan el promedio y la desviación estándar de la exactitud, con el fin de cuantificar la sensibilidad a la inicialización.
 
-\textbf{Validación cruzada estratificada} \cite{kohavi1995cv}\textbf{.} Dado que 15 videos producen estimaciones muy inestables, los 57 videos se reúnen y se reparten en $k=5$ pliegues estratificados por clase. Cada video se evalúa una vez con un modelo que no lo vio durante el entrenamiento; dentro de cada pliegue, una parte del entrenamiento se reserva para la detención temprana y el aumento por reflexión se aplica solo al entrenamiento. Las predicciones de todos los pliegues se concatenan para calcular las métricas globales fuera de muestra.
+\textbf{Validación cruzada estratificada} \cite{kohavi1995cv}\textbf{.} Dado que 15 videos producen estimaciones muy inestables, los 57 videos se reúnen y se reparten en $k=5$ pliegues estratificados por clase. Cada video se evalúa una vez con un modelo que no lo vio durante el entrenamiento; dentro de cada pliegue, una parte del entrenamiento se reserva para la parada temprana y el aumento por reflexión se aplica solo al entrenamiento. Las predicciones de todos los pliegues se concatenan para calcular las métricas globales fuera de muestra, y se registra además el número de épocas de cada pliegue.
 
-\textbf{Comparación de arquitecturas.} Los mismos pliegues, la misma semilla y el mismo clasificador LSTM se emplean para la CNN propia (referencia) y para ResNet50 + LSTM, de modo que la diferencia observada se deba al extractor de características. Con 15 videos de prueba, cada video equivale a 6,7 puntos porcentuales de exactitud, y una exactitud del 67\,\% (10 aciertos de 15) tiene un intervalo de confianza del 95\,\% de Wilson de aproximadamente 0,42 a 0,85; por ello la diferencia de siete puntos entre ambas variantes no es estadísticamente concluyente y se corrobora con la validación cruzada.
+\textbf{Comparación de arquitecturas.} Los mismos pliegues, la misma semilla y el mismo clasificador LSTM se emplean para la CNN propia (referencia) y para ResNet50 + LSTM, de modo que la diferencia observada se deba al extractor de características. Con solo 15 videos de prueba, cada video equivale a 6,7 puntos porcentuales de exactitud, por lo que las diferencias pequeñas entre variantes no son concluyentes con la partición fija y se contrastan con la validación cruzada.
 
 Las métricas de clasificación son la exactitud (\textit{accuracy}), la precisión, la exhaustividad (\textit{recall}) y la medida F1 por clase:
 \begin{equation}
@@ -238,24 +311,74 @@ Para las clases múltiples se calcula cada métrica por clase y se promedia. Se pr
 \end{equation}
 donde $\hat p$ es la exactitud observada y $n$ el número de videos evaluados. El azar con tres clases equivale a una exactitud de 0,33, valor de referencia mínimo.
 
-\textbf{Prueba de sanidad con un conjunto externo.} Para comprobar que el procedimiento de entrenamiento y evaluación funciona cuando existen más datos, se aplicó el mismo código con ResNet50 + LSTM a tres categorías de movimiento corporal de UCF101 \cite{soomro2012ucf101} (\textit{JumpingJack}, \textit{SalsaSpin} y \textit{Swing}). Allí la partición sigue el protocolo oficial, que separa grupos de grabación completos para que clips de una misma filmación no aparezcan a la vez en entrenamiento y en prueba. En esta prueba complementaria, ResNet50 + LSTM alcanzó una exactitud del 94\,\%. Este experimento no evalúa autismo ni puede trasladarse directamente al problema principal, porque se trata de acciones de cuerpo completo, con mucho más material y escenas bien diferenciadas: solo verifica que la canalización aprende cuando la cantidad de datos es suficiente, lo que apunta al tamaño del conjunto de datos como principal limitante.
+\textbf{Prueba de sanidad con un conjunto externo.} Para comprobar que el procedimiento de entrenamiento y evaluación funciona cuando existen más datos, se aplicó el mismo código con ResNet50 + LSTM a tres categorías de movimiento corporal de UCF101 \cite{soomro2012ucf101} (\textit{JumpingJack}, \textit{SalsaSpin} y \textit{Swing}). Allí la partición sigue el protocolo oficial, que separa grupos de grabación completos para que clips de una misma filmación no aparezcan a la vez en entrenamiento y en prueba. Este experimento no evalúa autismo ni puede trasladarse directamente al problema principal, porque se trata de acciones de cuerpo completo con mayor cantidad de material: solo verifica que la canalización aprende cuando la cantidad de datos es suficiente.
 
-\textbf{Criterio de contraste de la hipótesis.} La hipótesis original planteaba una eficiencia de detección igual o superior al 85\,\% respecto de la referencia de un experto humano. Dada la escasez de videos con patrones de motricidad asociados al TEA (57 videos utilizables), los resultados obtenidos hasta el momento (60\,\% con la CNN propia y 67\,\% con ResNet50 + LSTM sobre la partición fija) no alcanzan ese valor, por lo que se solicitó al docente orientador la revisión del umbral. Una vez aprobado el nuevo valor, la hipótesis se contrastará con la exactitud de la validación cruzada y su intervalo de confianza, informando con transparencia la brecha respecto del objetivo y la incertidumbre propia del tamaño muestral.
-% VERIFICAR: reemplazar "el nuevo valor" por el porcentaje definitivo una vez aprobado por la Ing. Ayala.
+\textbf{Criterio de contraste de la hipótesis.} La hipótesis de trabajo plantea una eficiencia de detección mínima respecto de la referencia de un experto humano. Su contraste se realizará con la exactitud obtenida en la validación cruzada y su intervalo de confianza, comparándola con el umbral vigente aprobado por el docente orientador, y se discutirá en el capítulo de Resultados.
+% VERIFICAR: el informe IV solicita revisar el umbral del 85 %; poner aquí el valor definitivo cuando se apruebe.
 
 \section{Desarrollo e integración de la aplicación web}
-La aplicación web es el medio por el cual el modelo se pone a disposición de un usuario no técnico. Se diseñó con una arquitectura cliente--servidor de tres capas, coherente con la Figura~\ref{fig:arquitectura_funcional}.
+Con el fin de poner el modelo a disposición de un usuario no técnico, se desarrolló un prototipo de aplicación web. Se trata de una versión funcional orientada a demostrar el flujo completo, desde la carga de un video hasta la visualización de un resultado preliminar, y no de un producto final.
 
-\textbf{Frontend.} Interfaz desarrollada con Next.js \cite{vercel2024nextjs}, React y TypeScript, con estilos en Tailwind CSS, gráficos con Recharts y comunicación con el servidor mediante Axios. Permite iniciar sesión, cargar un video, consultar el estado del procesamiento y visualizar el resultado.
+\subsection{Análisis de requisitos}
+Se identificaron los requisitos funcionales y no funcionales esenciales para el prototipo, priorizando la carga del video, el análisis automático y la presentación comprensible del resultado. Su descripción se resume en la Tabla~\ref{tab:requisitos}.
 
-\textbf{Backend.} Servicio REST desarrollado con FastAPI \cite{ramirez2024fastapi} sobre Uvicorn, con validación de datos mediante Pydantic y recepción de archivos con \texttt{python-multipart}. La autenticación se realiza con tokens JWT \cite{jones2015jwt} (\texttt{python-jose}). Al recibir un video, el servicio aplica \emph{exactamente} el mismo preprocesamiento que en el entrenamiento (extracción de 40 fotogramas, mejora de contraste, redimensión y normalización), ejecuta el modelo ResNet50 + LSTM y devuelve la clase predicha con su probabilidad.
+\begin{table}[htbp]
+\centering
+\caption{Requisitos y características del prototipo.}
+\label{tab:requisitos}
+\begin{tabular}{p{3.4cm}p{8.2cm}p{1.6cm}}
+\toprule
+\textbf{Requisito} & \textbf{Descripción} & \textbf{Prioridad} \\
+\midrule
+Carga de video & Componente que permita seleccionar o arrastrar un video en formatos MP4, MOV, AVI o WEBM & Alta \\
+Análisis automático & Procesamiento del video con el modelo ResNet50 + LSTM y obtención de la conducta más frecuente & Alta \\
+Resultado con nivel de confianza & Presentación del movimiento identificado, su descripción en lenguaje sencillo y el nivel de confianza & Alta \\
+Aviso de no diagnóstico & Mensaje visible que indique que el resultado es orientativo y no reemplaza la evaluación profesional & Alta \\
+Interfaz intuitiva & Flujo guiado en tres pasos y lenguaje comprensible para familias & Alta \\
+Protección de datos & Uso del video únicamente para el análisis solicitado y resguardo de la información & Alta \\
+Historial & Consulta de los análisis realizados anteriormente & Media \\
+Información & Sección con la descripción de los movimientos observados y de los alcances del sistema & Media \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\textbf{Persistencia.} Los usuarios, los metadatos de los análisis y los resultados se almacenan en Cloud Firestore \cite{google2024firestore}.
-% VERIFICAR: confirmar con el estado real de la implementación el almacenamiento del video en sí (Firestore no guarda archivos grandes) y si se muestran segmentos temporales.
+\subsection{Arquitectura tecnológica}
+El prototipo sigue una arquitectura cliente--servidor de tres capas, coherente con la Figura~\ref{fig:arquitectura_funcional}. El \textit{frontend} se desarrolló con Next.js \cite{vercel2024nextjs}, React y TypeScript, con estilos en Tailwind CSS, gráficos con Recharts y comunicación con el servidor mediante Axios. El \textit{backend} es un servicio REST desarrollado con FastAPI \cite{ramirez2024fastapi} sobre Uvicorn, con validación de datos mediante Pydantic y recepción de archivos con \texttt{python-multipart}; la autenticación prevista utiliza tokens JWT \cite{jones2015jwt} (\texttt{python-jose}). Los usuarios, los metadatos de los análisis y los resultados se almacenan en Cloud Firestore \cite{google2024firestore}.
+% VERIFICAR: confirmar qué componentes (autenticación JWT, Firestore, historial persistente) están realmente implementados en esta versión del prototipo y ajustar la redacción.
 
-Como la ventana de conducta de un video cargado por un usuario no está anotada, el sistema debe dividir el video en segmentos y clasificar cada uno, o bien analizar el video completo como una única secuencia de 40 fotogramas. Se presenta siempre el nivel de confianza junto con la clase, y se muestra una advertencia explícita de que el resultado es una orientación preliminar y no un diagnóstico.
+\subsection{Integración del modelo}
+Al recibir un video, el servicio aplica \emph{exactamente} el mismo preprocesamiento que en el entrenamiento (extracción de 40 fotogramas, mejora de contraste, redimensión y normalización), ejecuta el modelo ResNet50 + LSTM y devuelve la clase predicha con su nivel de confianza. Como la ventana de conducta de un video cargado por un usuario no está anotada, el sistema debe dividir el video en segmentos y clasificar cada uno, o bien analizar el video completo como una única secuencia de 40 fotogramas, y resumir la conducta más frecuente y los momentos en que aparece.
 
-Se adoptaron medidas de protección de datos acordes con la naturaleza sensible del material: acceso restringido por autenticación, transmisión cifrada, eliminación del video una vez procesado salvo consentimiento explícito, y ausencia de datos de identificación personal en los registros. La validación funcional del prototipo estará a cargo de un profesional vinculado al área del TEA, quien evaluará la utilidad y claridad de los resultados mediante un cuestionario con escala de Likert \cite{likert1932}.
+\subsection{Interfaz de usuario}
+La interfaz se construyó con componentes reutilizables y un menú lateral con las secciones \textit{Inicio}, \textit{Analizar video}, \textit{Historial} e \textit{Información}. La pantalla de inicio (Figura~\ref{fig:web_inicio}) da la bienvenida al usuario, explica en lenguaje sencillo qué hace el sistema, ofrece los accesos a un nuevo análisis y a los análisis anteriores, y muestra de forma destacada el aviso de que los resultados son orientativos y no constituyen un diagnóstico.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{capitulo_04/web_inicio.png}
+    \caption{Pantalla de inicio del prototipo.}
+    \label{fig:web_inicio}
+\end{figure}
+
+El análisis se guía en tres pasos. En el primero (Figura~\ref{fig:web_subir}), el usuario selecciona un video o lo arrastra a la zona de carga; se indican los formatos admitidos y se recomienda elegir un video donde el niño o la niña se vea de cuerpo entero. También se ofrece un video de ejemplo para probar el sistema sin cargar material propio.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{capitulo_04/web_subir_video.png}
+    \caption{Paso 1 del análisis: carga del video.}
+    \label{fig:web_subir}
+\end{figure}
+
+En el último paso (Figura~\ref{fig:web_resultado}) se presenta el resultado preliminar: el nombre del archivo, la fecha y la duración del video, una imagen representativa, el movimiento más frecuente con su descripción en lenguaje sencillo, la cantidad de momentos del video en que aparece y el nivel de confianza expresado en porcentaje. Se mantiene visible el aviso de que el resultado no confirma ni descarta el autismo y se recomienda compartirlo con un profesional de la salud.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{capitulo_04/web_resultado.png}
+    \caption{Paso 3 del análisis: resultado preliminar con nivel de confianza.}
+    \label{fig:web_resultado}
+\end{figure}
+
+\subsection{Protección de datos y validación}
+Se contemplaron medidas de protección acordes con la naturaleza sensible del material: el video se utiliza únicamente para el análisis solicitado, el acceso se restringe mediante autenticación y no se registran datos de identificación personal. La validación funcional del prototipo estará a cargo de un profesional vinculado al área del TEA, quien evaluará la utilidad y claridad de los resultados mediante un cuestionario con escala de Likert \cite{likert1932}.
 
 \section{Diseño de pruebas}
 Las pruebas se organizan por nivel, desde los componentes individuales hasta la valoración por un experto (Tabla~\ref{tab:pruebas}).
@@ -268,7 +391,7 @@ Las pruebas se organizan por nivel, desde los componentes individuales hasta la 
 \toprule
 \textbf{Nivel} & \textbf{Qué se verifica} & \textbf{Criterio de aceptación} \\
 \midrule
-Unitarias del extractor visual (TC-CNN-01 a 07) & Dimensiones de entrada y salida, número de parámetros, ausencia de valores NaN, determinismo con semilla fija, comportamiento con \texttt{TimeDistributed} y con lotes de distinto tamaño & Todas las pruebas automáticas aprobadas \\
+Unitarias del extractor CNN propio (TC-CNN-01 a 07) & Dimensiones de entrada y salida, número de parámetros, ausencia de valores NaN, determinismo con semilla fija, comportamiento con \texttt{TimeDistributed} y con lotes de distinto tamaño & Todas las pruebas automáticas aprobadas \\
 Unitarias del clasificador LSTM (TC-LSTM-01 a 05) & Forma de la salida $(\cdot,3)$, probabilidades que suman 1, aprendizaje de una secuencia sintética, rechazo de entradas inválidas & Todas las pruebas automáticas aprobadas \\
 Integración del modelo & El modelo ResNet50 + LSTM entrena una época y predice sobre un lote & Salida de dimensión correcta sin errores \\
 Funcionales con videos retenidos & Clasificación de videos que no participaron en el entrenamiento & Métricas de la Sección~\ref{sec:evaluacion} \\
