@@ -31,6 +31,12 @@ El desempeño del modelo será evaluado mediante métricas cuantitativas de clasifi
     \label{fig:arquitectura_funcional}
 \end{figure}
 
+La Figura 1 ilustra la arquitectura funcional propuesta para el sistema web de apoyo a la identificación de patrones de motricidad asociados al Trastorno del Espectro Autista. 
+
+El flujo inicia en el cliente o frontend, donde el usuario podrá cargar secuencias de video y visualizar el estado del procesamiento y los resultados generados por el sistema. Posteriormente, las solicitudes serán enviadas al backend mediante servicios REST. Este componente se encargará de recibir los videos, ejecutar el preprocesamiento necesario y enviar los datos preparados al motor de inferencia. 
+
+El modelo de inteligencia artificial estará basado en una arquitectura híbrida CNN-LSTM, en la cual la CNN extraerá características espaciales de los fotogramas y la LSTM analizará la secuencia temporal para identificar patrones de motricidad repetitivos. Los resultados técnicos generados por el modelo serán devueltos al sistema web para su visualización. La plataforma podrá presentar la conducta identificada, el nivel de confianza, y en caso de implementarse, los segmentos temporales donde se detecte el patrón conductual. Asimismo, se considerará el almacenamiento seguro de videos y resultados, atendiendo a criterios de confidencialidad y protección de datos. La validación del funcionamiento del sistema será realizada por un profesional vinculado al área del TEA, como un especialista en salud mental, pediatría, neurología infantil, psicología clínica o desarrollo infantil. Esta validación tendrá carácter preliminar y no reemplazará el diagnóstico clínico profesional.
+
 \section{Obtención de datos}
 
 \subsection{Delimitación del estudio de los datos}
