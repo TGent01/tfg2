@@ -1,6 +1,3 @@
-% ============================================================
-% CONFIGURACIÓN DEL ENCABEZADO Y PIE DE PÁGINA
-% ============================================================
 
 \pagestyle{fancy}
 \fancyhead{}
@@ -107,7 +104,7 @@ Para la etapa de extracción de características espaciales de cada fotograma, se 
 % CNN-LSTM
 % ============================================================
 
-\subsubsection{CNN-LSTM}
+\textbf{CNN-LSTM}
 
 Arquitectura desarrollada específicamente para este proyecto, compuesta por cuatro bloques convolucionales, encargados de la extracción de características espaciales, seguidos de una capa LSTM para el análisis temporal. La arquitectura es entrenada completamente desde cero sobre el conjunto de datos de videos de conductas motoras.
 
@@ -130,7 +127,7 @@ Sus características principales son:
 % RESNET50
 % ============================================================
 
-\subsubsection{ResNet50}
+\textbf{ResNet50}
 
 ResNet50 (Residual Network de 50 capas) es una arquitectura de red neuronal convolucional profunda que introduce conexiones residuales para abordar el problema de degradación en redes de gran profundidad, permitiendo que la información fluya directamente a través de la red mediante conexiones de atajo \cite{he_resnet_2016}.
 
@@ -154,7 +151,7 @@ Sus características principales son:
 % ============================================================
 
 
-\subsubsection{Vision Transformer (ViT)}
+\textbf{Vision Transformer (ViT)}
 
 Vision Transformer (ViT) aplica la arquitectura Transformer, originalmente desarrollada para tareas de procesamiento de lenguaje natural, al dominio de la visión por computadora. Para ello, divide cada imagen en pequeños parches que son tratados como tokens dentro de una secuencia \cite{dosovitskiy_vit_2020}.
 
@@ -177,7 +174,7 @@ Sus características principales son:
 % CRITERIOS DE EVALUACIÓN
 % ============================================================
 
-\subsubsection{Criterios de evaluación}
+\textbf{Criterios de evaluación}
 
 Con el fin de comparar las cuatro arquitecturas de forma sistemática, se establecieron los siguientes criterios:
 
@@ -201,95 +198,67 @@ Con el fin de comparar las cuatro arquitecturas de forma sistemática, se estable
 % ============================================================
 
 
-
-\begin{table}[H]
+\begin{table}[htbp]
     \centering
-    \caption{Comparativa de stacks de frontend y backend}
-    \label{tab:comparativa-stacks}
-    \renewcommand{\arraystretch}{1.4}
+    \caption{Comparación de arquitecturas de modelos de inteligencia artificial.}
+    \label{tab:comparacion_modelos}
 
-    
-    \begin{tabular}{|p{3.5cm}|p{2.0cm}|p{2.0cm}|p{2.0cm}|p{2.0cm}|}
+    \renewcommand{\arraystretch}{1.2}
+    \setlength{\tabcolsep}{8pt}
+
+    \begin{tabular}{|p{5.0cm}|c|c|c|}
         \hline
-
         \textbf{Criterio} &
-        \textbf{Next.js + FastAPI} &
-        \textbf{Next.js + Django (DRF)} &
-        \textbf{React + NextJS} &
-        \textbf{Django (full-stack)} \\
-
+        \textbf{CNN propia} &
+        \textbf{ResNet50} &
+        \textbf{ViT} \\
         \hline
-
-        Integración con el modelo de IA
-        & 3
-        & 3
-        & 1
-        & 3 \\
-
+        Precisión & 2 & 3 & 2 \\
         \hline
-
-        Rendimiento con contenido multimedia
-        & 3
-        & 2
-        & 3
-        & 2 \\
-
+        Eficiencia computacional & 3 & 1 & 1 \\
         \hline
-
-        Tipado y mantenibilidad
-        & 3
-        & 2
-        & 3
-        & 1 \\
-
+        Velocidad de extracción & 3 & 2 & 2 \\
         \hline
-
-        Curva de aprendizaje
-        & 2
-        & 1
-        & 1
-        & 2 \\
-
+        Capacidad de generalización & 1 & 3 & 2 \\
         \hline
-
-        Documentación y ecosistema
-        & 3
-        & 3
-        & 2
-        & 3 \\
-
+        Transferencia de aprendizaje & 1 & 3 & 3 \\
         \hline
-
-        \textbf{Total}
-        & \textbf{14}
-        & \textbf{11}
-        & \textbf{10}
-        & \textbf{11} \\
-
+        \textbf{Total} & \textbf{10} & \textbf{12} & \textbf{10} \\
         \hline
-
     \end{tabular}
 \end{table}
 
-De acuerdo con los resultados obtenidos, la combinación de Next.js con FastAPI resultó la de mejor puntaje total. El criterio determinante fue la integración con el modelo de inteligencia artificial: al estar desarrollado íntegramente en Python, FastAPI permite importarlo y ejecutarlo de forma directa dentro de la misma API, sin necesidad de desplegarlo como un servicio separado ni de recurrir a bindings de aprendizaje automático para otros lenguajes, como ocurriría con React + NestJS (Node.js/TypeScript). Adicionalmente, Next.js aporta tipado estático (TypeScript) que mejora la mantenibilidad del código, junto con un esquema de renderizado híbrido (SSR y CSR) que favorece específicamente los tiempos de carga de archivos multimedia de gran tamaño, como los videos de comportamiento infantil que maneja el sistema. Django, ya sea combinado con Next.js o utilizado como framework full-stack, comparte la ventaja de ser Python, pero agrega una complejidad estructural (ORM, panel de administración, serializadores) que no resulta estrictamente necesaria para un sistema cuya función principal es recibir un video y devolver una clasificación, sin requerir una capa de persistencia de datos compleja.
+Como se observa en la Tabla~\ref{tab:comparacion_modelos}, ResNet50 obtuvo el mayor puntaje total, con 12 puntos, frente a los 10 puntos alcanzados por la CNN propia y Vision Transformer (ViT). Este resultado se relaciona con las puntuaciones asignadas en los criterios de precisión, capacidad de generalización y transferencia de aprendizaje. Por su parte, la CNN propia destacó en eficiencia computacional y velocidad de extracción, mientras que ViT presentó un desempeño favorable en transferencia de aprendizaje.
+
+A partir de esta comparación, se seleccionó ResNet50 como extractor de características espaciales para la arquitectura híbrida ResNet50-LSTM, con el propósito de combinar la extracción de información visual de los fotogramas con el análisis temporal de las secuencias mediante LSTM. No obstante, la selección deberá contrastarse con los resultados experimentales obtenidos durante la evaluación de los modelos.
 
 
-\section{Comparativa de herramientas seleccionadas}
-Para la construcción de la plataforma web planteada en el diseño del sistema (encargada de la carga de videos, la comunicación con el motor de inferencia y la visualización de resultados), se compararon distintas combinaciones de tecnologías de frontend y backend, consideradas como stacks completos.
+
+\section{Tecnologías del Frontend}
+
+Para la construcción de la plataforma web planteada en el diseño del sistema, encargada de la carga de videos, la comunicación con el motor de inferencia y la visualización de resultados, se compararon distintas combinaciones de tecnologías de frontend y backend, consideradas como stacks completos.
+
 
 \begin{table}[htbp]
     \centering
-    \caption{Comparativa de stacks de frontend y backend}
-    \label{tab:comparativa-stacks}
-    \begin{tabular}{|p{4cm}|p{2.3cm}|p{2.3cm}|p{2.3cm}|p{2.3cm}|}
+    \caption{Comparativa de herramientas seleccionadas.}
+    \label{tab:comparativa_stacks}
+    \renewcommand{\arraystretch}{1.2}
+    \setlength{\tabcolsep}{3pt}
+
+    \begin{tabular}{|p{3.0cm}|>{\centering\arraybackslash}p{1.65cm}|>{\centering\arraybackslash}p{1.85cm}|>{\centering\arraybackslash}p{1.55cm}|>{\centering\arraybackslash}p{1.55cm}|}
         \hline
-        \textbf{Criterio} & \textbf{Next.js + FastAPI} & \textbf{Next.js + Django (DRF)} & \textbf{React + NestJS} & \textbf{Django (full-stack)} \\
+        \textbf{Criterio} &
+        \textbf{Next.js + FastAPI} &
+        \textbf{Next.js + Django (DRF)} &
+        \textbf{React + NestJS} &
+        \textbf{Django full-stack} \\
         \hline
         Integración con el modelo de IA & 3 & 3 & 1 & 3 \\
         \hline
-        Rendimiento con contenido multimedia & 3 & 2 & 3 & 2 \\
+        Rendimiento multimedia & 3 & 2 & 3 & 2 \\
         \hline
-        Tipado y mantenibilidad & 3 & 2 & 3 & 1 \\
+        Tipado y mantenimiento & 3 & 2 & 3 & 1 \\
         \hline
         Curva de aprendizaje & 2 & 1 & 1 & 2 \\
         \hline
@@ -300,11 +269,19 @@ Para la construcción de la plataforma web planteada en el diseño del sistema (en
     \end{tabular}
 \end{table}
 
-De acuerdo con los resultados obtenidos, la combinación de Next.js con FastAPI resultó la de mejor puntaje total. El criterio determinante fue la integración con el modelo de inteligencia artificial: al estar desarrollado íntegramente en Python, FastAPI permite importarlo y ejecutarlo de forma directa dentro de la misma API, sin necesidad de desplegarlo como un servicio separado ni de recurrir a bindings de aprendizaje automático para otros lenguajes, como ocurriría con React + NestJS (Node.js/TypeScript). Adicionalmente, Next.js aporta tipado estático (TypeScript) que mejora la mantenibilidad del código, junto con un esquema de renderizado híbrido (SSR y CSR) que favorece específicamente los tiempos de carga de archivos multimedia de gran tamaño, como los videos de comportamiento infantil que maneja el sistema. 
 
-Django, ya sea combinado con Next.js o utilizado como framework full-stack, comparte la ventaja de ser Python, pero agrega una complejidad estructural (ORM, panel de administración, serializadores) que no resulta estrictamente necesaria para un sistema cuya función principal es recibir un video y devolver una clasificación, sin requerir una capa de persistencia de datos compleja.
+Como se observa en la Tabla~\ref{tab:comparativa_stacks}, la combinación de Next.js con FastAPI obtuvo el mayor puntaje total, con 14 puntos, frente a los 11 puntos de Next.js con Django (DRF), los 10 puntos de React con NestJS y los 11 puntos de Django como framework full-stack.
 
-\section{Tecnologías del Frontend}
+Uno de los principales criterios considerados fue la integración con el modelo de inteligencia artificial. Al estar desarrollado en Python, FastAPI permite incorporar directamente el modelo de aprendizaje automático en la aplicación backend, facilitando su ejecución y evitando la necesidad de implementar una capa de comunicación entre servicios independientes. En cambio, una solución basada en React y NestJS requeriría establecer un mecanismo de integración entre el backend desarrollado en TypeScript y el modelo implementado en Python.
+
+Asimismo, Next.js permite utilizar TypeScript para mejorar la organización y mantenibilidad del código, además de ofrecer distintas estrategias de renderizado según las necesidades de la aplicación. Estas características resultan útiles para desarrollar una interfaz que permita cargar videos, enviar solicitudes de análisis y visualizar los resultados de la clasificación.
+
+Por su parte, Django también ofrece ventajas para integrar modelos de inteligencia artificial desarrollados en Python. Sin embargo, algunas de sus funcionalidades, como el sistema de administración y las herramientas de gestión de datos, podrían no ser prioritarias para un prototipo cuya función principal consiste en recibir videos, procesarlos mediante un modelo de clasificación y presentar los resultados.
+
+En consecuencia, se seleccionó Next.js con FastAPI como combinación tecnológica de referencia para el desarrollo de la plataforma web, debido a su integración con el modelo de inteligencia artificial, sus posibilidades de mantenimiento y su adecuación a los requerimientos funcionales del proyecto.
+
+
+
 
 A partir del stack seleccionado en la sección anterior, se detallan a continuación
 las tecnologías específicas que componen la capa de frontend de la plataforma web.
@@ -563,7 +540,7 @@ A continuación se detallan las bibliotecas de Python que cumplen funciones espec
 
 YOLOv8n es la versión ``nano'' ---la más liviana--- de la familia de modelos YOLOv8 (You Only Look Once) para detección de objetos en tiempo real, distribuida a través de la biblioteca Ultralytics \cite{jocher_yolov8_2023}. Se incorpora al pipeline de preprocesamiento para detectar y recortar al sujeto dentro de cada fotograma, antes de que este sea procesado por las arquitecturas de extracción de características.
 
-Su incorporación responde directamente a dos de los desafíos documentados en el trabajo que introduce el conjunto de datos utilizado en este proyecto (completar número de cita una vez agregado a la bibliografía): la variabilidad espacial del sujeto dentro del cuadro (el niño cambia de posición y de encuadre a lo largo del video) y la influencia de objetos y otras personas presentes en la escena. Al recortar el cuadro delimitador (bounding box) correspondiente a la clase "persona", se reduce la proporción de fondo, objetos y otras personas que llega a la red, concentrando el análisis en el sujeto de interés. Se seleccionó específicamente la variante "nano" por ser preentrenada, gratuita, y lo suficientemente liviana como para ejecutarse en CPU sin una GPU dedicada, en línea con el entorno de desarrollo del proyecto.
+La variabilidad espacial del sujeto dentro del cuadro (el niño cambia de posición y de encuadre a lo largo del video) y la influencia de objetos y otras personas presentes en la escena. Al recortar el cuadro delimitador (bounding box) correspondiente a la clase "persona", se reduce la proporción de fondo, objetos y otras personas que llega a la red, concentrando el análisis en el sujeto de interés. Se seleccionó específicamente la variante "nano" por ser preentrenada, gratuita, y lo suficientemente liviana como para ejecutarse en CPU sin una GPU dedicada, en línea con el entorno de desarrollo del proyecto.
 % ============================================================
 % CLAHE
 % ============================================================

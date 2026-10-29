@@ -6,9 +6,71 @@
 
 \chapter{Discusión}
 
+El presente capítulo se centra en la discusión de los resultados obtenidos hasta el momento, abordando los logros alcanzados en el desarrollo del modelo de reconocimiento de patrones de motricidad y del prototipo de la aplicación web. Posteriormente, se presenta la solución al problema de investigación y se proponen sugerencias para futuras investigaciones. Dado que las pruebas funcionales del sistema y la evaluación con un profesional del área aún no se han realizado, los logros que se describen corresponden al desarrollo del modelo, a su evaluación experimental inicial y a la construcción del prototipo.
+
 \section{Logros alcanzados}
+
+En consecuencia al cumplimiento de los objetivos planteados en el primer capítulo, se han alcanzado los siguientes logros, que representan la materialización de la propuesta hasta esta etapa del trabajo:
+
+\begin{itemize}
+    \item Se construyó un conjunto de datos de videos de conductas motoras estereotipadas a partir del conjunto público SSBD, compuesto inicialmente por 57 videos y 2\,280 fotogramas distribuidos en tres clases (aleteo de manos, movimientos repetitivos de cabeza y balanceo corporal, denominado \textit{Spinning} en el conjunto de datos). La extracción de 40 fotogramas por ventana de conducta anotada y la división por video en entrenamiento, validación y prueba permitieron disponer de datos organizados, sin mezcla de fotogramas de un mismo video entre conjuntos.
+
+    \item Se diseñó e implementó un flujo de preprocesamiento configurable, que incluye la mejora de contraste, el recorte centrado en el sujeto, la redimensión, la normalización y el aumento de datos por reflexión. Al concentrar todos los parámetros en un único archivo de configuración, se logró que los experimentos sean reproducibles y que la aplicación web pueda aplicar exactamente las mismas transformaciones que el entrenamiento.
+
+    \item Se desarrollaron y compararon dos arquitecturas híbridas convolucional-recurrentes: una red CNN-LSTM propia, entrenada desde cero y de 73\,027 parámetros, y un modelo ResNet50 + LSTM, que aprovecha una red preentrenada y congelada como extractor de características y entrena únicamente 143\,651 parámetros. Esta comparación permitió seleccionar la arquitectura más adecuada para el prototipo con base en evidencia experimental.
+
+    \item Se obtuvo un desempeño superior con ResNet50 + LSTM, que alcanzó una exactitud del 73,33\,\% en el conjunto de prueba, frente al 60,00\,\% de la CNN propia, y un F1-Score ponderado del 74,00\,\% frente al 57,00\,\%. Ambos valores superan ampliamente el azar para tres clases (33,33\,\%), lo que indica que los modelos aprendieron rasgos útiles para distinguir los patrones, aunque todavía no alcanzan el umbral planteado inicialmente en la hipótesis.
+
+    \item Se implementó un protocolo de evaluación que va más allá de una única partición: estudio de la variabilidad entre semillas aleatorias, validación cruzada estratificada de cinco pliegues sobre los 57 videos, reportes de clasificación por clase, matrices de confusión e intervalos de confianza de Wilson. Con ello se identificaron las limitaciones del tamaño muestral y se evitó basar las conclusiones en un único resultado favorable.
+
+    \item Se comprobó el correcto funcionamiento de la canalización de entrenamiento y evaluación mediante una prueba complementaria con un conjunto de datos externo (UCF101), donde ResNet50 + LSTM alcanzó una exactitud del 94\,\%. Aunque este resultado no puede trasladarse directamente al problema del TEA, respalda que el procedimiento aprende adecuadamente cuando se dispone de mayor cantidad de datos y señala el tamaño del conjunto como principal limitante.
+
+    \item Se verificó el código de los componentes del modelo mediante pruebas automáticas unitarias del extractor CNN y del clasificador LSTM, que comprueban las dimensiones de entrada y salida, la ausencia de valores no válidos y la consistencia de los pesos compartidos.
+
+    \item Se desarrolló un prototipo de la aplicación web con una interfaz clara y orientada a usuarios no técnicos. El flujo se organiza en tres pasos: la carga de un video (con formatos MP4, MOV, AVI y WEBM, y la opción de probar con un video de ejemplo), el procesamiento y la presentación de un resultado preliminar. Este último muestra el movimiento más frecuente identificado, su nivel de confianza, una descripción del patrón y el tiempo y los momentos del video en que aparece. La aplicación cuenta además con secciones de inicio, historial de análisis e información.
+
+    \item Se incorporaron en el prototipo mensajes explícitos que aclaran que el resultado es orientativo y preliminar, que no constituye un diagnóstico y que debe conversarse con un profesional de la salud. De este modo, el diseño respeta el alcance del trabajo, que busca apoyar la identificación preliminar de patrones de motricidad y no reemplazar la evaluación clínica.
+\end{itemize}
+
+En conjunto, estos logros constituyen la base técnica del sistema: los datos, los modelos, el procedimiento de evaluación y un prototipo funcional de interfaz. No obstante, deben interpretarse como resultados experimentales iniciales, ya que el conjunto de prueba es reducido (15 videos) y la validación del sistema integrado, tanto funcional como con un profesional del área, queda pendiente de realizarse.
 
 \section{Solución del problema de investigación}
 
+Se desarrolló un prototipo de aplicación web que, mediante un modelo híbrido ResNet50 + LSTM, analiza un video y devuelve el patrón de motricidad más frecuente, su nivel de confianza y los momentos en que aparece. Este desarrollo constituye un primer paso hacia una solución tecnológica al problema planteado: la dificultad de contar con herramientas accesibles que ayuden a identificar de forma preliminar conductas motoras repetitivas asociadas al TEA y a orientar la consulta con un profesional. El sistema se concibe como una herramienta de apoyo y no como un sustituto de la evaluación clínica.
+
+
+
+\subsection{Análisis de las métricas de los modelos}
+
+La comparación entre ambas arquitecturas muestra una ventaja clara de ResNet50 + LSTM: 13,33 puntos porcentuales más de exactitud y 17,00 puntos más de F1-Score ponderado que la CNN propia. Esta diferencia es coherente con el hecho de que, con apenas 33 videos de entrenamiento, una red preentrenada en millones de imágenes parte con características visuales generales ya aprendidas, mientras que una red entrenada desde cero debe aprenderlas con muy pocos ejemplos.
+
+El análisis por clase de ResNet50 + LSTM indica un buen equilibrio en el balanceo corporal (F1-Score de 0,89), mientras que el aleteo de manos y los movimientos repetitivos de cabeza obtuvieron 0,67 cada uno. Las matrices de confusión muestran que los errores se concentran entre aleteo de manos y movimientos de cabeza, conductas en las que gran parte del movimiento ocurre en la parte superior del cuerpo y puede resultar visualmente similar en resolución reducida. Por su parte, la CNN propia reconoció todas las muestras de aleteo de manos, pero confundió con frecuencia las otras dos clases, lo que muestra un modelo menos equilibrado.
+
+Estos resultados deben leerse con cautela: provienen de un conjunto de prueba de 15 videos y, en parte, de la selección de semillas observando dicho conjunto, lo que introduce un sesgo optimista. Por esa razón, la validación cruzada es el criterio principal para contrastar la hipótesis una vez aprobado el umbral definitivo.
+
+\subsection{Limitaciones del trabajo}
+
+Las principales limitaciones identificadas son las siguientes:
+\begin{itemize}
+    \item El conjunto de datos es reducido (57 videos) y proviene de una única fuente pública, lo que limita la diversidad de entornos, edades, encuadres e iluminación.
+    \item La resolución de $64\times64$ píxeles, elegida por restricciones de memoria, puede eliminar detalles finos del movimiento, como la posición de las manos.
+    \item El conjunto de prueba es pequeño, por lo que los intervalos de confianza son amplios.
+    \item Las pruebas funcionales del sistema integrado y la valoración por un profesional del área aún no se han realizado, por lo que la utilidad práctica del prototipo no está validada.
+    \item El sistema no distingue la ausencia de conductas: ante un video sin movimientos repetitivos, el modelo siempre asignará alguna de las tres clases.
+\end{itemize}
+
 \section{Sugerencias para futuras investigaciones}
+
+A partir de los resultados y de las limitaciones identificadas, se proponen las siguientes líneas de trabajo:
+
+\begin{itemize}
+    
+   
+    \item \textbf{Explorar el ajuste fino y otras arquitecturas.} Reentrenar parcialmente las capas finales de ResNet50 y evaluar otras redes consideradas en este trabajo, como MobileNetV2 o Vision Transformer, así como modelos basados en la estimación de la postura corporal, que podrían captar mejor el movimiento de manos y cabeza.
+    \item \textbf{Aumentar la resolución y mejorar la detección del sujeto.} Evaluar tamaños de imagen mayores y un seguimiento más robusto del niño cuando hay varias personas u objetos en escena.
+    \item \textbf{Detectar los segmentos temporales con mayor precisión.} Clasificar el video por ventanas deslizantes para indicar con exactitud en qué momentos aparece cada patrón.
+    \item \textbf{Ampliar el repertorio de conductas.} Incluir otras conductas motoras repetitivas descritas en la literatura, además de las tres evaluadas.
+    \item \textbf{Mejorar la interpretabilidad.} Mostrar qué regiones del video influyeron en la predicción para que el profesional pueda comprender y contrastar el resultado.
+    \item \textbf{Desarrollar una aplicación móvil.} Ofrecer las mismas funcionalidades desde el teléfono, de modo que las familias puedan grabar y analizar un video con mayor facilidad.
+\end{itemize}
  
