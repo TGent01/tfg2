@@ -4,13 +4,19 @@
 \textbf{Resumen}
 \end{LARGE}
 \end{center}
+
 \begin{quotation}
 
-La identificación de patrones de motricidad asociados al Trastorno del Espectro Autista (TEA) mediante la observación de videos constituye un desafío que requiere herramientas complementarias para facilitar el análisis de las conductas observadas. Ante esta problemática, el objetivo del presente trabajo es desarrollar un sistema web asistido por inteligencia artificial para identificar patrones de motricidad relacionados con el TEA, específicamente aleteo de manos, balanceo corporal y movimientos repetitivos de cabeza, como apoyo a la evaluación profesional, sin sustituir el diagnóstico clínico.
-La metodología comprendió la selección y organización de videos, el etiquetado de las conductas observadas, la extracción de fotogramas y el preprocesamiento de imágenes mediante normalización y generación de secuencias. Para el reconocimiento de los movimientos, se desarrollaron y compararon dos modelos de aprendizaje profundo: una red neuronal convolucional (CNN) propia combinada con una red de memoria a corto y largo plazo (LSTM), y una arquitectura basada en ResNet50 + LSTM. Posteriormente, el modelo con mejor desempeño se integró en un prototipo web que permite cargar videos, analizarlos y visualizar los patrones identificados junto con información complementaria.
-La evaluación experimental, realizada sobre un conjunto de prueba de 15 muestras, mostró que ResNet50 + LSTM obtuvo una exactitud del 73,33 % y un F1-Score ponderado del 74,00 %, mientras que la CNN propia alcanzó una exactitud del 60,00 % y un F1-Score ponderado del 57,00 %. Estos resultados permitieron seleccionar ResNet50 + LSTM para su integración en la plataforma. Sin embargo, el tamaño reducido del conjunto de prueba limita el alcance de las conclusiones y evidencia la necesidad de ampliar los datos y realizar evaluaciones adicionales. El sistema constituye una herramienta tecnológica de apoyo para el análisis de patrones de motricidad y una base para futuras investigaciones, sin emitir diagnósticos clínicos ni reemplazar el criterio de los profesionales de la salud.
-\vspace*{0.5cm}
+La identificación de patrones de motricidad asociados al Trastorno del Espectro Autista (TEA) mediante videos representa una oportunidad para incorporar herramientas tecnológicas de apoyo a la evaluación profesional. El objetivo de este trabajo es desarrollar un sistema web asistido por inteligencia artificial para identificar aleteo de manos, balanceo corporal y movimientos repetitivos de cabeza, sin sustituir el diagnóstico clínico.
 
-\noindent {\bf Descriptores:} 1. $<$descriptor1$>$, 2. $<$descriptor2$>$, 3. $<$descriptor3$>$.
+La metodología corresponde a una investigación aplicada al desarrollo tecnológico, con enfoque cuantitativo y diseño experimental. El proceso incluyó la selección y etiquetado de videos, la extracción de fotogramas y el preprocesamiento de imágenes para generar secuencias temporales. Se desarrollaron y compararon dos arquitecturas de aprendizaje profundo: una red neuronal convolucional (CNN) propia combinada con una red LSTM, y una arquitectura basada en ResNet50 + LSTM, orientadas a extraer características visuales y reconocer la evolución de los movimientos en el tiempo.
+
+La evaluación experimental, realizada sobre un conjunto de prueba de 15 muestras, mostró que ResNet50 + LSTM alcanzó una exactitud del 73,33 \% y un F1-Score ponderado del 74,00 \%, superando a la CNN propia, que obtuvo una exactitud del 60,00 \% y un F1-Score ponderado del 57,00 \%. Por este motivo, se seleccionó ResNet50 + LSTM para su integración en el prototipo web, que permite cargar videos y visualizar los patrones identificados.
+
+Los resultados muestran el potencial del aprendizaje profundo para apoyar el análisis de movimientos. No obstante, la cantidad limitada de videos y el tamaño del conjunto de prueba restringen la generalización de los resultados. Se considera necesario ampliar los datos y realizar nuevas evaluaciones para mejorar el desempeño del sistema. El prototipo constituye una herramienta de apoyo para la identificación de patrones de motricidad relacionados con el TEA, sin reemplazar la evaluación de los profesionales de la salud.
+
+\vspace*{0.3cm}
+
+\noindent \textbf{Descriptores:}  1. TEA, 2.Patrones de motricidad, 3.CNN LSTM.
 
 \end{quotation}
