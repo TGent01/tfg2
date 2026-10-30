@@ -16,7 +16,7 @@
 \usepackage{fancyhdr}
 \usepackage[hidelinks]{hyperref}
 % \usepackage{datatool}
-\usepackage[acronym]{glossaries}
+\usepackage[acronym,nonumberlist,nopostdot]{glossaries}
 \usepackage{makeidx}
 \usepackage{multirow}
 \usepackage{multicol}
@@ -27,7 +27,9 @@
 \makeindex
 \pagestyle{fancy}
 
-\makeglossaries % este comando debe estar en el pre�mbulo
+\makenoidxglossaries % este comando debe estar en el pre�mbulo
+\input{./acronimos/acronimos}
+\input{./glosario/glosario}
 
 %agregado para que las subsubsecciones aparezcan en el �ndice
 \setcounter{secnumdepth}{3}
@@ -44,7 +46,6 @@
 \renewcommand{\tablename}{Tabla}
 \renewcommand{\acronymname}{Acr\'onimos y s\'imbolos}
 \renewcommand{\bibname}{Referencias bibliogr\'aficas}
-%\glsaddall
 \frontmatter
 \vspace*{-3cm}
 \begin{figure}[h]
@@ -110,9 +111,11 @@
 \addcontentsline{toc}{chapter}{\'Indice de figuras}
 \listoftables
 \addcontentsline{toc}{chapter}{\'Indice de tablas}
-\printglossary[type=\acronymtype] % imprime solo la lista de acrónimos
-%\cleardoublepage
+\cleardoublepage
+\phantomsection
 \addcontentsline{toc}{chapter}{Acr\'onimos y s\'imbolos}
+\printnoidxglossary[type=\acronymtype,sort=def] % imprime solo la lista de acrónimos
+\glsaddall
 \mainmatter
 \include{./capitulo_01/introduccion}
 \include{./capitulo_02/marco_teorico}
@@ -124,8 +127,10 @@
 \backmatter
 
 \cleardoublepage
+\lhead{Glosario}
+\phantomsection
 \addcontentsline{toc}{chapter}{Glosario}
-\printglossary
+\printnoidxglossary[sort=word]
 
 \addcontentsline{toc}{chapter}{Anexos}
 
