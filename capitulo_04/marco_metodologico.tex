@@ -57,6 +57,24 @@ La validación del funcionamiento del sistema con un profesional vinculado al áre
 
 El estudio se delimita a la clasificación de segmentos de video en tres
 conductas motoras estereotipadas descritas en la literatura sobre el TEA:
+aleteo de manos, movimientos repetitivos de cabeza y balanceo corporal. Cada
+segmento se trata como una unidad de análisis independiente y recibe
+exactamente una de las tres etiquetas, por lo que el problema se formula
+como una clasificación multiclase de una sola etiqueta por secuencia.
+
+Quedan fuera del alcance los videos sin conducta anotada, la clasificación
+de la ausencia de conductas, la detección de otras manifestaciones del TEA
+(por ejemplo, contacto visual o lenguaje) y la determinación de la edad,
+el sexo o el diagnóstico de la persona filmada. El modelo no recibe
+información clínica alguna, sino que procesa únicamente los fotogramas
+extraídos de los videos.
+
+\section{Obtención de datos}
+
+\subsection{Delimitación del estudio de los datos}
+
+El estudio se delimita a la clasificación de segmentos de video en tres
+conductas motoras estereotipadas descritas en la literatura sobre el TEA:
 aleteo de manos (\textit{ArmFlapping}), movimientos repetitivos de cabeza
 (\textit{HeadBanging}) y balanceo corporal (\textit{Spinning}). Cada
 segmento se trata como una unidad de análisis independiente y recibe
@@ -70,80 +88,91 @@ el sexo o el diagnóstico de la persona filmada. El modelo no recibe
 información clínica alguna, sino que procesa únicamente los fotogramas
 extraídos de los videos.
 
-\subsection{Selección de videos y fuentes}
+\subsection{Criterios de selección}
+\label{subsec:criterios_dataset}
+
+Para garantizar que los datos fueran adecuados para el objetivo de
+clasificación, se establecieron criterios relacionados con la fuente del
+material, su disponibilidad y la correspondencia con las anotaciones.
 
 Como fuente de datos se utilizó el conjunto público
 \textit{Self-Stimulatory Behaviour Dataset} (SSBD), que reúne videos de
-conductas autoestimulatorias de niños obtenidos de plataformas abiertas,
-con anotaciones de los intervalos temporales en los que ocurre cada
-conducta. Se contó con 75 anotaciones, distribuidas de forma equilibrada,
-con 25 anotaciones por clase, todas provenientes de YouTube. Al tratarse
-de material de acceso público utilizado con fines de investigación, no se
-realizaron grabaciones propias de menores de edad.
+conductas autoestimulatorias de niños obtenidos de plataformas abiertas.
+El conjunto original no distribuye los videos, sino una lista de enlaces
+(\textit{URL list}) con las anotaciones de cada registro: el tipo de
+conducta, el nombre del video, su dirección en YouTube, su duración total
+y el intervalo temporal (inicio y fin, en formato mm:ss) en el que ocurre
+la conducta (Figura~\ref{fig:url_list}). Se tomaron los 75 registros
+anotados, 25 por clase. Al tratarse de material de acceso público
+utilizado con fines de investigación, no se realizaron grabaciones
+propias de menores de edad.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{capitulo_04/lista_urls_ssbd.png}
+    \caption{Lista de enlaces (\textit{URL list}) del conjunto SSBD, con el tipo de conducta, el video, su dirección, su duración y el intervalo anotado de cada registro.}
+    \label{fig:url_list}
+\end{figure}
 
 Las anotaciones se organizaron en un archivo de etiquetas
 \texttt{labels\_TEA.csv}, que contiene el identificador del video, la
 clase asignada y los instantes de inicio y fin de cada ventana temporal.
-Este archivo se utilizó como referencia para localizar los segmentos
-correspondientes a las conductas de interés y organizar los datos para
-su posterior procesamiento.
+Este archivo es la referencia para localizar los segmentos de interés y
+organizar los datos para su procesamiento. Se incluyeron los registros
+cuyo video estaba disponible, permitía acceder al intervalo anotado y
+mostraba con suficiente claridad la conducta de interés.
 
-Durante la selección se descartaron los videos que no estaban disponibles,
-presentaban enlaces rotos o no permitían observar la conducta anotada
-porque la persona quedaba fuera de cuadro. Después de aplicar estos
-criterios, se trabajó inicialmente con 57 videos. De cada video se
-extrajeron 40 fotogramas (Sección~\ref{subsec:extraccion}), por lo que el
+\subsection{Criterios de exclusión.}
+Dado que los videos residen en plataformas externas, no todos los
+registros de la lista pudieron incorporarse. Se excluyeron los videos que
+ya no estaban disponibles (eliminados, privados o con enlaces rotos) y
+aquellos que, aun estando accesibles, no permitían observar la conducta
+anotada porque la persona quedaba fuera de cuadro. Estos criterios
+evitan incorporar secuencias sin información visual útil para la
+clasificación.
+
+\subsection{Verificación.}
+Una vez descargados los videos, se comprobó que cada uno correspondiera
+al registro de la lista y que el intervalo anotado se encontrara dentro
+de su duración. Se revisaron visualmente las secuencias extraídas para
+confirmar que la conducta fuera visible y coincidiera con la categoría
+asignada, y se verificó que cada secuencia estuviera asociada a una única
+etiqueta y contuviera exactamente 40 fotogramas, tomados a intervalos
+regulares dentro de la ventana anotada. Cuando un fotograma no podía
+decodificarse, se reintentaba su lectura en posiciones temporales
+cercanas y, si el fallo persistía, se repetía el último fotograma válido
+hasta completar la secuencia.
+
+Esta verificación comprueba la correspondencia entre los datos
+procesados y las anotaciones disponibles, pero no constituye una
+validación clínica de las conductas observadas. Las clases utilizadas
+representan, por tanto, categorías de análisis visual y no diagnósticos
+clínicos.
+
+\subsection{Datos obtenidos}
+\label{subsec:datos_obtenidos}
+
+Los videos que superaron los criterios anteriores se descargaron y se
+almacenaron en una carpeta de Google Drive organizada por clase
+(Figura~\ref{fig:drive}), desde donde se accede a ellos para extraer las
+secuencias y entrenar los modelos. Las imágenes extraídas de cada video
+se guardan en una carpeta propia, lo que facilita su identificación y
+revisión visual.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{capitulo_04/drive_dataset.png}
+    \caption{Almacenamiento de los videos en Google Drive, organizados en carpetas por clase (ejemplo: \textit{ArmFlapping}).}
+    \label{fig:drive}
+\end{figure}
+
+Después de aplicar los criterios de exclusión, se trabajó inicialmente
+con 57 videos. De cada uno se extrajeron 40 fotogramas, por lo que el
 conjunto inicial quedó compuesto por $57 \times 40 = 2\,280$ fotogramas.
 La Tabla~\ref{tab:distribucion_videos} presenta la distribución de las
-anotaciones, los videos y los fotogramas por categoría.
-
-El tamaño reducido del conjunto inicial constituye una limitación del
-estudio y podrá ampliarse en etapas posteriores.
-
-\subsection{Criterios de selección, exclusión y verificación de los videos}
-\label{subsec:criterios_dataset}
-
-Para garantizar que los datos utilizados fueran adecuados para el
-objetivo de clasificación, se establecieron criterios de selección y
-exclusión relacionados con la disponibilidad del material audiovisual,
-la correspondencia con las anotaciones y la visibilidad de la conducta
-motora.
-
-Se consideraron como criterios de inclusión la disponibilidad del video,
-la posibilidad de acceder al intervalo temporal anotado y la visibilidad
-suficiente de la conducta de interés para extraer los fotogramas
-correspondientes. Por otra parte, se excluyeron los registros cuyos videos
-no estaban disponibles, presentaban enlaces rotos o no permitían observar
-la conducta debido a que la persona quedaba fuera de cuadro. Estos
-criterios permitieron reducir la incorporación de secuencias sin
-información visual útil para la clasificación.
-
-La asignación de las clases se basó en las anotaciones disponibles en el
-conjunto SSBD. Para cada registro se conservaron el identificador del
-video, la categoría de conducta y los instantes de inicio y fin del
-intervalo anotado. Las etiquetas se utilizaron para organizar los videos
-en las tres clases definidas en el estudio, sin incorporar información
-clínica adicional ni inferir un diagnóstico a partir de las imágenes.
-
-La verificación de los datos comprendió la comprobación de la
-correspondencia entre los intervalos temporales anotados y los segmentos
-seleccionados para la extracción de fotogramas. Asimismo, se consideró
-la revisión visual de las secuencias para comprobar la visibilidad de
-la conducta y la correspondencia con la categoría asignada. Se verificó
-también que cada secuencia estuviera asociada a una única etiqueta y
-contuviera 40 fotogramas.
-
-Cuando un fotograma no podía decodificarse, se reintentaba su lectura
-en posiciones temporales cercanas. Si el problema persistía, se repetía
-el último fotograma válido hasta completar la secuencia. Este
-procedimiento permitió mantener una longitud uniforme para los datos
-utilizados en el procesamiento de los modelos.
-
-La verificación visual permite comprobar la correspondencia entre los
-datos procesados y las anotaciones disponibles, pero no constituye una
-validación clínica de las conductas observadas. Por tanto, las clases
-utilizadas representan categorías de análisis visual y no diagnósticos
-clínicos.
+anotaciones, los videos y los fotogramas por categoría. El tamaño
+reducido de este conjunto constituye una limitación del estudio y podrá
+ampliarse en etapas posteriores.
 
 \begin{table}[htbp]
 \centering
@@ -171,6 +200,12 @@ Balanceo corporal & 25 & 19 & 760 & 33,3\,\% \\
 \end{tabular}
 \end{table}
 
+La duración de las ventanas anotadas es heterogénea. La mediana global
+es de 9 segundos, con medianas de 6 segundos para aleteo de manos,
+9 segundos para movimientos repetitivos de cabeza y 13 segundos para
+balanceo corporal. La duración mínima registrada es de 3 segundos y
+la máxima de 69 segundos.
+
 \paragraph{División en entrenamiento, validación y prueba.}
 
 La división de los datos se realizó por video, de modo que los 40
@@ -185,10 +220,8 @@ el 20\,\% de los videos para validación, también mediante una división
 estratificada. Este conjunto se utiliza exclusivamente para supervisar
 el entrenamiento y aplicar la parada temprana. El conjunto de prueba
 se mantiene separado y no interviene en las decisiones de entrenamiento
-ni en la selección de los modelos.
-
-La distribución final de los videos se presenta en la
-Tabla~\ref{tab:division}.
+ni en la selección de los modelos. La distribución final se presenta en
+la Tabla~\ref{tab:division}.
 
 \begin{table}[htbp]
 \centering
@@ -229,34 +262,6 @@ obtenidos a partir de los 15 videos pueden presentar variabilidad. Por
 este motivo, se complementa la evaluación con validación cruzada de
 cinco pliegues sobre los 57 videos (Sección~\ref{sec:evaluacion}).
 
-La duración de las ventanas anotadas es heterogénea. La mediana global
-es de 9 segundos, con medianas de 6 segundos para aleteo de manos,
-9 segundos para movimientos repetitivos de cabeza y 13 segundos para
-balanceo corporal. La duración mínima registrada es de 3 segundos y
-la máxima de 69 segundos.
-
-\subsection{Extracción de fotogramas por ventana de conducta}
-\label{subsec:extraccion}
-
-En lugar de procesar el video completo, se extrajeron fotogramas
-únicamente dentro de la ventana temporal en la que la conducta está
-anotada. De este modo, cada secuencia se concentra en el movimiento
-de interés y se reduce la incorporación de segmentos irrelevantes.
-
-Para cada ventana se seleccionaron $T=40$ fotogramas equiespaciados
-entre los instantes de inicio y fin. Así, todas las secuencias presentan
-la misma longitud, independientemente de la duración de la conducta.
-Considerando una ventana de duración mediana de 9 segundos, se obtiene
-una frecuencia de muestreo aproximada de 4,4 fotogramas por segundo.
-
-Cuando un fotograma no podía decodificarse, se reintentaba su lectura
-en posiciones temporales cercanas y, si el fallo persistía, se repetía
-el último fotograma válido hasta completar los 40 fotogramas requeridos.
-Las imágenes extraídas se almacenaron en una carpeta correspondiente
-a cada video, lo que facilita su identificación, organización y revisión
-visual antes del entrenamiento de los modelos.
-
-
 \section{Preprocesamiento}
 \label{sec:preprocesamiento}
  
@@ -270,28 +275,44 @@ La Figura~\ref{fig:pipeline_preprocesamiento} resume el flujo desde el video ori
 \end{figure}
  
 \subsection{Normalización de imágenes}
-Cada fotograma se lee con OpenCV y se procesa en el siguiente orden:
+Cada fotograma se lee con OpenCV y se procesa en tres etapas, cuyo efecto se muestra en las Figuras~\ref{fig:etapa_clahe}, \ref{fig:etapa_redimension} y \ref{fig:etapa_ampliacion} sobre dos fotogramas de un video de \textit{HeadBanging} ($t=11$ y $t=31$ de la secuencia de 40 fotogramas):
 \begin{enumerate}
     \item \textbf{Mejora de contraste (CLAHE).} Se aplica ecualización adaptativa del histograma con límite de contraste sobre el canal de luminosidad (L) del espacio LAB, con límite de recorte de 2,0 y cuadrícula de $8\times8$. Al trabajar solo sobre la luminosidad se conserva el color original. Su propósito es compensar la iluminación irregular de los videos domésticos.
     \item \textbf{Redimensionado.} El fotograma se redimensiona directamente a $64\times64$ píxeles, sin conservar la relación de aspecto, de modo que todas las secuencias tengan las mismas dimensiones. Se eligió esta resolución como compromiso entre la información visual necesaria para distinguir posturas y el costo de memoria: una secuencia de 40 fotogramas ocupa $40\times64\times64\times3$ valores, y el conjunto completo debe caber en la memoria de un entorno de ejecución gratuito.
     \item \textbf{Escalado.} Los valores de píxel se convierten a RGB y se dividen por 255 para llevarlos al rango $[0,1]$, lo que estabiliza la optimización.
 \end{enumerate}
- 
-\paragraph{Entrada de la ResNet50.}
-Para ingresar a la ResNet50, cada fotograma de $64\times64$ se amplía a $224\times224$ (el tamaño con que fue preentrenada la red), se devuelve a la escala 0--255 y se le aplica la normalización propia de ImageNet (conversión a BGR y resta de la media por canal). Esta etapa forma parte del extractor y no tiene parámetros entrenables.
- 
-\paragraph{Ejemplos del efecto de cada etapa.}
-La Figura~\ref{fig:etapas_preprocesamiento} presenta, para dos fotogramas de un video de \textit{HeadBanging}, el resultado de cada transformación: el fotograma original, el resultado de CLAHE, la imagen de $64\times64$ píxeles con valores en $[0,1]$, su ampliación a $224\times224$ y la imagen tras la normalización de ImageNet. CLAHE realza el contraste local (textura del sofá, rasgos del rostro y pliegues de la ropa) sin alterar los colores. La reducción a $64\times64$ elimina detalle fino pero conserva la postura general del cuerpo y de la cabeza, que es la información que interesa para el análisis del movimiento; la ampliación posterior a $224\times224$ no recupera ese detalle, solo adapta el tamaño a la entrada de la red. Por último, la normalización de ImageNet desplaza los valores alrededor de cero, por lo que la última columna se muestra reescalada únicamente para poder visualizarla.
- 
+
+\paragraph{Etapa 1: mejora de contraste.}
+La Figura~\ref{fig:etapa_clahe} compara cada fotograma original con su versión tras CLAHE y muestra el histograma de luminosidad antes y después. La ecualización adaptativa redistribuye los niveles de luminosidad y realza el contraste local (textura del sofá, rasgos del rostro y pliegues de la ropa) sin alterar los colores.
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{capitulo_04/fig_etapas_HeadBanging.png}
-    \caption{Efecto de cada etapa del preprocesamiento sobre dos fotogramas de un video de \textit{HeadBanging} ($t=11$ y $t=31$). De izquierda a derecha: original, tras CLAHE, normalizado a $64\times64$ con valores en $[0,1]$, ampliado a $224\times224$ (entrada de la ResNet50) y tras la normalización de ImageNet. *Reescalada solo para su visualización.}
-    \label{fig:etapas_preprocesamiento}
+    \includegraphics[width=\textwidth]{capitulo_04/fig_etapa1_clahe.png}
+    \caption{Etapa 1, mejora de contraste: fotograma original, resultado de CLAHE e histograma de luminosidad (canal L) antes y después, para dos fotogramas de un video de \textit{HeadBanging}.}
+    \label{fig:etapa_clahe}
 \end{figure}
- 
+
+\paragraph{Etapa 2: redimensionado y escalado.}
+La Figura~\ref{fig:etapa_redimension} presenta el fotograma tras CLAHE a su resolución original y su versión redimensionada a $64\times64$ píxeles con valores en $[0,1]$. La reducción elimina detalle fino, pero conserva la postura general del cuerpo y de la cabeza, que es la información que interesa para el análisis del movimiento. El escalado no modifica la apariencia visual de la imagen, solo el rango numérico de sus valores.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{capitulo_04/fig_etapa2_redimension.png}
+    \caption{Etapa 2, redimensionado y escalado: fotograma tras CLAHE a resolución original y su versión de $64\times64$ píxeles con valores en $[0,1]$.}
+    \label{fig:etapa_redimension}
+\end{figure}
+
+\paragraph{Entrada de la ResNet50.}
+Para ingresar a la ResNet50, cada fotograma de $64\times64$ se amplía a $224\times224$ (el tamaño con que fue preentrenada la red), se devuelve a la escala 0--255 y se le aplica la normalización propia de ImageNet (conversión a BGR y resta de la media por canal). Esta etapa forma parte del extractor y no tiene parámetros entrenables. La Figura~\ref{fig:etapa_ampliacion} muestra el resultado: la ampliación no recupera el detalle perdido en la reducción, solo adapta el tamaño a la entrada de la red, y la normalización de ImageNet desplaza los valores alrededor de cero, por lo que la última columna se muestra reescalada únicamente para poder visualizarla.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{capitulo_04/fig_etapa3_ampliacion.png}
+    \caption{Preparación de la entrada de la ResNet50: fotograma de $64\times64$, ampliación a $224\times224$ y normalización de ImageNet. *Reescalada solo para su visualización.}
+    \label{fig:etapa_ampliacion}
+\end{figure}
+
 Las etiquetas se codifican en formato \textit{one-hot} de tres posiciones. El resultado de esta etapa es un arreglo de dimensiones $(N, 40, 64, 64, 3)$ en punto flotante de 32 bits, donde $N$ es el número de videos.
- 
 \subsection{Generación de secuencias de video}
 \label{subsec:secuencias}
 Cada video se representa como una secuencia ordenada de 40 imágenes, que es la unidad que consumen las capas recurrentes. Los 40 fotogramas se toman a intervalos regulares dentro de la ventana anotada, y el orden temporal se conserva estrictamente, ya que el patrón repetitivo se manifiesta en la evolución del movimiento y no en un fotograma aislado. La Figura~\ref{fig:secuencia} muestra la secuencia generada para un video de \textit{HeadBanging}: los 40 fotogramas, numerados en orden temporal, ya procesados y con el tamaño que recibe el modelo.
