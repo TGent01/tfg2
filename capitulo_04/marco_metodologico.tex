@@ -6,7 +6,7 @@
 
 \chapter{Método}
 
-
+Este capítulo describe el procedimiento metodológico seguido para el desarrollo y evaluación del sistema web de identificación de patrones de motricidad asociados al Trastorno del Espectro Autista (TEA). Se detallan las etapas realizadas, desde la selección y preparación de los videos hasta la extracción de fotogramas, configuración y entrenamiento de las arquitecturas CNN-LSTM y ResNet50-LSTM, así como la evaluación de sus resultados y la integración del modelo seleccionado en la aplicación web.
 
 \section{Tipo de investigación}
 
@@ -69,25 +69,6 @@ el sexo o el diagnóstico de la persona filmada. El modelo no recibe
 información clínica alguna, sino que procesa únicamente los fotogramas
 extraídos de los videos.
 
-\section{Obtención de datos}
-
-\subsection{Delimitación del estudio de los datos}
-
-El estudio se delimita a la clasificación de segmentos de video en tres
-conductas motoras estereotipadas descritas en la literatura sobre el TEA:
-aleteo de manos (\textit{ArmFlapping}), movimientos repetitivos de cabeza
-(\textit{HeadBanging}) y balanceo corporal (\textit{Spinning}). Cada
-segmento se trata como una unidad de análisis independiente y recibe
-exactamente una de las tres etiquetas, por lo que el problema se formula
-como una clasificación multiclase de una sola etiqueta por secuencia.
-
-Quedan fuera del alcance los videos sin conducta anotada, la clasificación
-de la ausencia de conductas, la detección de otras manifestaciones del TEA
-(por ejemplo, contacto visual o lenguaje) y la determinación de la edad,
-el sexo o el diagnóstico de la persona filmada. El modelo no recibe
-información clínica alguna, sino que procesa únicamente los fotogramas
-extraídos de los videos.
-
 \subsection{Criterios de selección}
 \label{subsec:criterios_dataset}
 
@@ -136,17 +117,7 @@ Una vez descargados los videos, se comprobó que cada uno correspondiera
 al registro de la lista y que el intervalo anotado se encontrara dentro
 de su duración. Se revisaron visualmente las secuencias extraídas para
 confirmar que la conducta fuera visible y coincidiera con la categoría
-asignada, y se verificó que cada secuencia estuviera asociada a una única
-etiqueta y contuviera exactamente 40 fotogramas, tomados a intervalos
-regulares dentro de la ventana anotada. Cuando un fotograma no podía
-decodificarse, se reintentaba su lectura en posiciones temporales
-cercanas y, si el fallo persistía, se repetía el último fotograma válido
-hasta completar la secuencia.
-
-Esta verificación comprueba la correspondencia entre los datos
-procesados y las anotaciones disponibles, pero no constituye una
-validación clínica de las conductas observadas. Las clases utilizadas
-representan, por tanto, categorías de análisis visual y no diagnósticos
+asignada. Las clases utilizadas representan, por tanto, categorías de análisis visual y no diagnósticos
 clínicos.
 
 \subsection{Datos obtenidos}
@@ -159,10 +130,10 @@ secuencias y entrenar los modelos. Las imágenes extraídas de cada video
 se guardan en una carpeta propia, lo que facilita su identificación y
 revisión visual.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{capitulo_04/drive_dataset.png}
-    \caption{Almacenamiento de los videos en Google Drive, organizados en carpetas por clase (ejemplo: \textit{ArmFlapping}).}
+    \includegraphics[width=0.9\textwidth]{capitulo_04/drive_datase.png}
+    \caption{Almacenamiento de los videos en Google Drive, organizados en carpetas por clase.}
     \label{fig:drive}
 \end{figure}
 
@@ -174,7 +145,7 @@ anotaciones, los videos y los fotogramas por categoría. El tamaño
 reducido de este conjunto constituye una limitación del estudio y podrá
 ampliarse en etapas posteriores.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Distribución de videos y fotogramas por categoría.}
 \label{tab:distribucion_videos}
@@ -223,7 +194,7 @@ se mantiene separado y no interviene en las decisiones de entrenamiento
 ni en la selección de los modelos. La distribución final se presenta en
 la Tabla~\ref{tab:division}.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{División de los videos en entrenamiento, validación y prueba.}
 \label{tab:division}
@@ -251,7 +222,7 @@ Balanceo corporal & 11 & 3 & 5 & 19 \\
 \end{table}
 
 Al conjunto de entrenamiento se le añade la versión especular de cada
-secuencia (Sección~\ref{subsec:secuencias}), con lo que se dispone de
+secuencia, con lo que se dispone de
 66 secuencias para el entrenamiento, equivalentes a 2\,640 fotogramas,
 de los cuales la mitad corresponde a versiones reflejadas. La validación
 y la prueba no se aumentan, con el propósito de evaluar los modelos
@@ -260,14 +231,14 @@ sobre secuencias que no hayan sido modificadas mediante esta técnica.
 Debido al tamaño reducido del conjunto de prueba, los resultados
 obtenidos a partir de los 15 videos pueden presentar variabilidad. Por
 este motivo, se complementa la evaluación con validación cruzada de
-cinco pliegues sobre los 57 videos (Sección~\ref{sec:evaluacion}).
+cinco pliegues sobre los 57 videos.
 
 \section{Preprocesamiento}
 \label{sec:preprocesamiento}
  
-La Figura~\ref{fig:pipeline_preprocesamiento} resume el flujo desde el video original hasta el tensor que recibe el modelo, y las Figuras~\ref{fig:etapas_preprocesamiento}, \ref{fig:secuencia} y \ref{fig:aumento} muestran el efecto de cada etapa sobre un video real de la clase \textit{HeadBanging}. Todos los parámetros del preprocesamiento (longitud de secuencia, tamaño de imagen, activación de cada filtro) se concentran en un único archivo de configuración, lo que garantiza que el entrenamiento y la aplicación web apliquen exactamente las mismas transformaciones.
+La Figura~\ref{fig:pipeline_preprocesamiento} resume el flujo desde el video original hasta el tensor que recibe el modelo, y las Figuras~\ref{fig:etapa_clahe}, \ref{fig:etapa_redimension}, \ref{fig:etapa_ampliacion}, \ref{fig:secuencia} y \ref{fig:aumento} muestran el efecto de cada etapa sobre un video real de la clase Balanceo. Todos los parámetros del preprocesamiento (longitud de secuencia, tamaño de imagen, activación de cada filtro) se concentran en un único archivo de configuración, lo que garantiza que el entrenamiento y la aplicación web apliquen exactamente las mismas transformaciones.
  
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{capitulo_04/pipeline_preprocesamiento.png}
     \caption{Flujo de preprocesamiento: de la ventana anotada al tensor de entrada del modelo.}
@@ -275,32 +246,27 @@ La Figura~\ref{fig:pipeline_preprocesamiento} resume el flujo desde el video ori
 \end{figure}
  
 \subsection{Normalización de imágenes}
-Cada fotograma se lee con OpenCV y se procesa en tres etapas, cuyo efecto se muestra en las Figuras~\ref{fig:etapa_clahe}, \ref{fig:etapa_redimension} y \ref{fig:etapa_ampliacion} sobre dos fotogramas de un video de \textit{HeadBanging} ($t=11$ y $t=31$ de la secuencia de 40 fotogramas):
+Cada fotograma se lee con OpenCV y se procesa en tres etapas, cuyo efecto se muestra en las Figuras~\ref{fig:etapa_clahe}, \ref{fig:etapa_redimension} y \ref{fig:etapa_ampliacion} sobre dos fotogramas de un video de Balanceo ($t=11$ y $t=31$ de la secuencia de 40 fotogramas):
 \begin{enumerate}
     \item \textbf{Mejora de contraste (CLAHE).} Se aplica ecualización adaptativa del histograma con límite de contraste sobre el canal de luminosidad (L) del espacio LAB, con límite de recorte de 2,0 y cuadrícula de $8\times8$. Al trabajar solo sobre la luminosidad se conserva el color original. Su propósito es compensar la iluminación irregular de los videos domésticos.
-    \item \textbf{Redimensionado.} El fotograma se redimensiona directamente a $64\times64$ píxeles, sin conservar la relación de aspecto, de modo que todas las secuencias tengan las mismas dimensiones. Se eligió esta resolución como compromiso entre la información visual necesaria para distinguir posturas y el costo de memoria: una secuencia de 40 fotogramas ocupa $40\times64\times64\times3$ valores, y el conjunto completo debe caber en la memoria de un entorno de ejecución gratuito.
+        \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{capitulo_04/fig_etapa1_clahe.png}
+        \caption{Etapa 1, mejora de contraste: fotograma original, resultado de CLAHE e histograma de luminosidad (canal L) antes y después, para dos fotogramas de un video de balanceo.}
+        \label{fig:etapa_clahe}
+        \end{figure}
+    \item \textbf{Redimensionado.} El fotograma se redimensiona directamente a $64\times64$ píxeles, sin conservar la relación de aspecto, de modo que todas las secuencias tengan las mismas dimensiones. Se eligió esta resolución como compromiso entre la información visual necesaria para distinguir posturas y el costo de memoria: una secuencia de 40 fotogramas ocupa $40\times64\times64\times3$ valores.
     \item \textbf{Escalado.} Los valores de píxel se convierten a RGB y se dividen por 255 para llevarlos al rango $[0,1]$, lo que estabiliza la optimización.
+        \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{capitulo_04/fig_etapa2_redimension.png}
+        \caption{Etapa 2, redimensionado y escalado: fotograma tras CLAHE a resolución original y su versión de $64\times64$ píxeles con valores en $[0,1]$.}
+        \label{fig:etapa_redimension}
+        \end{figure}
 \end{enumerate}
 
-\paragraph{Etapa 1: mejora de contraste.}
-La Figura~\ref{fig:etapa_clahe} compara cada fotograma original con su versión tras CLAHE y muestra el histograma de luminosidad antes y después. La ecualización adaptativa redistribuye los niveles de luminosidad y realza el contraste local (textura del sofá, rasgos del rostro y pliegues de la ropa) sin alterar los colores.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{capitulo_04/fig_etapa1_clahe.png}
-    \caption{Etapa 1, mejora de contraste: fotograma original, resultado de CLAHE e histograma de luminosidad (canal L) antes y después, para dos fotogramas de un video de \textit{HeadBanging}.}
-    \label{fig:etapa_clahe}
-\end{figure}
 
-\paragraph{Etapa 2: redimensionado y escalado.}
-La Figura~\ref{fig:etapa_redimension} presenta el fotograma tras CLAHE a su resolución original y su versión redimensionada a $64\times64$ píxeles con valores en $[0,1]$. La reducción elimina detalle fino, pero conserva la postura general del cuerpo y de la cabeza, que es la información que interesa para el análisis del movimiento. El escalado no modifica la apariencia visual de la imagen, solo el rango numérico de sus valores.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{capitulo_04/fig_etapa2_redimension.png}
-    \caption{Etapa 2, redimensionado y escalado: fotograma tras CLAHE a resolución original y su versión de $64\times64$ píxeles con valores en $[0,1]$.}
-    \label{fig:etapa_redimension}
-\end{figure}
 
 \paragraph{Entrada de la ResNet50.}
 Para ingresar a la ResNet50, cada fotograma de $64\times64$ se amplía a $224\times224$ (el tamaño con que fue preentrenada la red), se devuelve a la escala 0--255 y se le aplica la normalización propia de ImageNet (conversión a BGR y resta de la media por canal). Esta etapa forma parte del extractor y no tiene parámetros entrenables. La Figura~\ref{fig:etapa_ampliacion} muestra el resultado: la ampliación no recupera el detalle perdido en la reducción, solo adapta el tamaño a la entrada de la red, y la normalización de ImageNet desplaza los valores alrededor de cero, por lo que la última columna se muestra reescalada únicamente para poder visualizarla.
@@ -315,16 +281,16 @@ Para ingresar a la ResNet50, cada fotograma de $64\times64$ se amplía a $224\tim
 Las etiquetas se codifican en formato \textit{one-hot} de tres posiciones. El resultado de esta etapa es un arreglo de dimensiones $(N, 40, 64, 64, 3)$ en punto flotante de 32 bits, donde $N$ es el número de videos.
 \subsection{Generación de secuencias de video}
 \label{subsec:secuencias}
-Cada video se representa como una secuencia ordenada de 40 imágenes, que es la unidad que consumen las capas recurrentes. Los 40 fotogramas se toman a intervalos regulares dentro de la ventana anotada, y el orden temporal se conserva estrictamente, ya que el patrón repetitivo se manifiesta en la evolución del movimiento y no en un fotograma aislado. La Figura~\ref{fig:secuencia} muestra la secuencia generada para un video de \textit{HeadBanging}: los 40 fotogramas, numerados en orden temporal, ya procesados y con el tamaño que recibe el modelo.
+Cada video se representa como una secuencia ordenada de 40 imágenes, que es la unidad que consumen las capas recurrentes. Los 40 fotogramas se toman a intervalos regulares dentro de la ventana anotada, y el orden temporal se conserva estrictamente, ya que el patrón repetitivo se manifiesta en la evolución del movimiento y no en un fotograma aislado. La Figura~\ref{fig:secuencia} muestra la secuencia generada para un video de Balanceo: los 40 fotogramas, numerados en orden temporal, ya procesados y con el tamaño que recibe el modelo.
  
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{capitulo_04/fig_secuencia_HeadBanging.png}
-    \caption{Secuencia de 40 fotogramas de $64\times64$ píxeles generada para un video de \textit{HeadBanging} (lectura de izquierda a derecha y de arriba abajo, $t=1,\dots,40$).}
+    \caption{Secuencia de 40 fotogramas de $64\times64$ píxeles generada para un video de Balanceo (lectura de izquierda a derecha y de arriba abajo, $t=1,\dots,40$).}
     \label{fig:secuencia}
 \end{figure}
  
-La partición en entrenamiento, validación y prueba se realizó a nivel de video, como se describió en la Sección~\ref{subsec:extraccion} y en la Tabla~\ref{tab:division}, con la estratificación por clase y la semilla fija de scikit-learn, de modo que ninguna secuencia del conjunto de prueba procede de un video usado para entrenar.
+La partición en entrenamiento, validación y prueba se realizó a nivel de video, con la estratificación por clase.
  
 Para ampliar el conjunto de entrenamiento se aplicó aumento de datos por reflexión horizontal: cada secuencia se duplica con su versión especular (Figura~\ref{fig:aumento}). El aumento se realiza únicamente después de la partición y solo sobre el entrenamiento, para evitar que una versión espejada de un video de prueba contamine el aprendizaje. La reflexión es adecuada porque las tres conductas no dependen de la lateralidad del cuerpo. Como el extractor ResNet50 está congelado, las características de la versión original y de la especular de cada video se calculan una sola vez y se reutilizan en todas las épocas.
  
@@ -337,17 +303,17 @@ Para ampliar el conjunto de entrenamiento se aplicó aumento de datos por reflexi
 \section{Diseño y entrenamiento del modelo}
 \label{sec:modelos}
 
-El modelo sigue el enfoque de redes convolucionales recurrentes de largo plazo : una red convolucional procesa cada fotograma por separado y una LSTM  integra la secuencia de características resultante. Se evaluaron dos arquitecturas que comparten exactamente el mismo clasificador temporal y se diferencian únicamente en el extractor espacial (Tabla~\ref{tab:modelos}): una red convolucional \textbf{propia}, entrenada \textbf{desde cero}, y una \textbf{ResNet50 preentrenada} en ImageNet. Ambas se comparan en el capítulo de Resultados; el prototipo web integra la variante con ResNet50 + LSTM.
+El modelo sigue el enfoque de redes convolucionales recurrentes de largo plazo: una red convolucional procesa cada fotograma por separado y una LSTM integra la secuencia de características resultante. Se evaluaron dos arquitecturas que comparten exactamente el mismo clasificador temporal y se diferencian únicamente en el extractor espacial (Tabla~\ref{tab:modelos}): una red convolucional propia, entrenada desde cero, y una ResNet50 preentrenada en ImageNet. El prototipo web integra la variante con ResNet50 + LSTM.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Arquitecturas evaluadas.}
 \label{tab:modelos}
 \begin{tabular}{p{3.6cm}p{4.9cm}p{4.9cm}}
 \toprule
-\textbf{Característica} & \textbf{CNN-LSTM propia} & \textbf{ResNet50 + LSTM} \\
+Característica & CNN-LSTM propia & ResNet50 + LSTM \\
 \midrule
-Origen de los pesos del extractor & Inicializados al azar; se aprenden con los videos del proyecto (\textbf{desde cero}) & \textbf{Preentrenados} en ImageNet y \textbf{congelados} (no se reajustan) \\
+Origen de los pesos del extractor & Inicializados al azar; se aprenden con los videos del proyecto (desde cero) & Preentrenados en ImageNet y congelados (no se reajustan) \\
 Extractor espacial & 4 bloques convolucionales (16--64 filtros) & ResNet50 de 50 capas con conexiones residuales \\
 Entrada al extractor & $64\times64\times3$ & $224\times224\times3$ (ampliada) \\
 Características por fotograma & 64 & 2\,048, proyectadas a 64 \\
@@ -359,26 +325,31 @@ Rol en el trabajo & Referencia de comparación & Modelo integrado en el prototipo
 \end{tabular}
 \end{table}
 
-\paragraph{Flujo de trabajo.} La Figura~\ref{fig:flujo_trabajo} resume el procedimiento completo. Primero se carga la configuración, que concentra los hiperparámetros de entrenamiento, el preprocesamiento y los parámetros de la división. En el Paso~1 se extraen los fotogramas de cada ventana de conducta y se arma el tensor del conjunto. En el Paso~2 se dividen los videos en entrenamiento, validación y prueba y se aplica el aumento por reflexión al entrenamiento. A continuación, cada modelo se entrena y se evalúa por turnos, con parada temprana, y en el Paso~3 se comparan ambos mediante validación cruzada de 5 pliegues.
+\paragraph{Flujo de trabajo.} La Figura~\ref{fig:flujo_trabajo} resume el procedimiento completo, que es el mismo para ambas arquitecturas. Parte de los videos anotados, de los que se extraen los fotogramas de cada ventana de conducta. Estos se procesan con mejora de contraste (CLAHE), redimensionado y normalización, y se obtienen secuencias de fotogramas etiquetadas.
 
-\begin{figure}[htbp]
+A continuación, los videos se dividen en entrenamiento, validación y prueba, y se aplica aumento de datos solo al conjunto de entrenamiento. Luego se extraen las características de cada fotograma y se entrena el clasificador temporal (LSTM). Después de cada época se comprueba si la pérdida de validación mejora: si mejora, el entrenamiento continúa; si no, se aplica parada temprana y se conservan los mejores pesos. Por último, el modelo se evalúa en el conjunto de prueba y el modelo final se integra en la aplicación web.
+
+\begin{figure}[H]
     \centering
-    \includegraphics[height=0.85\textheight]{capitulo_04/flujo_trabajo.png}
-    \caption{Diagrama de flujo del proceso de entrenamiento y evaluación.}
+    \includegraphics[width=\textwidth]{capitulo_04/flujo_trabajo.png}
+    \caption{Diagrama de flujo del preprocesamiento, el entrenamiento y la evaluación del modelo.}
     \label{fig:flujo_trabajo}
 \end{figure}
 
 \subsection{Extractor espacial: ResNet50 (capa espacial)}
-Como extractor de características visuales del modelo del prototipo se utiliza ResNet50 \cite{he_resnet_2016}, una red convolucional residual de 50 capas cuyo bloque fundamental es
+Como extractor de características visuales del modelo del prototipo se utiliza ResNet50, una red convolucional residual de 50 capas cuyo bloque fundamental es
 \begin{equation}
-y = F(x,\{W_i\}) + x,
+y = F(x,\{W_i\}) + x.
 \end{equation}
-donde $x$ es la entrada del bloque, $F(x,\{W_i\})$ la transformación convolucional con pesos $\{W_i\}$ e $y$ su salida. La conexión de atajo ($+\,x$) permite que la información y el gradiente fluyan directamente y evita la degradación en redes profundas.
+En este proyecto, $x$ es lo que recibe cada bloque de la red. En el primer bloque corresponde al fotograma de la secuencia ya preprocesado, ampliado a $224\times224$ píxeles y normalizado con los valores de ImageNet, es decir, la imagen del niño realizando la conducta. En los bloques siguientes, $x$ ya no es una imagen sino un conjunto de mapas de características: en las primeras capas representan elementos simples como bordes, texturas y contornos, y en las capas profundas representan patrones más complejos, como la forma del cuerpo, la posición de los brazos o la inclinación de la cabeza.
 
-La red se emplea \textbf{preentrenada}, con los pesos de ImageNet, y \textbf{congelada}: no se entrena desde cero ni se reajusta (\textit{fine-tuning}) durante el proyecto, sino que se aplica la estrategia de extracción de características del aprendizaje por transferencia \cite{yosinski2014transferable}. Se elimina su clasificador final (\texttt{include\_top=False}) y se aplica un promedio global (\textit{global average pooling}), de modo que cada fotograma queda representado por un vector de 2\,048 características. La red se aplica a los 40 fotogramas de la secuencia mediante \texttt{TimeDistributed}, con los mismos pesos para todos.
+$F(x,\{W_i\})$ es la transformación que cada bloque aplica a su entrada mediante varias capas convolucionales, con sus pesos $\{W_i\}$. Estos pesos son los que la red aprendió en ImageNet y, en este trabajo, permanecen congelados: para un mismo fotograma, $F$ siempre produce el mismo resultado. Por último, $y$ es la salida del bloque, que pasa como entrada al siguiente. Tras el último bloque, $y$ resume el contenido visual del fotograma y se convierte en el vector de características que recibe la LSTM.
+
+La conexión de atajo ($+\,x$) suma la entrada original a la salida de la transformación. De este modo, cada bloque solo debe aprender qué información añadir o modificar y, si no hay nada útil que cambiar, puede conservar $x$ sin alteraciones. En nuestro caso, esto permite que la información de postura y de forma del cuerpo detectada en las primeras capas llegue hasta el final de la red, y facilita que la información y el gradiente fluyan directamente, lo que evita la degradación en redes profundas.
+
+La red se emplea preentrenada, con los pesos de ImageNet, y congelada: no se entrena desde cero ni se reajusta (\textit{fine-tuning}) durante el proyecto, sino que se aplica la estrategia de extracción de características del aprendizaje por transferencia. Se elimina su clasificador final (\texttt{include\_top=False}) y se aplica un promedio global (\textit{global average pooling}), de modo que cada fotograma queda representado por un vector de 2\,048 características. La red se aplica a los 40 fotogramas de la secuencia mediante \texttt{TimeDistributed}, con los mismos pesos para todos.
 
 Se eligió el aprendizaje por transferencia porque con 33 videos de entrenamiento una red de 23,5 millones de parámetros entrenada desde cero se sobreajustaría de inmediato, mientras que las características aprendidas en ImageNet (bordes, texturas, partes del cuerpo) son reutilizables. Como los pesos no cambian, las características de cada video (y de su versión especular) se calculan una sola vez y se almacenan, lo que reduce el tiempo de entrenamiento de forma considerable.
-
 \subsection{Extractor alternativo: CNN propia (desde cero)}
 Como referencia de comparación se diseñó una red convolucional ligera, aplicada a cada fotograma mediante \texttt{TimeDistributed} y entrenada completamente desde cero. Consta de cuatro bloques que combinan una convolución de $3\times3$ con activación ReLU y \textit{max pooling}, con \textit{dropout} de 0,3 en los tres primeros, y termina en un vector de 64 características por fotograma (Tabla~\ref{tab:cnn}). La Figura~\ref{fig:arquitectura_cnn_lstm} muestra su arquitectura. Se optó por pocos filtros y reducciones espaciales agresivas porque el conjunto de entrenamiento es de decenas de videos; el modelo completo suma 73\,027 parámetros.
 
@@ -403,7 +374,7 @@ Aplanado & -- & -- & -- & 64 \\
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{capitulo_04/arquitectura_cnn_lstm.png}
-    \caption{Arquitectura CNN-LSTM propia, entrenada desde cero (modelo de referencia).}
+    \caption{Arquitectura CNN-LSTM propia, entrenada desde cero. Fuente: elaboración propia con herramientas de inteligencia artificial.}
     \label{fig:arquitectura_cnn_lstm}
 \end{figure}
 
@@ -468,10 +439,10 @@ La comparación de ambas arquitecturas se realiza con el procedimiento descrito e
 \subsection{Hiperparámetros de entrenamiento y épocas}
 El entrenamiento minimiza la entropía cruzada categórica con el optimizador Adam. Los hiperparámetros son los mismos para ambos modelos, de modo que la comparación sea justa (Tabla~\ref{tab:hiperparametros}).
 
-\paragraph{Épocas.} Una época equivale a una pasada completa por las 66 secuencias de entrenamiento (originales y espejadas), en lotes de 8, es decir, 9 actualizaciones de pesos por época. Se fijó un máximo de 100 épocas, pero el número real lo determina la \textbf{parada temprana} (\textit{early stopping}) el entrenamiento se interrumpe cuando la pérdida sobre los 9 videos de validación no mejora durante 15 épocas consecutivas y se restauran los pesos de la mejor época. De esta forma la cantidad de épocas no se fija a mano, sino que se ajusta a cada corrida y reduce el sobreajuste. El número de épocas efectivamente ejecutadas en cada corrida se registra y se informa en el capítulo de Resultados.
+\paragraph{Épocas.} Una época equivale a una pasada completa por las 66 secuencias de entrenamiento (originales y espejadas), en lotes de 8, es decir, 9 actualizaciones de pesos por época. Se fijó un máximo de 100 épocas, pero el número real lo determina la parada temprana (\textit{early stopping}) el entrenamiento se interrumpe cuando la pérdida sobre los 9 videos de validación no mejora durante 15 épocas consecutivas y se restauran los pesos de la mejor época. De esta forma la cantidad de épocas no se fija a mano, sino que se ajusta a cada corrida y reduce el sobreajuste.
 
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Hiperparámetros de entrenamiento (comunes a ambos modelos).}
 \label{tab:hiperparametros}
@@ -534,10 +505,10 @@ La Figura~\ref{fig:config} muestra la definición de los hiperparámetros y de los
     \label{fig:config}
 \end{figure}
 
-\paragraph{Entorno experimental.} El cálculo de características y el entrenamiento se ejecutaron en Google Colaboratory, con los datos almacenados en Google Drive, mientras que el preprocesamiento de video y la depuración del código se realizaron en el equipo local (Capítulo~3). Se empleó Python con TensorFlow/Keras, OpenCV y scikit-learn.
+\paragraph{Entorno experimental.} El cálculo de características y el entrenamiento se ejecutaron en Google Colaboratory, con los datos almacenados en Google Drive, asi como el preprocesamiento de video y la depuración del código. Se empleó Python con TensorFlow/Keras, OpenCV y scikit-learn.
 % VERIFICAR: confirmar qué parte se ejecutó en Colab (GPU T4) y cuál en el equipo local (RTX 4070).
 
-Como control del sobreajuste se emplea \textit{dropout} con valor 0,3, además de la parada temprana y el aumento por reflexión. Debido a que el conjunto de prueba es de solo 15 videos, el resultado de un único entrenamiento es muy sensible a la inicialización de los pesos de la proyección y la LSTM. Por ello se estudió la variabilidad entre semillas aleatorias (Sección~\ref{sec:evaluacion}). Seleccionar la mejor semilla observando el conjunto de prueba introduce un sesgo optimista; por esa razón los resultados principales se reportan mediante validación cruzada.
+Como control del sobreajuste se emplea \textit{dropout} con valor 0,3, además de la parada temprana y el aumento por reflexión.
 
 \section{Evaluación del modelo}
 \label{sec:evaluacion}

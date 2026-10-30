@@ -6,9 +6,18 @@
 \end{center}
 
 \begin{quotation}
+The identification of motor patterns associated with Autism Spectrum Disorder (ASD) through video analysis represents an opportunity to incorporate technological tools to support professional assessment. The objective of this study is to develop an artificial intelligence-assisted web system to identify hand flapping, body rocking, and repetitive head movements, without replacing clinical diagnosis.
+
+The methodology corresponds to applied technological development research, with a quantitative approach and an experimental design. The process included video selection and labeling, frame extraction, and image preprocessing to generate temporal sequences. Two deep learning architectures were developed and compared: a custom convolutional neural network (CNN) combined with a Long Short-Term Memory (LSTM) network, and an architecture based on ResNet50 + LSTM. Both architectures were designed to extract visual features and recognize the evolution of movements over time.
+
+The experimental evaluation, conducted on a test set of 15 samples, showed that ResNet50 + LSTM achieved an accuracy of 73.33% and a weighted F1-score of 74.00%, outperforming the custom CNN, which achieved an accuracy of 60.00% and a weighted F1-score of 57.00%. For this reason, ResNet50 + LSTM was selected for integration into the web prototype, which allows users to upload videos and visualize the identified patterns.
+
+The results demonstrate the potential of deep learning to support movement analysis. However, the limited number of videos and the small test set restrict the generalizability of the results. Expanding the dataset and conducting further evaluations are considered necessary to improve system performance. The prototype serves as a supporting tool for identifying motor patterns related to ASD, without replacing assessment by healthcare professionals.
+
 
 \vspace*{0.5cm}
 
-\noindent {\bf Key words:} 1. $<$keyword1$>$, 2. $<$keyword2$>$, 3. $<$keyword3$>$.
+
+\noindent \textbf{Keywords:} 1. ASD, 2. Motor Patterns, 3. CNN-LSTM.
 
 \end{quotation}

@@ -6,7 +6,7 @@
 
 \chapter{Resultados}
 
-En este capítulo se presentan los resultados obtenidos durante la evaluación de los modelos CNN y ResNet50 + LSTM, desarrollados para clasificar tres patrones de motricidad asociados al trastorno del espectro autista (TEA): aleteo de manos, movimientos repetitivos de cabeza y balanceo corporal.
+En este capítulo se presentan los resultados obtenidos durante la evaluación de los modelos CNN y ResNet50 + LSTM, desarrollados para clasificar tres patrones de motricidad asociados al TEA: aleteo de manos, movimientos repetitivos de cabeza y balanceo corporal.
 
 La evaluación se realizó utilizando un conjunto de prueba compuesto por 15 muestras, distribuidas equitativamente entre las tres clases, con cinco muestras por patrón. Para analizar el desempeño de los modelos se consideraron las métricas Accuracy, F1-Score (Weighted) y F1-Score (Micro). Asimismo, se analizaron las matrices de confusión para identificar los aciertos y errores de clasificación de cada modelo.
 
@@ -20,6 +20,7 @@ La Tabla~\ref{tab:resnet50} presenta las métricas obtenidas por el modelo ResNet
     \centering
     \caption{Métricas de evaluación para ResNet50 + LSTM}
     \label{tab:resnet50}
+    \vspace{0.3cm}
     \begin{tabular}{lc}
         \hline
         \textbf{Métrica} & \textbf{Valor} \\
@@ -35,16 +36,19 @@ Los resultados muestran que el modelo ResNet50 + LSTM alcanzó una exactitud del 
 
 En cuanto al F1-Score (Weighted), se obtuvo un valor del 74,00\%, que representa el desempeño global del modelo considerando las métricas de cada clase y su correspondiente cantidad de muestras. Por su parte, el F1-Score (Micro) fue del 73,33\%, coincidiendo con el valor de Accuracy en este problema de clasificación multiclase de etiqueta única.
 
-El análisis individual de las clases muestra que el modelo obtuvo un F1-Score de 0,67 para ArmFlapping, 0,67 para HeadBanging y 0,89 para Spinning. Estos resultados indican un mejor equilibrio entre precisión y sensibilidad en la clasificación de Spinning, mientras que las otras dos clases presentaron mayores dificultades de discriminación.
+El análisis individual de las clases muestra que el modelo obtuvo un F1-Score de 0,67 para aleteo de manos, 0,67 para movimiento de cabeza y 0,89 para balanceo corporal. Estos resultados indican un mejor equilibrio entre precisión y sensibilidad en la clasificación de Spinning, mientras que las otras dos clases presentaron mayores dificultades de discriminación.
 
 \textbf{Evaluación del modelo CNN}
 
 La Tabla~\ref{tab:cnn} presenta las métricas obtenidas por el modelo CNN.
 
+
 \begin{table}[H]
     \centering
     \caption{Métricas de evaluación para CNN}
     \label{tab:cnn}
+    \vspace{0.3cm}
+
     \begin{tabular}{lc}
         \hline
         \textbf{Métrica} & \textbf{Valor} \\
@@ -55,6 +59,7 @@ La Tabla~\ref{tab:cnn} presenta las métricas obtenidas por el modelo CNN.
         \hline
     \end{tabular}
 \end{table}
+
 
 El modelo CNN obtuvo una exactitud del 60,00\%, equivalente a nueve clasificaciones correctas de un total de 15 muestras. En consecuencia, seis muestras fueron clasificadas incorrectamente.
 
@@ -70,6 +75,7 @@ La Tabla~\ref{tab:comparacion_modelos} presenta la comparación de las principale
     \centering
     \caption{Comparación de métricas entre CNN y ResNet50 + LSTM}
     \label{tab:comparacion_modelos}
+    \vspace{0.3cm}
     \begin{tabular}{lccc}
         \hline
         \textbf{Métrica} & \textbf{CNN} & \textbf{ResNet50 + LSTM} & \textbf{Diferencia} \\
@@ -86,7 +92,7 @@ Como se observa en la Tabla~\ref{tab:comparacion_modelos}, el modelo ResNet50 + 
 
 \textbf{Matrices de confusión de los modelos}
 
-Las matrices de confusión permiten analizar detalladamente el comportamiento de clasificación de los modelos desarrollados para identificar tres patrones de motricidad asociados al trastorno del espectro autista (TEA): aleteo de manos, movimientos repetitivos de cabeza y balanceo corporal. Estas matrices muestran la relación entre las clases reales y las clases predichas por cada modelo, lo que permite identificar tanto las clasificaciones correctas como los errores cometidos durante la evaluación.
+Las matrices de confusión permiten analizar detalladamente el comportamiento de clasificación de los modelos desarrollados para identificar tres patrones de motricidad asociados al TEA: aleteo de manos, movimientos repetitivos de cabeza y balanceo corporal. Estas matrices muestran la relación entre las clases reales y las clases predichas por cada modelo, lo que permite identificar tanto las clasificaciones correctas como los errores cometidos durante la evaluación.
 
 En este análisis, los valores ubicados en la diagonal principal representan las muestras clasificadas correctamente, mientras que los valores situados fuera de ella indican las confusiones entre las distintas clases. Para ambos modelos se utilizó un conjunto de prueba compuesto por 15 muestras, distribuidas en cinco muestras por cada patrón de movimiento.
 
@@ -97,7 +103,7 @@ En la Figura~\ref{fig:matriz_cnn} se presenta la matriz de confusión del modelo 
 % Insertar aquí la imagen de la matriz de confusión de CNN
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.80\textwidth]{capitulo_05/matriz_cnn.png}
+    \includegraphics[width=0.80\textwidth]{capitulo_05/matrizcnn.jpeg}
     \caption{Matriz de confusión del modelo CNN.}
     \label{fig:matriz_cnn}
 \end{figure}
@@ -117,7 +123,7 @@ En la Figura~\ref{fig:matriz_resnet_lstm} se presenta la matriz de confusión cor
 % Insertar aquí la imagen de la matriz de confusión de ResNet50 + LSTM
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.80\textwidth]{capitulo_05/matriz_resnet.png}
+    \includegraphics[width=0.80\textwidth]{capitulo_05/matrizresnet.jpeg}
     \caption{Matriz de confusión del modelo ResNet50 + LSTM.}
     \label{fig:matriz_resnet_lstm}
 \end{figure}
@@ -141,5 +147,3 @@ La principal diferencia se encuentra en el reconocimiento de los movimientos rep
 En el caso del aleteo de manos, CNN alcanzó una sensibilidad del 100,00\%, mientras que ResNet50 + LSTM obtuvo un 60,00\%. Por lo tanto, CNN presentó un mejor resultado en esta clase específica, aunque su desempeño fue inferior en las otras dos categorías.
 
 En conclusión, ResNet50 + LSTM logró un mejor equilibrio en la clasificación de los tres patrones de motricidad, alcanzando una exactitud del 73,33\%, frente al 60,00\% obtenido por CNN. Sin embargo, debido al reducido tamaño del conjunto de prueba, estos resultados deben considerarse una evaluación experimental inicial.
-
-\section{Resultados de las pruebas del sistema web.}
